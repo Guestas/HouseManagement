@@ -1,13 +1,13 @@
-package com.mc.HouseManagement.repository;
+package com.mc.HouseManagement.service;
 
 import com.mc.HouseManagement.entity.Apartment;
 
 import java.util.List;
 
 /**Description**/
-public interface ApartmentDAO {
+public interface ApartmentService {
 
-    /**Description function functionality**/
+    /**Description**/
     public Long addApartment(Apartment apartment);
 
     /**Description**/
@@ -15,10 +15,5 @@ public interface ApartmentDAO {
 
     /**Description**/
     public List<Apartment> loadAllApartments();
-
-    /**Description**/
-    public int deleteAllApartments();
-}
-
-
     
+}

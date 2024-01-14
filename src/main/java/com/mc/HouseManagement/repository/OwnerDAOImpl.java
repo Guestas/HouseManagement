@@ -2,6 +2,8 @@ package com.mc.HouseManagement.repository;
 
 import com.mc.HouseManagement.entity.Owner;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,11 +27,21 @@ public class OwnerDAOImpl implements OwnerDAO{
 
     @Override
     public List<Owner> loadAllOwners() {
-        return null;
+        TypedQuery<Owner> query = entityManager
+                .createQuery("SELECT o FROM Owner o", Owner.class);
+        List<Owner> result = query.getResultList();
+        return result.isEmpty()?null:result;
     }
 
     @Override
     public Owner getOwnerById(Long id) {
-        return null;
+        return entityManager.find(Owner.class, id);
+    }
+
+    @Override
+    @Transactional
+    public int deleteAllOwners() {
+        Query query = entityManager.createQuery("DELETE FROM Owner");
+        return query.executeUpdate();
     }
 }

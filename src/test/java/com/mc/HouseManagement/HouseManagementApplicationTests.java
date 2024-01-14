@@ -8,6 +8,7 @@ class HouseManagementApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

@@ -24,11 +24,11 @@ public class OwnerServiceImpl implements OwnerService{
 
     @Override
     public Owner getOwnerById(Long id) {
-        return null;
+        return ownerDAO.getOwnerById(id);
     }
 
     @Override
     public List<Owner> loadAllOwners() {
-        return null;
+        return ownerDAO.loadAllOwners();
     }
 }

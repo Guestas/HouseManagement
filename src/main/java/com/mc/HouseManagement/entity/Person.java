@@ -2,6 +2,8 @@ package com.mc.HouseManagement.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "person_type", discriminatorType = DiscriminatorType.STRING)
@@ -23,6 +25,9 @@ public class Person {
     @Column(name="phone")
     private Integer phone;
 
+    @Column(name="lastUpdate")
+    private LocalDate lastUpdate;
+
     @ManyToOne//(cascade = CascadeType.DETACH)//if you need some cascading default is none //one to many and so on
     @JoinColumn(name="apartment_id")
     private Apartment apartment;
@@ -36,6 +41,7 @@ public class Person {
         this.email = email;
         this.phone = phone;
         this.apartment = apartment;
+        this.lastUpdate = LocalDate.now();
     }
 
     public Long getId() {
