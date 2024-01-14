@@ -30,16 +30,24 @@ public class Apartment {
             inverseJoinColumns = @JoinColumn(name = "house_meeting_id"))
     private List<HouseMeeting> absolvedMeetings;
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinTable(name = "apartments_persons",
+            joinColumns = @JoinColumn(name = "apartment_id"),
+            inverseJoinColumns = @JoinColumn(name = "person_id"))
+    private List<Person> personsInApartment;
+
     public Apartment() {
     }
 
-    public Apartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street, List<HouseMeeting> absolvedMeetings) {
+    public Apartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street, List<HouseMeeting> absolvedMeetings, List<Person> personsInApartment) {
         this.voteValue = voteValue;
         this.branchAntenna = branchAntenna;
         this.flor = flor;
         this.address = address;
         this.street = street;
         this.absolvedMeetings = absolvedMeetings;
+        this.personsInApartment = personsInApartment;
     }
 
     public Long getId() {
@@ -98,7 +106,15 @@ public class Apartment {
         this.absolvedMeetings = absolvedMeetings;
     }
 
-    public static Apartment createApartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street, List<HouseMeeting> absolvedMeetings){
-        return new Apartment(voteValue, branchAntenna, flor, address,street, absolvedMeetings);
+    public List<Person> getPersonsInApartment() {
+        return personsInApartment;
+    }
+
+    public void setPersonsInApartment(List<Person> personsInApartment) {
+        this.personsInApartment = personsInApartment;
+    }
+
+    public static Apartment createApartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street, List<HouseMeeting> absolvedMeetings, List<Person> personsInApartment){
+        return new Apartment(voteValue, branchAntenna, flor, address,street, absolvedMeetings, personsInApartment);
     }
 }

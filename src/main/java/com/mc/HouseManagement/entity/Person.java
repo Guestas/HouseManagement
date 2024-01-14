@@ -3,6 +3,7 @@ package com.mc.HouseManagement.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -28,19 +29,23 @@ public class Person {
     @Column(name="lastUpdate")
     private LocalDate lastUpdate;
 
-    @ManyToOne//(cascade = CascadeType.DETACH)//if you need some cascading default is none //one to many and so on
-    @JoinColumn(name="apartment_id")
-    private Apartment apartment;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE,
+                    CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name="apartments_persons",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "apartment_id"))
+    private List<Apartment> apartments;
 
     public Person() {
     }
 
-    public Person(String firstName, String lastName, String email, Integer phone, Apartment apartment) {
+    public Person(String firstName, String lastName, String email, Integer phone, List<Apartment> apartments) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.apartment = apartment;
+        this.apartments = apartments;
         this.lastUpdate = LocalDate.now();
     }
 
@@ -84,11 +89,11 @@ public class Person {
         this.phone = phone;
     }
 
-    public Apartment getApartment() {
-        return apartment;
+    public List<Apartment> getApartments() {
+        return apartments;
     }
 
-    public void setApartment(Apartment apartment) {
-        this.apartment = apartment;
+    public void setApartments(List<Apartment> apartments) {
+        this.apartments = apartments;
     }
 }

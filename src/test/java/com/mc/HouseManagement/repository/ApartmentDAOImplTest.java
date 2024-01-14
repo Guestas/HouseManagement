@@ -46,7 +46,7 @@ class ApartmentDAOImplTest {
     void addApartmentAndLoadById() {
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null);
+                2553, "street1", null, null);
 
         // When: Action or behavior that we are going to test
         Long id = apartmentDAO.addApartment(testApartment1);
@@ -62,9 +62,9 @@ class ApartmentDAOImplTest {
     void loadAllApartments() {
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null);
+                2553, "street1", null,null);
         Apartment testApartment2 = Apartment.createApartment(10, 8, 10,
-                2553, "street2", null);
+                2553, "street2", null,null);
         List<Apartment> expectedApartmentList = Arrays.asList(testApartment1, testApartment2);
 
         // When: Action or behavior that we are going to test

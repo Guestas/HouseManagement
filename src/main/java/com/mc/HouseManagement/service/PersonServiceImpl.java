@@ -21,13 +21,18 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public <T extends Person> T getPersonById(Long id, Class<T> person) {
-        return personDAO.getPersonById(id, person);
+    public <T extends Person> T getPersonById(Long id, Class<T> tClass) {
+        return personDAO.getPersonById(id, tClass);
     }
 
     @Override
-    public <T extends Person> List<T> loadAllPersons(Class<T> person) {
-        return personDAO.loadAllPersons(person);
+    public <T extends Person> List<T> loadAllPersons(Class<T> tClass) {
+        return personDAO.loadAllPersons(tClass);
+    }
+
+    @Override
+    public <T extends Person> Long deleteById(Long id, Class<T> tClass) {
+        return personDAO.deleteById(id, tClass);
     }
 
     @Override

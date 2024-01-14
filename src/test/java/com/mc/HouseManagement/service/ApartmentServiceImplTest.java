@@ -30,8 +30,9 @@ class ApartmentServiceImplTest {
     @Test
     void canAddApartment() {
         // Given: Setup object or precondition
+
         Apartment testApartment = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null);
+                2553, "street1", null,null);
 
         // When: Action or behavior that we are going to test
         apartmentService.addApartment(testApartment);
