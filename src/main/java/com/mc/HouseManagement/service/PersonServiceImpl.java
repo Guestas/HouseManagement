@@ -39,4 +39,9 @@ public class PersonServiceImpl implements PersonService{
     public int deleteAllPersons() {
         return personDAO.deleteAllPersons();
     }
+
+    @Override
+    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames, Class<T> tClass) {
+        return personDAO.loadPersonByLastOrFirstName(oneOfNames, tClass);
+    }
 }

@@ -10,4 +10,5 @@ public interface PersonDAO {
     public <T extends Person> List<T> loadAllPersons(Class<T> tClass);
     public <T extends Person> Long deleteById(Long id, Class<T> tClass);
     public int deleteAllPersons();
+    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames, Class<T> tClass);
 }

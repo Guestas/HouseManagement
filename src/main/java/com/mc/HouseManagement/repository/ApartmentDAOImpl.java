@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.repository;
 
+import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.Apartment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -23,7 +24,7 @@ public class ApartmentDAOImpl implements ApartmentDAO{
 
     @Override
     @Transactional
-    public Long addApartment(Apartment apartment) {
+    public Long addApartment(Apartment apartment, ProcessToDo processToDo) {
         return entityManager.merge(apartment).getId();
     }
 

@@ -63,4 +63,21 @@ public class PersonDAOImpl implements PersonDAO{
         Query query = entityManager.createQuery("DELETE FROM Person");
         return query.executeUpdate();
     }
+
+    @Override
+    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames, Class<T> tClass) {
+        TypedQuery<T> query1 = entityManager.createQuery("SELECT p FROM " +
+                tClass.getCanonicalName() +
+                " p WHERE firstName=:theData", tClass);
+        query1.setParameter("theData", oneOfNames);
+
+        TypedQuery<T> query2 = entityManager.createQuery("SELECT p FROM " +
+                tClass.getCanonicalName() +
+                " p WHERE lastName=:theData", tClass);
+        query2.setParameter("theData", oneOfNames);
+        List<T> out = query1.getResultList();
+        out.addAll(query2.getResultList());
+
+        return out;
+    }
 }

@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.service;
 
+import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.HouseMeetingDAO;
@@ -35,11 +36,12 @@ class ApartmentServiceImplTest {
                 2553, "street1", null,null);
 
         // When: Action or behavior that we are going to test
-        apartmentService.addApartment(testApartment);
+        apartmentService.addApartment(testApartment, ProcessToDo.NEW);
 
         // Then: Verify the output or expected result
         ArgumentCaptor<Apartment> apartmentArgumentCaptor = ArgumentCaptor.forClass(Apartment.class);
-        verify(apartmentDAO).addApartment(apartmentArgumentCaptor.capture());
+        ArgumentCaptor<ProcessToDo> processToDoArgumentCaptor = ArgumentCaptor.forClass(ProcessToDo.class);
+        verify(apartmentDAO).addApartment(apartmentArgumentCaptor.capture(), processToDoArgumentCaptor.capture());
         Apartment capturedApartment = apartmentArgumentCaptor.getValue();
         assertThat(capturedApartment).isEqualTo(testApartment);
     }

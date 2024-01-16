@@ -37,228 +37,189 @@ class PersonDAOImplTest {
 
         // Assertions
         assertThat(actualPersonsList).isEqualTo(null);
-
     }
 
+/*
+     --------------------------------Testing Adding and Updating persons--------------------------------
+*/
 
     @Test
-    @DisplayName("JUnit test for Add owner and load by ID")
-    void canAddOwnerAndLoadById() {
+    @DisplayName("Test Owner for Add then load by ID finally Update this Owner")
+    void canAddOwnerLoadByIdAndUpdate() {
         // Given: Setup object or precondition
-        Owner testOwner = Owner.createOwner("f","l","e",
-                123456,null);
+        Owner testOwner = Owner.createOwner("Anne","Jar","anne@jar.com",
+                987654321,null);
 
-        // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testOwner);
-        Person retrieve = personDAO.getPersonById(id, Owner.class);
-
-        // Then: Verify the output or expected result
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testOwner.getFirstName());
+        testAddPersonAndLoadByIdThenUpdateThisPerson(testOwner);
     }
 
-
     @Test
-    @DisplayName("JUnit test for Update owner and load by ID")
-    void canUpdateOwnerAndLoadById() {
+    @DisplayName("Test User for Add then load by ID finally Update this User")
+    void canAddUserLoadByIdAndUpdate() {
         // Given: Setup object or precondition
-        Owner testOwner = Owner.createOwner("a","b","e",
-                123456,null);
+        User testUser = User.createUser("Anne","Jar","anne@jar.com",
+                987654321,null);
 
-        // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testOwner);
-        // Then: Verify the output or expected result
-        Owner retrieve = personDAO.getPersonById(id, Owner.class);
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testOwner.getFirstName());
-
-        // When: Action or behavior that we are going to test
-        testOwner.setId(retrieve.getId());
-        testOwner.setFirstName("ff");
-        personDAO.addPerson(testOwner);
-
-        // Then: Verify the output or expected result
-        retrieve = personDAO.getPersonById(id, Owner.class);
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testOwner.getFirstName());
+        testAddPersonAndLoadByIdThenUpdateThisPerson(testUser);
     }
 
     @Test
-    @DisplayName("JUnit test for Add Owner and Delete by ID")
+    @DisplayName("Test SoldMovedOut for Add then load by ID finally Update this SoldMovedOut")
+    void canAddSoldMovedOutLoadByIdAndUpdate() {
+        // Given: Setup object or precondition
+        SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("Bob","Jar","bob@jar.com",
+                123456789,null);
+
+        testAddPersonAndLoadByIdThenUpdateThisPerson(testSoldMovedOut);
+    }
+
+    private <T extends Person> void testAddPersonAndLoadByIdThenUpdateThisPerson(T testPerson){
+        // Given: Setup object or precondition
+
+        // When: Action or behavior that we are going to test
+        Long id = personDAO.addPerson(testPerson);
+        Person retrieve = personDAO.getPersonById(id, testPerson.getClass());
+
+        // Then: Verify the output or expected result
+        assertNotNull(retrieve.getFirstName());
+        assertEquals(retrieve.getFirstName(), testPerson.getFirstName());
+
+        // When: Action or behavior that we are going to test
+        testPerson.setId(retrieve.getId());
+        testPerson.setFirstName("Joe");
+        personDAO.addPerson(testPerson);
+
+        // Then: Verify the output or expected result
+        retrieve = personDAO.getPersonById(id, testPerson.getClass());
+        assertNotNull(retrieve.getFirstName());
+        assertEquals(retrieve.getFirstName(), testPerson.getFirstName());
+    }
+
+/*
+     --------------------------------Testing Adding and Deleting persons--------------------------------
+*/
+
+    @Test
+    @DisplayName("Test Owner for Add then Delete by ID")
     void canAddOwnerAndDeleteById() {
         // Given: Setup object or precondition
-        Owner testOwner = Owner.createOwner("f","l","e",
-                123456,null);
+        Owner testOwner = Owner.createOwner("Anne","Jar","anne@jar.com",
+                987654321,null);
 
-        // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testOwner);
-        Long deletedPersonId = personDAO.deleteById(id, Owner.class);
-
-        // Then: Verify the output or expected result
-        assertEquals(deletedPersonId, id);
+        testAddPersonAndDeleteById(testOwner);
     }
 
     @Test
-    @DisplayName("JUnit test for get All Owners")
-    void canLoadAllOwners() {
-        // Given: Setup object or precondition
-        Owner testOwner1 = Owner.createOwner("a","b","e",
-                123456,null);
-        Owner testOwner2 = Owner.createOwner("a","b","e",
-                123456,null);
-        List<Owner> expectedOwnersList = Arrays.asList(testOwner1,testOwner2);
-        // When: Action or behavior that we are going to test
-        expectedOwnersList.forEach(personDAO::addPerson);
-
-        // Then: Verify the output or expected result
-        List<Owner> owners = personDAO.loadAllPersons(Owner.class);
-    }
-
-
-    @Test
-    @DisplayName("JUnit test for Add user and load by ID")
-    void canAddUserAndLoadById() {
-        // Given: Setup object or precondition
-        User testUser = User.createUser("f","l","e",
-                123456,null);
-
-        // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testUser);
-        Person retrieve = personDAO.getPersonById(id, User.class);
-
-        // Then: Verify the output or expected result
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testUser.getFirstName());
-    }
-
-
-    @Test
-    @DisplayName("JUnit test for Update user and load by ID")
-    void canUpdateUserAndLoadById() {
-        // Given: Setup object or precondition
-        User testUser = User.createUser("a","b","e",
-                123456,null);
-
-        // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testUser);
-        // Then: Verify the output or expected result
-        User retrieve = personDAO.getPersonById(id, User.class);
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testUser.getFirstName());
-
-        // When: Action or behavior that we are going to test
-        testUser.setId(retrieve.getId());
-        testUser.setFirstName("ff");
-        personDAO.addPerson(testUser);
-
-        // Then: Verify the output or expected result
-        retrieve = personDAO.getPersonById(id, User.class);
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testUser.getFirstName());
-    }
-
-    @Test
-    @DisplayName("JUnit test for Add User and Delete by ID")
+    @DisplayName("Test AddUser for Add then Delete by ID")
     void canAddUserAndDeleteById() {
         // Given: Setup object or precondition
-        User testUser = User.createUser("f","l","e",
-                123456,null);
+        User testUser = User.createUser("Anne","Jar","anne@jar.com",
+                987654321,null);
 
-        // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testUser);
-        Long deletedPersonId = personDAO.deleteById(id, User.class);
-
-        // Then: Verify the output or expected result
-        assertEquals(deletedPersonId, id);
-    }
-    
-    @Test
-    @DisplayName("JUnit test for get All Users")
-    void canLoadAllUsers() {
-        // Given: Setup object or precondition
-        User testUser1 = User.createUser("a","b","e",
-                123456,null);
-        User testUser2 = User.createUser("a","b","e",
-                123456,null);
-        List<User> expectedUsersList = Arrays.asList(testUser1,testUser2);
-        // When: Action or behavior that we are going to test
-        expectedUsersList.forEach(personDAO::addPerson);
-
-        // Then: Verify the output or expected result
-        List<User> owners = personDAO.loadAllPersons(User.class);
+        testAddPersonAndDeleteById(testUser);
     }
 
     @Test
-    @DisplayName("JUnit test for Add SoldMovedOut and load by ID")
-    void canAddSoldMovedOutAndLoadById() {
-        // Given: Setup object or precondition
-        SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("f","l","e",
-                123456,null);
-
-        // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testSoldMovedOut);
-        Person retrieve = personDAO.getPersonById(id, SoldMovedOut.class);
-
-        // Then: Verify the output or expected result
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testSoldMovedOut.getFirstName());
-    }
-
-
-    @Test
-    @DisplayName("JUnit test for Update SoldMovedOut and load by ID")
-    void canUpdateSoldMovedOutAndLoadById() {
-        // Given: Setup object or precondition
-        SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("a","b","e",
-                123456,null);
-
-        // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testSoldMovedOut);
-        // Then: Verify the output or expected result
-        SoldMovedOut retrieve = personDAO.getPersonById(id, SoldMovedOut.class);
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testSoldMovedOut.getFirstName());
-
-        // When: Action or behavior that we are going to test
-        testSoldMovedOut.setId(retrieve.getId());
-        testSoldMovedOut.setFirstName("ff");
-        personDAO.addPerson(testSoldMovedOut);
-
-        // Then: Verify the output or expected result
-        retrieve = personDAO.getPersonById(id, SoldMovedOut.class);
-        assertNotNull(retrieve.getFirstName());
-        assertEquals(retrieve.getFirstName(), testSoldMovedOut.getFirstName());
-    }
-
-    @Test
-    @DisplayName("JUnit test for Add SoldMovedOut and Delete by ID")
+    @DisplayName("Test MovedOutAndDelete for Add then Delete by ID")
     void canAddSoldMovedOutAndDeleteById() {
         // Given: Setup object or precondition
-        SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("f","l","e",
-                123456,null);
+        SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("Anne","Jar","anne@jar.com",
+                987654321,null);
 
+        testAddPersonAndDeleteById(testSoldMovedOut);
+    }
+
+    private <T extends Person> void testAddPersonAndDeleteById(T testPerson){
         // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testSoldMovedOut);
-        Long deletedPersonId = personDAO.deleteById(id, SoldMovedOut.class);
+        Long id = personDAO.addPerson(testPerson);
+        Long deletedPersonId = personDAO.deleteById(id, testPerson.getClass());
 
         // Then: Verify the output or expected result
         assertEquals(deletedPersonId, id);
     }
 
-    @Test
-    @DisplayName("JUnit test for get All SoldMovedOuts")
-    void canLoadAllSoldMovedOuts() {
-        // Given: Setup object or precondition
-        SoldMovedOut testSoldMovedOut1 = SoldMovedOut.createSoldMovedOut("a","b","e",
-                123456,null);
-        SoldMovedOut testSoldMovedOut2 = SoldMovedOut.createSoldMovedOut("a","b","e",
-                123456,null);
-        List<SoldMovedOut> expectedSoldMovedOutsList = Arrays.asList(testSoldMovedOut1,testSoldMovedOut2);
-        // When: Action or behavior that we are going to test
-        expectedSoldMovedOutsList.forEach(personDAO::addPerson);
+/*
+     --------------------------------Testing LoadAll persons--------------------------------
+*/
 
-        // Then: Verify the output or expected result
-        List<SoldMovedOut> owners = personDAO.loadAllPersons(SoldMovedOut.class);
+    @Test
+    @DisplayName("Test Owner for Load them All")
+    void canLoadAllOwners() {
+        // Given: Setup object or precondition
+        Owner testOwner1 = Owner.createOwner("Bob","Jar","bob@jar.com",
+                123456789,null);
+        Owner testOwner2 = Owner.createOwner("Anne","Jar","anne@jar.com",
+                987654321,null);
+        List<Owner> expectedOwnersList = Arrays.asList(testOwner1,testOwner2);
+
+        testLoadMultiplePersons(expectedOwnersList, Owner.class);
     }
 
+    @Test
+    @DisplayName("Test Users for Load them All")
+    void canLoadAllUsers() {
+        // Given: Setup object or precondition
+        User testUser1 = User.createUser("Bob","Jar","bob@jar.com",
+                123456789,null);
+        User testUser2 = User.createUser("Anne","Jar","anne@jar.com",
+                987654321,null);
+        List<User> expectedUsersList = Arrays.asList(testUser1,testUser2);
+
+        testLoadMultiplePersons(expectedUsersList, User.class);
+    }
+
+    @Test
+    @DisplayName("Test SoldMovedOut for Load them All")
+    void canLoadAllSoldMovedOuts() {
+        // Given: Setup object or precondition
+        SoldMovedOut testSoldMovedOut1 = SoldMovedOut.createSoldMovedOut("Bob","Jar","bob@jar.com",
+                123456789,null);
+        SoldMovedOut testSoldMovedOut2 = SoldMovedOut.createSoldMovedOut("Anne","Jar","anne@jar.com",
+                987654321,null);
+        List<SoldMovedOut> expectedSoldMovedOutsList = Arrays.asList(testSoldMovedOut1,testSoldMovedOut2);
+        
+        testLoadMultiplePersons(expectedSoldMovedOutsList, SoldMovedOut.class);
+    }
+
+    private <T extends Person> void testLoadMultiplePersons(List<T> testPersons, Class<T> tClass){
+        // When: Action or behavior that we are going to test
+        testPersons.forEach(personDAO::addPerson);
+        List<T> returnedOwners = personDAO.loadAllPersons(tClass);
+
+        // Then: Verify the output or expected result
+        assertNotNull(returnedOwners);
+        assertEquals(testPersons.get(0).getFirstName(), returnedOwners.get(0).getFirstName());
+        assertEquals(testPersons.get(1).getFirstName(), returnedOwners.get(1).getFirstName());
+    }
+    
+/*
+     --------------------------------Testing LoadAll persons--------------------------------
+*/
+
+    @Test
+    @DisplayName("Test Load Person by First andLast name")
+    void canLoadPersonByLastOrFirstName() {
+        // Given: Setup object or precondition
+        Person testOwner1 = new Person("Bob","Jara","bob@jar.com",
+                123456789,null);
+        Person testOwner2 = new Person("Anne","Jara","anne@jar.com",
+                987654321,null);
+        Person testOwner3 = new Person("Diana","Anne","diana@anne.com",
+                987654321,null);
+        Person testOwner4 = new Person("Jara","Anne","diana@anne.com",
+                987654321,null);
+        List<Person> expectedOwnersList = Arrays.asList(testOwner1,testOwner2,testOwner3,testOwner4);
+
+        // When: Action or behavior that we are going to test
+        expectedOwnersList.forEach(personDAO::addPerson);
+        int expectedSize= (int) expectedOwnersList.stream()
+                .filter(owner -> owner.getFirstName().equals("Jara") || owner.getLastName().equals("Jara"))
+                .count();
+
+        int actualSize = personDAO.loadPersonByLastOrFirstName("Jara", Person.class).size();
+
+        // Then: Verify the output or expected result
+        assertThat(actualSize).isEqualTo(expectedSize);
+    }
 }
+

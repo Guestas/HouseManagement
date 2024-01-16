@@ -1,14 +1,15 @@
 package com.mc.HouseManagement.repository;
 
+import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.Apartment;
 
 import java.util.List;
 
 /**Description**/
-public interface ApartmentDAO {
+public interface ApartmentDAO{
 
     /**Description function functionality**/
-    public Long addApartment(Apartment apartment);
+    public Long addApartment(Apartment apartment, ProcessToDo process);
 
     /**Description**/
     public Apartment getApartmentById(Long id);

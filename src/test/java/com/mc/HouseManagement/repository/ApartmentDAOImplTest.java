@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.repository;
 
+import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.Apartment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +50,7 @@ class ApartmentDAOImplTest {
                 2553, "street1", null, null);
 
         // When: Action or behavior that we are going to test
-        Long id = apartmentDAO.addApartment(testApartment1);
+        Long id = apartmentDAO.addApartment(testApartment1, ProcessToDo.NEW);
         Apartment retrieve = apartmentDAO.getApartmentById(id);
 
         // Then: Verify the output or expected result
@@ -68,7 +69,7 @@ class ApartmentDAOImplTest {
         List<Apartment> expectedApartmentList = Arrays.asList(testApartment1, testApartment2);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addApartment(apartment));
+        expectedApartmentList.forEach(apartment -> apartmentDAO.addApartment(apartment, ProcessToDo.NEW));
         List<Apartment> actualApartmentList = apartmentDAO.loadAllApartments();
 
         // Then: Verify the output or expected result

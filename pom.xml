@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mc</groupId>
-	<artifactId>MCe</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>HouseManagement</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>HouseManagement</name>
 	<description>Application for people management in the house</description>
 	<properties>
@@ -63,12 +63,6 @@
 			<scope>test</scope>
 		</dependency>
 
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>

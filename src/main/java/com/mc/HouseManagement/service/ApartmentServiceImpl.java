@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.service;
 
+import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class ApartmentServiceImpl implements ApartmentService{
     }
 
     @Override
-    public Long addApartment(Apartment apartment) {
-        return apartmentDAO.addApartment(apartment);
+    public Long addApartment(Apartment apartment, ProcessToDo processToDo) {
+        return apartmentDAO.addApartment(apartment, processToDo);
     }
 
     @Override

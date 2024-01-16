@@ -4,7 +4,6 @@ import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.repository.PersonDAO;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -13,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
@@ -81,7 +79,7 @@ class PersonServiceImplTest {
     }
 
     @Test
-    @Disabled
+    //@Disabled
     void deleteAllPersons() {
         // Given: Setup object or precondition
 

@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.service;
 
+import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.Apartment;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface ApartmentService {
 
     /**Description**/
-    public Long addApartment(Apartment apartment);
+    public Long addApartment(Apartment apartment, ProcessToDo processToDo);
 
     /**Description**/
     public Apartment getApartmentById(Long id);

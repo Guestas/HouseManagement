@@ -75,4 +75,8 @@ public class HouseMeeting {
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
     }
+
+    public static HouseMeeting createHouseMeeting(String date, String name, List<String> topics, List<Apartment> apartments){
+        return new HouseMeeting(date,name, topics, apartments);
+    }
 }
