@@ -2,6 +2,7 @@ package com.mc.HouseManagement.service;
 
 import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
+import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,13 +20,14 @@ import static org.mockito.Mockito.verify;
 class PersonServiceImplTest {
 
     @Mock private PersonDAO personDAO;
+    @Mock private ApartmentDAO apartmentDAO;
 
     private PersonService personService;
 
 
     @BeforeEach
     void setUp(){
-        personService = new PersonServiceImpl(personDAO);
+        personService = new PersonServiceImpl(personDAO, apartmentDAO);
     }
 
     @Test
@@ -35,11 +37,11 @@ class PersonServiceImplTest {
                 123456,null);
 
         // When: Action or behavior that we are going to test
-        personService.addPerson(testOwner);
+        personService.addUpdatePerson(testOwner);
 
         // Then: Verify the output or expected result
         ArgumentCaptor<Person> personArgumentCaptor = ArgumentCaptor.forClass(Person.class);
-        verify(personDAO).addPerson(personArgumentCaptor.capture());
+        verify(personDAO).addUpdatePerson(personArgumentCaptor.capture());
         Person capturedPerson = personArgumentCaptor.getValue();
         assertThat(capturedPerson).isEqualTo(testOwner);
     }
@@ -87,4 +89,5 @@ class PersonServiceImplTest {
 
         // Then: Verify the output or expected result
     }
+
 }

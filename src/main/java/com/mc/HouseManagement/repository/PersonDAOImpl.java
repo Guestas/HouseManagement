@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.repository;
 
+import com.mc.HouseManagement.api.adedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.entity.Person;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -7,6 +8,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -20,7 +22,14 @@ public class PersonDAOImpl implements PersonDAO{
 
     @Override
     @Transactional
-    public <T extends Person> Long addPerson(T person) {
+    public <T extends Person> Long addUpdatePerson(T person) {
+        /*if (person.getId() == null)
+            return entityManager.merge(person).getId();
+        else {
+            var existingPerson = getPersonById(person.getId(), person.getClass());
+            existingPerson.setApartments(person.getApartments());
+            return entityManager.merge(existingPerson).getId();
+        }*/
         return entityManager.merge(person).getId();
     }
 
@@ -36,8 +45,7 @@ public class PersonDAOImpl implements PersonDAO{
                                 tClass.getCanonicalName() +
                                 " t",
                         tClass);
-        List<T> result = query.getResultList();
-        return result.isEmpty()?null:result;
+        return query.getResultList();
     }
 
     @Override
@@ -65,19 +73,45 @@ public class PersonDAOImpl implements PersonDAO{
     }
 
     @Override
-    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames, Class<T> tClass) {
-        TypedQuery<T> query1 = entityManager.createQuery("SELECT p FROM " +
-                tClass.getCanonicalName() +
-                " p WHERE firstName=:theData", tClass);
-        query1.setParameter("theData", oneOfNames);
-
-        TypedQuery<T> query2 = entityManager.createQuery("SELECT p FROM " +
-                tClass.getCanonicalName() +
-                " p WHERE lastName=:theData", tClass);
-        query2.setParameter("theData", oneOfNames);
-        List<T> out = query1.getResultList();
-        out.addAll(query2.getResultList());
-
-        return out;
+    public <T extends Person> List<T> loadPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> tClass) {
+        try {
+            TypedQuery<T> query = entityManager.createQuery("SELECT p FROM " +
+                    tClass.getCanonicalName() +
+                    " p WHERE lastName=:theData or " +
+                    "firstName=:theData", tClass);
+            return query.setParameter("theData", oneOfNames).getResultList();
+        } catch (DataNotFoundException e){
+            return new ArrayList<>();
+        }
     }
+
+    @Override
+    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames) {
+        try {
+            String queryString = "SELECT p FROM person p WHERE lastName=:theData or firstName=:theData";
+            Query nativeQuery = entityManager.createNativeQuery(queryString);
+            List<T> li = nativeQuery.setParameter("theData", oneOfNames).getResultList();
+            System.out.println(li);
+            return new ArrayList<>();
+        } catch (DataNotFoundException e){
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public <T extends Person> Class<T> loadPersonByIDGetClass(Long id) {
+        try {
+            String queryString = "SELECT p.person_type FROM person p WHERE id=:theData";
+            Query nativeQuery = entityManager.createNativeQuery(queryString);
+            var li = nativeQuery.setParameter("theData", id).getResultList().get(0);
+
+            System.out.println(li);
+            System.out.println(li);
+            return null;
+        } catch (DataNotFoundException e){
+            return null;
+        }
+    }
+
+
 }

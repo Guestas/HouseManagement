@@ -19,8 +19,8 @@ public class ApartmentServiceImpl implements ApartmentService{
     }
 
     @Override
-    public Long addApartment(Apartment apartment, ProcessToDo processToDo) {
-        return apartmentDAO.addApartment(apartment, processToDo);
+    public Long addUpdateApartment(Apartment apartment, ProcessToDo processToDo) {
+        return apartmentDAO.addUpdateApartment(apartment, processToDo);
     }
 
     @Override

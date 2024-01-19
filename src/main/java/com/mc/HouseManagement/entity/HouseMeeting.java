@@ -2,6 +2,7 @@ package com.mc.HouseManagement.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,9 +19,9 @@ public class HouseMeeting {
     @Column(name="topics")
     private List<String> topics;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE,
-                    CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "apartment_house_meeting",
             joinColumns = @JoinColumn(name = "house_meeting_id"),
             inverseJoinColumns = @JoinColumn(name = "apartment_id"))
@@ -74,6 +75,39 @@ public class HouseMeeting {
 
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
+    }
+
+    public void addApartment(Apartment apartment){
+        if (apartments == null){
+            apartments = new ArrayList<>();
+            apartments.add(apartment);
+        } else if (!apartments.contains(apartment)) {
+            apartments.add(apartment);
+        }
+        else
+            System.out.println("Already in list");
+    }
+
+    public void delApartment(Apartment apartment){
+        if (apartments == null){
+            apartments = new ArrayList<>();
+            apartments.add(apartment);
+        } else if (apartments.contains(apartment)) {
+            apartments.remove(apartment);
+        }
+        else
+            System.out.println("Not in list");
+    }
+
+    @Override
+    public String toString() {
+        return "HouseMeeting{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", name='" + name + '\'' +
+                ", topics=" + topics +
+                ", apartments=" + apartments +
+                '}';
     }
 
     public static HouseMeeting createHouseMeeting(String date, String name, List<String> topics, List<Apartment> apartments){

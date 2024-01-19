@@ -1,9 +1,7 @@
 package com.mc.HouseManagement.repository;
 
-import com.mc.HouseManagement.entity.Owner;
-import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.SoldMovedOut;
-import com.mc.HouseManagement.entity.User;
+import com.mc.HouseManagement.ProcessToDo;
+import com.mc.HouseManagement.entity.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,10 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DisplayName("Testing of Person class and inherited classes")
 class PersonDAOImplTest {
     private PersonDAO personDAO;
+    private ApartmentDAO apartmentDAO;
 
     @Autowired
-    public PersonDAOImplTest(PersonDAO personDAO) {
+    public PersonDAOImplTest(PersonDAO personDAO, ApartmentDAO apartmentDAO) {
         this.personDAO = personDAO;
+        this.apartmentDAO = apartmentDAO;
     }
 
     @AfterEach
@@ -36,7 +36,7 @@ class PersonDAOImplTest {
         List<Owner> actualPersonsList = personDAO.loadAllPersons(Owner.class);
 
         // Assertions
-        assertThat(actualPersonsList).isEqualTo(null);
+        assertThat(actualPersonsList).isEmpty();
     }
 
 /*
@@ -77,20 +77,23 @@ class PersonDAOImplTest {
         // Given: Setup object or precondition
 
         // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testPerson);
+        Long id = personDAO.addUpdatePerson(testPerson);
         Person retrieve = personDAO.getPersonById(id, testPerson.getClass());
-
+        System.out.println(retrieve);
         // Then: Verify the output or expected result
         assertNotNull(retrieve.getFirstName());
         assertEquals(retrieve.getFirstName(), testPerson.getFirstName());
 
         // When: Action or behavior that we are going to test
         testPerson.setId(retrieve.getId());
+        System.out.println(testPerson);
         testPerson.setFirstName("Joe");
-        personDAO.addPerson(testPerson);
+        System.out.println(testPerson);
+        personDAO.addUpdatePerson(testPerson);
 
         // Then: Verify the output or expected result
         retrieve = personDAO.getPersonById(id, testPerson.getClass());
+        System.out.println(retrieve);
         assertNotNull(retrieve.getFirstName());
         assertEquals(retrieve.getFirstName(), testPerson.getFirstName());
     }
@@ -131,7 +134,7 @@ class PersonDAOImplTest {
 
     private <T extends Person> void testAddPersonAndDeleteById(T testPerson){
         // When: Action or behavior that we are going to test
-        Long id = personDAO.addPerson(testPerson);
+        Long id = personDAO.addUpdatePerson(testPerson);
         Long deletedPersonId = personDAO.deleteById(id, testPerson.getClass());
 
         // Then: Verify the output or expected result
@@ -183,7 +186,7 @@ class PersonDAOImplTest {
 
     private <T extends Person> void testLoadMultiplePersons(List<T> testPersons, Class<T> tClass){
         // When: Action or behavior that we are going to test
-        testPersons.forEach(personDAO::addPerson);
+        testPersons.forEach(personDAO::addUpdatePerson);
         List<T> returnedOwners = personDAO.loadAllPersons(tClass);
 
         // Then: Verify the output or expected result
@@ -211,15 +214,26 @@ class PersonDAOImplTest {
         List<Person> expectedOwnersList = Arrays.asList(testOwner1,testOwner2,testOwner3,testOwner4);
 
         // When: Action or behavior that we are going to test
-        expectedOwnersList.forEach(personDAO::addPerson);
+        expectedOwnersList.forEach(personDAO::addUpdatePerson);
         int expectedSize= (int) expectedOwnersList.stream()
                 .filter(owner -> owner.getFirstName().equals("Jara") || owner.getLastName().equals("Jara"))
                 .count();
 
-        int actualSize = personDAO.loadPersonByLastOrFirstName("Jara", Person.class).size();
+        int actualSize = personDAO.loadPersonByLastOrFirstNameAndType("Jara", Person.class).size();
 
         // Then: Verify the output or expected result
         assertThat(actualSize).isEqualTo(expectedSize);
     }
+
+    @Test
+    void ccccc(){
+        Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
+                2553, "street1", null,null);
+        apartmentDAO.addUpdateApartment(testApartment1, ProcessToDo.NEW);
+        Person testOwner1 = new Person("Bob","Jara","bob@jar.com",
+                123456789,null);
+
+    }
+
 }
 

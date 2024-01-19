@@ -9,7 +9,7 @@ import java.util.List;
 public interface ApartmentService {
 
     /**Description**/
-    public Long addApartment(Apartment apartment, ProcessToDo processToDo);
+    public Long addUpdateApartment(Apartment apartment, ProcessToDo processToDo);
 
     /**Description**/
     public Apartment getApartmentById(Long id);

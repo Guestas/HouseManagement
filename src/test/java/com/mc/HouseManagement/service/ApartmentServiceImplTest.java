@@ -36,12 +36,12 @@ class ApartmentServiceImplTest {
                 2553, "street1", null,null);
 
         // When: Action or behavior that we are going to test
-        apartmentService.addApartment(testApartment, ProcessToDo.NEW);
+        apartmentService.addUpdateApartment(testApartment, ProcessToDo.NEW);
 
         // Then: Verify the output or expected result
         ArgumentCaptor<Apartment> apartmentArgumentCaptor = ArgumentCaptor.forClass(Apartment.class);
         ArgumentCaptor<ProcessToDo> processToDoArgumentCaptor = ArgumentCaptor.forClass(ProcessToDo.class);
-        verify(apartmentDAO).addApartment(apartmentArgumentCaptor.capture(), processToDoArgumentCaptor.capture());
+        verify(apartmentDAO).addUpdateApartment(apartmentArgumentCaptor.capture(), processToDoArgumentCaptor.capture());
         Apartment capturedApartment = apartmentArgumentCaptor.getValue();
         assertThat(capturedApartment).isEqualTo(testApartment);
     }

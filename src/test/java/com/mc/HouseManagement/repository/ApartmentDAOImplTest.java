@@ -22,11 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ApartmentDAOImplTest {
 
 
-    private ApartmentDAO apartmentDAO;
+    private final ApartmentDAO apartmentDAO;
+    private final HouseMeetingDAO houseMeetingDAO;
 
     @Autowired
-    public ApartmentDAOImplTest(ApartmentDAO apartmentDAO){
+    public ApartmentDAOImplTest(ApartmentDAO apartmentDAO, HouseMeetingDAO houseMeetingDAO){
         this.apartmentDAO = apartmentDAO;
+        this.houseMeetingDAO = houseMeetingDAO;
     }
 
     @AfterEach
@@ -38,19 +40,19 @@ class ApartmentDAOImplTest {
         List<Apartment> actualApartmentList = apartmentDAO.loadAllApartments();
 
         // Then: Verify the output or expected result
-        assertThat(actualApartmentList).isEqualTo(null);
+        assertThat(actualApartmentList).isEmpty();
 
     }
 
     @Test
-    @DisplayName("JUnit test for Add and Load by id apartment")
+    @DisplayName("Test Add Apartment and load it by ID")
     void addApartmentAndLoadById() {
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
                 2553, "street1", null, null);
 
         // When: Action or behavior that we are going to test
-        Long id = apartmentDAO.addApartment(testApartment1, ProcessToDo.NEW);
+        Long id = apartmentDAO.addUpdateApartment(testApartment1, ProcessToDo.NEW);
         Apartment retrieve = apartmentDAO.getApartmentById(id);
 
         // Then: Verify the output or expected result
@@ -59,7 +61,7 @@ class ApartmentDAOImplTest {
     }
 
     @Test
-    @DisplayName("JUnit test for loading all apartments")
+    @DisplayName("Test Loading all Apartments")
     void loadAllApartments() {
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
@@ -69,7 +71,7 @@ class ApartmentDAOImplTest {
         List<Apartment> expectedApartmentList = Arrays.asList(testApartment1, testApartment2);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addApartment(apartment, ProcessToDo.NEW));
+        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment, ProcessToDo.NEW));
         List<Apartment> actualApartmentList = apartmentDAO.loadAllApartments();
 
         // Then: Verify the output or expected result
@@ -77,4 +79,5 @@ class ApartmentDAOImplTest {
         assertEquals(testApartment1.getAddress(), actualApartmentList.get(0).getAddress());
         assertEquals(testApartment2.getAddress(), actualApartmentList.get(1).getAddress());
     }
+
 }

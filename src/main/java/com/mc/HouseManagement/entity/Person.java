@@ -3,6 +3,7 @@ package com.mc.HouseManagement.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,9 +30,8 @@ public class Person {
     @Column(name="lastUpdate")
     private LocalDate lastUpdate;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE,
-                    CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
     @JoinTable(name="apartments_persons",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "apartment_id"))
@@ -95,5 +95,39 @@ public class Person {
 
     public void setApartments(List<Apartment> apartments) {
         this.apartments = apartments;
+    }
+
+    public void addApartment(Apartment apartment){
+        if (apartments == null){
+            apartments = new ArrayList<>();
+            apartments.add(apartment);
+        } else if (!apartments.contains(apartment)) {
+            apartments.add(apartment);
+        }
+        else
+            System.out.println("Already in list");
+    }
+
+    public void delApartment(Apartment apartment){
+        if (apartments == null){
+            apartments = new ArrayList<>();
+            apartments.add(apartment);
+        } else if (apartments.contains(apartment)) {
+            apartments.remove(apartment);
+        }
+        else
+            System.out.println("Not in list");
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone=" + phone +
+                ", apartments=" + apartments +
+                '}';
     }
 }

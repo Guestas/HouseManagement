@@ -1,6 +1,7 @@
 package com.mc.HouseManagement.service;
 
-import com.mc.HouseManagement.entity.Person;
+import com.mc.HouseManagement.entity.*;
+import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +11,16 @@ import java.util.List;
 public class PersonServiceImpl implements PersonService{
 
     private final PersonDAO personDAO;
+    private final ApartmentDAO apartmentDAO;
 
-    public PersonServiceImpl(PersonDAO personDAO) {
+    public PersonServiceImpl(PersonDAO personDAO, ApartmentDAO apartmentDAO) {
         this.personDAO = personDAO;
+        this.apartmentDAO = apartmentDAO;
     }
 
     @Override
-    public <T extends Person> Long addPerson(T person) {
-        return personDAO.addPerson(person);
+    public <T extends Person> Long addUpdatePerson(T person) {
+        return personDAO.addUpdatePerson(person);
     }
 
     @Override
@@ -27,7 +30,13 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public <T extends Person> List<T> loadAllPersons(Class<T> tClass) {
-        return personDAO.loadAllPersons(tClass);
+        if (tClass.equals(Person.class)){
+            List<T> connectedPersons = (List<T>) personDAO.loadAllPersons(User.class);
+            connectedPersons.addAll((List<T>) personDAO.loadAllPersons(Owner.class));
+            return connectedPersons;
+        }else {
+            return personDAO.loadAllPersons(tClass);
+        }
     }
 
     @Override
@@ -41,7 +50,38 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames, Class<T> tClass) {
-        return personDAO.loadPersonByLastOrFirstName(oneOfNames, tClass);
+    public <T extends Person> List<T> loadPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> tClass) {
+        return personDAO.loadPersonByLastOrFirstNameAndType(oneOfNames, tClass);
     }
+
+    @Override
+    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames) {
+        return personDAO.loadPersonByLastOrFirstName(oneOfNames);
+    }
+
+    @Override
+    public Class<?> loadPersonByIDGetClass(Long id) {
+        return personDAO.loadPersonByIDGetClass(id);
+    }
+
+    @Override
+    public <T extends Person> Long addApartmentToPerson(Long personID, Class<T> tClass, Long apartmentId) {
+        T person = personDAO.getPersonById(personID, tClass);
+        Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
+
+        person.addApartment(apartment);
+
+        return personDAO.addUpdatePerson(person);
+    }
+
+    @Override
+    public <T extends Person> Long delApartmentFromPerson(Long personID, Class<T> tClass, Long apartmentId) {
+        T person = personDAO.getPersonById(personID, tClass);
+        Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
+
+        person.delApartment(apartment);
+
+        return personDAO.addUpdatePerson(person);
+    }
+
 }

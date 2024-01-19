@@ -3,6 +3,7 @@ package com.mc.HouseManagement.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -24,14 +25,16 @@ public class Apartment {
     private String  street;
 
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "apartment_house_meeting",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "house_meeting_id"))
     private List<HouseMeeting> absolvedMeetings;
 
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.MERGE,
+                    CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "apartments_persons",
             joinColumns = @JoinColumn(name = "apartment_id"),
             inverseJoinColumns = @JoinColumn(name = "person_id"))
@@ -112,6 +115,26 @@ public class Apartment {
 
     public void setPersonsInApartment(List<Person> personsInApartment) {
         this.personsInApartment = personsInApartment;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Apartment apartment = (Apartment) obj;
+        return Objects.equals(this.getId(), apartment.getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Apartment{" +
+                "id=" + id +
+                ", voteValue=" + voteValue +
+                ", branchAntenna=" + branchAntenna +
+                ", flor=" + flor +
+                ", address=" + address +
+                ", street='" + street + '\'' +
+                '}';
     }
 
     public static Apartment createApartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street, List<HouseMeeting> absolvedMeetings, List<Person> personsInApartment){

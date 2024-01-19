@@ -9,7 +9,7 @@ import java.util.List;
 public interface ApartmentDAO{
 
     /**Description function functionality**/
-    public Long addApartment(Apartment apartment, ProcessToDo process);
+    public Long addUpdateApartment(Apartment apartment, ProcessToDo process);
 
     /**Description**/
     public Apartment getApartmentById(Long id);

@@ -3,6 +3,7 @@ package com.mc.HouseManagement.repository;
 import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.Apartment;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -24,21 +25,29 @@ public class ApartmentDAOImpl implements ApartmentDAO{
 
     @Override
     @Transactional
-    public Long addApartment(Apartment apartment, ProcessToDo processToDo) {
+    public Long addUpdateApartment(Apartment apartment, ProcessToDo processToDo) {
         return entityManager.merge(apartment).getId();
     }
 
     @Override
     public Apartment getApartmentById(Long id) {
-        return entityManager.find(Apartment.class, id);
+        try {
+            TypedQuery<Apartment> query = entityManager.createQuery(
+                    "select a from Apartment a "
+                            + "WHERE a.id = :data", Apartment.class);
+
+            query.setParameter("data", id);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override
     public List<Apartment> loadAllApartments() {
         TypedQuery<Apartment> query = entityManager
                 .createQuery("SELECT a FROM Apartment a", Apartment.class);
-        List<Apartment> result = query.getResultList();
-        return result.isEmpty()?null:result;
+        return query.getResultList();
     }
 
     @Override

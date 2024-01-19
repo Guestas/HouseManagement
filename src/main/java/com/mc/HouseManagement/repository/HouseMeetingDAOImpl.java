@@ -2,6 +2,7 @@ package com.mc.HouseManagement.repository;
 
 import com.mc.HouseManagement.entity.HouseMeeting;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -22,21 +23,39 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
 
     @Override
     @Transactional
-    public Long addHouseMeeting(HouseMeeting houseMeeting) {
+    public Long addUpdateHouseMeeting(HouseMeeting houseMeeting) {
+        //TODO check it if it works propperly
+        /*if (houseMeeting.getId()==null)
+            return entityManager.merge(houseMeeting).getId();
+        else {
+            HouseMeeting existingMeeting = getHouseMeetingById(houseMeeting.getId());
+            existingMeeting.setApartments(houseMeeting.getApartments());
+            return entityManager.merge(existingMeeting).getId();
+        }*/
         return entityManager.merge(houseMeeting).getId();
     }
 
     @Override
     public HouseMeeting getHouseMeetingById(Long id) {
-        return entityManager.find(HouseMeeting.class, id);
+        try {
+            TypedQuery<HouseMeeting> query = entityManager.createQuery(
+                    "select hm from HouseMeeting hm "
+                            + "JOIN FETCH hm.apartments "
+                            + "where hm.id = :data", HouseMeeting.class);
+
+            query.setParameter("data", id);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return entityManager.find(HouseMeeting.class, id);
+        }
+        //return entityManager.find(HouseMeeting.class, id);
     }
 
     @Override
     public List<HouseMeeting> loadAllHouseMeetings() {
         TypedQuery<HouseMeeting> query = entityManager
                 .createQuery("SELECT h FROM HouseMeeting h", HouseMeeting.class);
-        List<HouseMeeting> result = query.getResultList();
-        return result.isEmpty()?null:result;
+        return query.getResultList();
     }
 
     @Override
