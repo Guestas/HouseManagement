@@ -107,8 +107,8 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test adding and updating Apartments to Meetings")
-    void addApartmentToMeetingAndUpdateDell(){
+    @DisplayName("Test deleting and updating Apartments to Meetings")
+    void addApartmentToMeetingAndUpdateDel(){
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
                 2553, "street1", null,null);
@@ -129,10 +129,9 @@ class HouseMeetingDAOImplTest {
         HouseMeeting houseMeetingWillBeUpdated = houseMeetingDAO.getHouseMeetingById(id);
         houseMeetingWillBeUpdated.delApartment(testApartment1);
         houseMeetingDAO.addUpdateHouseMeeting(houseMeetingWillBeUpdated);
-        System.out.println(houseMeetingWillBeUpdated);
 
         HouseMeeting returnedHouseMeeting = houseMeetingDAO.getHouseMeetingById(id);
-        System.out.println(returnedHouseMeeting);
+
         // Then: Verify the output or expected result
         assertNotNull(returnedHouseMeeting.getApartments());
         assertEquals(houseMeetingWillBeUpdated.getApartments().size(), returnedHouseMeeting.getApartments().size());
@@ -161,10 +160,9 @@ class HouseMeetingDAOImplTest {
         HouseMeeting houseMeetingWillBeUpdated = houseMeetingDAO.getHouseMeetingById(id);
         houseMeetingWillBeUpdated.addApartment(testApartment2);
         houseMeetingDAO.addUpdateHouseMeeting(houseMeetingWillBeUpdated);
-        System.out.println(houseMeetingWillBeUpdated);
 
         HouseMeeting returnedHouseMeeting = houseMeetingDAO.getHouseMeetingById(id);
-        System.out.println(returnedHouseMeeting);
+
         // Then: Verify the output or expected result
         assertNotNull(returnedHouseMeeting.getApartments());
         assertEquals(houseMeetingWillBeUpdated.getApartments().size(), returnedHouseMeeting.getApartments().size());

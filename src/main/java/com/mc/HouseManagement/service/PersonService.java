@@ -12,7 +12,7 @@ public interface PersonService {
     public int deleteAllPersons();
     public <T extends Person> List<T> loadPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> tClass);
     public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames);
-    public Class<?> loadPersonByIDGetClass(Long id);
+    public <T extends Person> T loadPersonByID(Long id);
     public <T extends Person> Long addApartmentToPerson(Long personID, Class<T> tClass, Long apartmentId);
     public <T extends Person> Long delApartmentFromPerson(Long personID, Class<T> tClass, Long apartmentId);
 }

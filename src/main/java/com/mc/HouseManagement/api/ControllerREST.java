@@ -1,12 +1,18 @@
 package com.mc.HouseManagement.api;
 
+import com.mc.HouseManagement.ProcessToDo;
+import com.mc.HouseManagement.entity.*;
 import com.mc.HouseManagement.service.ApartmentService;
 import com.mc.HouseManagement.service.HouseMeetingService;
 import com.mc.HouseManagement.service.PersonService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -22,7 +28,8 @@ public class ControllerREST {
         this.apartmentService = apartmentService;
         this.houseMeetingService = houseMeetingService;
     }
-/**
+
+
     // TODO finish api
     // Created request's by type POST, PUT, GET and DEL this will communicate with Web browser or Postman ...
     @PostConstruct //caled once after start to download new data or other functionality
@@ -71,24 +78,17 @@ public class ControllerREST {
         //houseMeetingService.addUpdateHouseMeeting(testHouseMeeting);
 
 
-        System.out.println(apartmentService.getApartmentById(1L));
-        System.out.println(houseMeetingService.getHouseMeetingById(2L));
-
-        personService.loadPersonByIDGetClass(3L);
-
-        //Owner u = personService.getPersonById(1L, Owner.class);
-        //Apartment a = apartmentService.getApartmentById(1L);
-        //Apartment b = apartmentService.getApartmentById(2L);
-        //u.setApartments(Arrays.asList(a));
+        //System.out.println(apartmentService.getApartmentById(1L));
+        //System.out.println(houseMeetingService.getHouseMeetingById(2L));
+        //System.out.println(personService.loadPersonByID(1L));
 
 
-        //personService.addUpdatePerson(u);
+        System.out.println(personService.loadPersonByLastOrFirstName("Jar"));
 
-        //personService.loadPersonByLastOrFirstName("Jar");
 
 
     }
-**/
+
 
     @RequestMapping("/")
     public @ResponseBody String greeting() {

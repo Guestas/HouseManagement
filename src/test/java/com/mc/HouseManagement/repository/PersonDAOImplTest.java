@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -201,7 +202,7 @@ class PersonDAOImplTest {
 
     @Test
     @DisplayName("Test Load Person by First andLast name")
-    void canLoadPersonByLastOrFirstName() {
+    void canLoadPersonByLastOrFirstNameAndType() {
         // Given: Setup object or precondition
         Person testOwner1 = new Person("Bob","Jara","bob@jar.com",
                 123456789,null);
@@ -226,13 +227,97 @@ class PersonDAOImplTest {
     }
 
     @Test
-    void ccccc(){
-        Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null,null);
-        apartmentDAO.addUpdateApartment(testApartment1, ProcessToDo.NEW);
+    @DisplayName("Testing loading all persons without SoldMoved")
+    <T extends Person> void loadingAllPersonsByNameOrLName(){
+        // Given: Setup object or precondition
         Person testOwner1 = new Person("Bob","Jara","bob@jar.com",
                 123456789,null);
+        Owner testOwner2 = new Owner("Anne","Jara","anne@jar.com",
+                987654321,null);
+        SoldMovedOut testOwner3 = new SoldMovedOut("Diana","Jara","diana@anne.com",
+                987654321,null);
+        User testOwner4 = new User("Kala","Anne","diana@anne.com",
+                987654321,null);
+        List<T> expectedOwnersList = new ArrayList<>();
+        expectedOwnersList.add((T) testOwner1);
+        expectedOwnersList.add((T) testOwner2);
+        expectedOwnersList.add((T) testOwner3);
+        expectedOwnersList.add((T) testOwner4);
 
+        // When: Action or behavior that we are going to test
+        expectedOwnersList.forEach(personDAO::addUpdatePerson);
+        int expectedSize= (int) expectedOwnersList.stream()
+                .filter(owner -> (owner.getFirstName().equals("Jara") || owner.getLastName().equals("Jara")) &&
+                        (owner.getClass() == Owner.class || owner.getClass() == User.class))
+                .count();
+
+        int actualSize1 = personDAO.loadPersonByLastOrFirstNameAndType("Jara", User.class).size();
+        int actualSize2 = personDAO.loadPersonByLastOrFirstNameAndType("Jara", Owner.class).size();
+
+        // Then: Verify the output or expected result
+        assertThat(actualSize1+actualSize2).isEqualTo(expectedSize);
+    }
+
+    @Test
+    @DisplayName("Test deleting and updating Apartments to Person")
+    void addApartmentToPersonAndUpdateDel(){
+        // Given: Setup object or precondition
+        Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
+                2553, "street1", null,null);
+        Apartment testApartment2 = Apartment.createApartment(10, 8, 10,
+                2553, "street2", null,null);
+        List<Apartment> expectedApartmentList = Arrays.asList(testApartment1, testApartment2);
+
+        List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
+        User testUser1 = User.createUser("Bob","Jar","bob@jar.com",
+                123456789,null);
+
+        // When: Action or behavior that we are going to test
+        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment, ProcessToDo.NEW));
+        testUser1.setApartments(apartmentDAO.loadAllApartments());
+
+        Long id = personDAO.addUpdatePerson(testUser1);
+
+        User userWillBeUpdated = personDAO.loadPersonByID(id);
+        userWillBeUpdated.delApartment(testApartment2);
+        personDAO.addUpdatePerson(userWillBeUpdated);
+
+        User returnedUser = personDAO.loadPersonByID(id);
+
+        // Then: Verify the output or expected result
+        assertNotNull(returnedUser.getApartments());
+        assertEquals(userWillBeUpdated.getApartments().size(), returnedUser.getApartments().size());
+    }
+
+    @Test
+    @DisplayName("Test adding and updating Apartments to Person")
+    void addApartmentToPersonAndUpdateAdd(){
+        // Given: Setup object or precondition
+        Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
+                2553, "street1", null,null);
+        Apartment testApartment2 = Apartment.createApartment(10, 8, 10,
+                2553, "street2", null,null);
+        List<Apartment> expectedApartmentList = Arrays.asList(testApartment1);
+
+        List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
+        User testUser1 = User.createUser("Bob","Jar","bob@jar.com",
+                123456789,null);
+
+        // When: Action or behavior that we are going to test
+        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment, ProcessToDo.NEW));
+        testUser1.setApartments(apartmentDAO.loadAllApartments());
+
+        Long id = personDAO.addUpdatePerson(testUser1);
+
+        User userWillBeUpdated = personDAO.loadPersonByID(id);
+        userWillBeUpdated.addApartment(testApartment2);
+        personDAO.addUpdatePerson(userWillBeUpdated);
+
+        User returnedUser = personDAO.loadPersonByID(id);
+
+        // Then: Verify the output or expected result
+        assertNotNull(returnedUser.getApartments());
+        assertEquals(userWillBeUpdated.getApartments().size(), returnedUser.getApartments().size());
     }
 
 }

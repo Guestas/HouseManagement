@@ -56,12 +56,14 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames) {
-        return personDAO.loadPersonByLastOrFirstName(oneOfNames);
+        List<T> connectedPersons = (List<T>) personDAO.loadPersonByLastOrFirstNameAndType(oneOfNames, User.class);
+        connectedPersons.addAll((List<T>) personDAO.loadPersonByLastOrFirstNameAndType(oneOfNames, Owner.class));
+        return connectedPersons;
     }
 
     @Override
-    public Class<?> loadPersonByIDGetClass(Long id) {
-        return personDAO.loadPersonByIDGetClass(id);
+    public <T extends Person> T loadPersonByID(Long id) {
+        return personDAO.loadPersonByID(id);
     }
 
     @Override

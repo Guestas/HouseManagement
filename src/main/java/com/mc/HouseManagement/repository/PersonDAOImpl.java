@@ -1,7 +1,10 @@
 package com.mc.HouseManagement.repository;
 
 import com.mc.HouseManagement.api.adedExceptions.DataNotFoundException;
+import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
+import com.mc.HouseManagement.entity.SoldMovedOut;
+import com.mc.HouseManagement.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -86,32 +89,24 @@ public class PersonDAOImpl implements PersonDAO{
     }
 
     @Override
-    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames) {
-        try {
-            String queryString = "SELECT p FROM person p WHERE lastName=:theData or firstName=:theData";
-            Query nativeQuery = entityManager.createNativeQuery(queryString);
-            List<T> li = nativeQuery.setParameter("theData", oneOfNames).getResultList();
-            System.out.println(li);
-            return new ArrayList<>();
-        } catch (DataNotFoundException e){
-            return new ArrayList<>();
-        }
-    }
-
-    @Override
-    public <T extends Person> Class<T> loadPersonByIDGetClass(Long id) {
+    public <T extends Person> T loadPersonByID(Long id) {
         try {
             String queryString = "SELECT p.person_type FROM person p WHERE id=:theData";
             Query nativeQuery = entityManager.createNativeQuery(queryString);
-            var li = nativeQuery.setParameter("theData", id).getResultList().get(0);
-
-            System.out.println(li);
-            System.out.println(li);
+            var li = nativeQuery.setParameter("theData", id).getResultList();
+            if (!li.isEmpty()){
+                var out = switch (li.get(0).toString()){
+                    case "Owner" -> entityManager.find(Owner.class, id);
+                    case "User" -> entityManager.find(User.class, id);
+                    case "Sold_moved_out" -> entityManager.find(SoldMovedOut.class, id);
+                    default -> null;
+                };
+                return (T) out;
+            }
             return null;
         } catch (DataNotFoundException e){
             return null;
         }
     }
-
 
 }
