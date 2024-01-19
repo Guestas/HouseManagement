@@ -49,8 +49,6 @@ public class ControllerREST {
 
         if (load) personArrayList.forEach(personService::addUpdatePerson);
 
-        //personService.loadAllPersons(Person.class).forEach(person -> System.out.println("1"+person.getFirstName()));
-
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
                 2553, "street1", null,null);
         Apartment testApartment2 = Apartment.createApartment(10, 8, 10,
@@ -65,7 +63,7 @@ public class ControllerREST {
                 "Early meeting", topics1, null);
         if (load) houseMeetingService.addUpdateHouseMeeting(testHouseMeeting);
 
-        System.out.println("loading");
+        if (load) System.out.println("loaded");
 
         //houseMeetingService.addApartmentToHouseMeeting(1L, 2L);
         //personService.addApartmentToPerson(2L, User.class, 2L);
