@@ -1,6 +1,5 @@
 package com.mc.HouseManagement.repository;
 
-import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +48,7 @@ class PersonDAOImplTest {
     void canAddOwnerLoadByIdAndUpdate() {
         // Given: Setup object or precondition
         Owner testOwner = Owner.createOwner("Anne","Jar","anne@jar.com",
-                987654321,null);
+                987654321L,null);
 
         testAddPersonAndLoadByIdThenUpdateThisPerson(testOwner);
     }
@@ -59,7 +58,7 @@ class PersonDAOImplTest {
     void canAddUserLoadByIdAndUpdate() {
         // Given: Setup object or precondition
         User testUser = User.createUser("Anne","Jar","anne@jar.com",
-                987654321,null);
+                987654321L,null);
 
         testAddPersonAndLoadByIdThenUpdateThisPerson(testUser);
     }
@@ -69,7 +68,7 @@ class PersonDAOImplTest {
     void canAddSoldMovedOutLoadByIdAndUpdate() {
         // Given: Setup object or precondition
         SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("Bob","Jar","bob@jar.com",
-                123456789,null);
+                123456789L,null);
 
         testAddPersonAndLoadByIdThenUpdateThisPerson(testSoldMovedOut);
     }
@@ -108,7 +107,7 @@ class PersonDAOImplTest {
     void canAddOwnerAndDeleteById() {
         // Given: Setup object or precondition
         Owner testOwner = Owner.createOwner("Anne","Jar","anne@jar.com",
-                987654321,null);
+                987654321L,null);
 
         testAddPersonAndDeleteById(testOwner);
     }
@@ -118,7 +117,7 @@ class PersonDAOImplTest {
     void canAddUserAndDeleteById() {
         // Given: Setup object or precondition
         User testUser = User.createUser("Anne","Jar","anne@jar.com",
-                987654321,null);
+                987654321L,null);
 
         testAddPersonAndDeleteById(testUser);
     }
@@ -128,7 +127,7 @@ class PersonDAOImplTest {
     void canAddSoldMovedOutAndDeleteById() {
         // Given: Setup object or precondition
         SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("Anne","Jar","anne@jar.com",
-                987654321,null);
+                987654321L,null);
 
         testAddPersonAndDeleteById(testSoldMovedOut);
     }
@@ -136,7 +135,7 @@ class PersonDAOImplTest {
     private <T extends Person> void testAddPersonAndDeleteById(T testPerson){
         // When: Action or behavior that we are going to test
         Long id = personDAO.addUpdatePerson(testPerson);
-        Long deletedPersonId = personDAO.deleteById(id, testPerson.getClass());
+        Long deletedPersonId = personDAO.deleteById(id);
 
         // Then: Verify the output or expected result
         assertEquals(deletedPersonId, id);
@@ -151,9 +150,9 @@ class PersonDAOImplTest {
     void canLoadAllOwners() {
         // Given: Setup object or precondition
         Owner testOwner1 = Owner.createOwner("Bob","Jar","bob@jar.com",
-                123456789,null);
+                123456789L,null);
         Owner testOwner2 = Owner.createOwner("Anne","Jar","anne@jar.com",
-                987654321,null);
+                987654321L,null);
         List<Owner> expectedOwnersList = Arrays.asList(testOwner1,testOwner2);
 
         testLoadMultiplePersons(expectedOwnersList, Owner.class);
@@ -164,9 +163,9 @@ class PersonDAOImplTest {
     void canLoadAllUsers() {
         // Given: Setup object or precondition
         User testUser1 = User.createUser("Bob","Jar","bob@jar.com",
-                123456789,null);
+                123456789L,null);
         User testUser2 = User.createUser("Anne","Jar","anne@jar.com",
-                987654321,null);
+                987654321L,null);
         List<User> expectedUsersList = Arrays.asList(testUser1,testUser2);
 
         testLoadMultiplePersons(expectedUsersList, User.class);
@@ -177,9 +176,9 @@ class PersonDAOImplTest {
     void canLoadAllSoldMovedOuts() {
         // Given: Setup object or precondition
         SoldMovedOut testSoldMovedOut1 = SoldMovedOut.createSoldMovedOut("Bob","Jar","bob@jar.com",
-                123456789,null);
+                123456789L,null);
         SoldMovedOut testSoldMovedOut2 = SoldMovedOut.createSoldMovedOut("Anne","Jar","anne@jar.com",
-                987654321,null);
+                987654321L,null);
         List<SoldMovedOut> expectedSoldMovedOutsList = Arrays.asList(testSoldMovedOut1,testSoldMovedOut2);
         
         testLoadMultiplePersons(expectedSoldMovedOutsList, SoldMovedOut.class);
@@ -205,13 +204,13 @@ class PersonDAOImplTest {
     void canLoadPersonByLastOrFirstNameAndType() {
         // Given: Setup object or precondition
         Person testOwner1 = new Person("Bob","Jara","bob@jar.com",
-                123456789,null);
+                123456789L,null);
         Person testOwner2 = new Person("Anne","Jara","anne@jar.com",
-                987654321,null);
+                987654321L,null);
         Person testOwner3 = new Person("Diana","Anne","diana@anne.com",
-                987654321,null);
+                987654321L,null);
         Person testOwner4 = new Person("Jara","Anne","diana@anne.com",
-                987654321,null);
+                987654321L,null);
         List<Person> expectedOwnersList = Arrays.asList(testOwner1,testOwner2,testOwner3,testOwner4);
 
         // When: Action or behavior that we are going to test
@@ -231,13 +230,13 @@ class PersonDAOImplTest {
     <T extends Person> void loadingAllPersonsByNameOrLName(){
         // Given: Setup object or precondition
         Person testOwner1 = new Person("Bob","Jara","bob@jar.com",
-                123456789,null);
+                123456789L,null);
         Owner testOwner2 = new Owner("Anne","Jara","anne@jar.com",
-                987654321,null);
+                987654321L,null);
         SoldMovedOut testOwner3 = new SoldMovedOut("Diana","Jara","diana@anne.com",
-                987654321,null);
+                987654321L,null);
         User testOwner4 = new User("Kala","Anne","diana@anne.com",
-                987654321,null);
+                987654321L,null);
         List<T> expectedOwnersList = new ArrayList<>();
         expectedOwnersList.add((T) testOwner1);
         expectedOwnersList.add((T) testOwner2);
@@ -270,10 +269,10 @@ class PersonDAOImplTest {
 
         List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
         User testUser1 = User.createUser("Bob","Jar","bob@jar.com",
-                123456789,null);
+                123456789L,null);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment, ProcessToDo.NEW));
+        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment));
         testUser1.setApartments(apartmentDAO.loadAllApartments());
 
         Long id = personDAO.addUpdatePerson(testUser1);
@@ -301,10 +300,10 @@ class PersonDAOImplTest {
 
         List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
         User testUser1 = User.createUser("Bob","Jar","bob@jar.com",
-                123456789,null);
+                123456789L,null);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment, ProcessToDo.NEW));
+        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment));
         testUser1.setApartments(apartmentDAO.loadAllApartments());
 
         Long id = personDAO.addUpdatePerson(testUser1);

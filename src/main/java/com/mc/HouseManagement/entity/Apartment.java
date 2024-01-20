@@ -1,6 +1,9 @@
 package com.mc.HouseManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,16 +17,25 @@ public class Apartment {
     @Column(name="id")
     private Long id;
     @Column(name="vote-value")
+    @NotNull(message = "Vote value cannot be null.")
+    @Min(value = 1, message = "Min vote value is 1.")
     private Integer voteValue;
     @Column(name="branch")
+    @NotNull(message = "Branch antenna cannot be null.")
+    @Min(value = 1, message = "Min vote value is 1.")
     private Integer branchAntenna;
     @Column(name="flor")
+    @NotNull(message = "Flor cannot be null.")
     private Integer flor;
     @Column(name="addressN")
+    @NotNull(message = "Branch antenna cannot be null.")
+    @Min(value = 1, message = "Min address is 1.")
     private Integer address;
+    @NotNull(message = "Street name cannot be null.")
     @Column(name="street")
     private String  street;
 
+    @JsonBackReference //will prevent cycling!!
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE,
                     CascadeType.DETACH, CascadeType.REFRESH})
@@ -32,6 +44,7 @@ public class Apartment {
             inverseJoinColumns = @JoinColumn(name = "house_meeting_id"))
     private List<HouseMeeting> absolvedMeetings;
 
+    @JsonBackReference //will prevent cycling!!
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE,
                     CascadeType.REFRESH, CascadeType.DETACH})

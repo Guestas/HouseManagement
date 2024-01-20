@@ -1,6 +1,7 @@
 package com.mc.HouseManagement.service;
 
 import com.mc.HouseManagement.entity.*;
+import com.mc.HouseManagement.api.dto.person.AddUpdateNewPerson;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public <T extends Person> Long addUpdatePerson(T person) {
-        return personDAO.addUpdatePerson(person);
+    public Long addUpdatePerson(AddUpdateNewPerson addUpdateNewPerson) {
+        return personDAO.addUpdatePerson(addUpdateNewPerson.getPersonWitType());
     }
 
     @Override
@@ -28,6 +29,7 @@ public class PersonServiceImpl implements PersonService{
         return personDAO.getPersonById(id, tClass);
     }
 
+    /** Return list of Persons if tClass is Person.class it will return User and Owner. Else Return given type. **/
     @Override
     public <T extends Person> List<T> loadAllPersons(Class<T> tClass) {
         if (tClass.equals(Person.class)){
@@ -40,8 +42,8 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public <T extends Person> Long deleteById(Long id, Class<T> tClass) {
-        return personDAO.deleteById(id, tClass);
+    public <T extends Person> Long deleteById(Long id) {
+        return personDAO.deleteById(id);
     }
 
     @Override
@@ -67,22 +69,28 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public <T extends Person> Long addApartmentToPerson(Long personID, Class<T> tClass, Long apartmentId) {
-        T person = personDAO.getPersonById(personID, tClass);
+    public <T extends Person> Long addApartmentToPerson(Long personID, Long apartmentId) {
+        T person = personDAO.loadPersonByID(personID);
         Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
-
-        person.addApartment(apartment);
-
+        if (person==null)
+            return -1L;
+        else if (apartment == null)
+            return -2L;
+        else
+            person.addApartment(apartment);
         return personDAO.addUpdatePerson(person);
     }
 
     @Override
-    public <T extends Person> Long delApartmentFromPerson(Long personID, Class<T> tClass, Long apartmentId) {
-        T person = personDAO.getPersonById(personID, tClass);
+    public <T extends Person> Long delApartmentFromPerson(Long personID, Long apartmentId) {
+        T person = personDAO.loadPersonByID(personID);
         Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
-
-        person.delApartment(apartment);
-
+        if (person==null)
+            return -1L;
+        else if (apartment == null)
+            return -2L;
+        else
+            person.delApartment(apartment);
         return personDAO.addUpdatePerson(person);
     }
 

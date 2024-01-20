@@ -8,5 +8,6 @@ public interface HouseMeetingDAO {
     public Long addUpdateHouseMeeting(HouseMeeting houseMeeting);
     public HouseMeeting getHouseMeetingById(Long id);
     public List<HouseMeeting> loadAllHouseMeetings();
+    public Long deleteHouseMeeting(Long id);
     public int deleteAllHouseMeetings();
 }

@@ -40,19 +40,30 @@ public class HouseMeetingServiceImpl implements HouseMeetingService {
     public Long addApartmentToHouseMeeting(Long houseMeetingID, Long apartmentId) {
         HouseMeeting houseMeeting = houseMeetingDAO.getHouseMeetingById(houseMeetingID);
         Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
-
-        houseMeeting.addApartment(apartment);
-
+        if (houseMeeting==null)
+            return -1L;
+        else if (apartment == null)
+            return -2L;
+        else
+            houseMeeting.addApartment(apartment);
         return houseMeetingDAO.addUpdateHouseMeeting(houseMeeting);
+    }
+
+    @Override
+    public Long deleteHouseMeeting(Long id) {
+        return houseMeetingDAO.deleteHouseMeeting(id);
     }
 
     @Override
     public Long delApartmentFromHouseMeeting(Long houseMeetingID, Long apartmentId) {
         HouseMeeting houseMeeting = houseMeetingDAO.getHouseMeetingById(houseMeetingID);
         Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
-
-        houseMeeting.delApartment(apartment);
-
+        if (houseMeeting==null)
+            return -1L;
+        else if (apartment == null)
+            return -2L;
+        else
+            houseMeeting.delApartment(apartment);
         return houseMeetingDAO.addUpdateHouseMeeting(houseMeeting);
     }
 }

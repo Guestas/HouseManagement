@@ -2,6 +2,7 @@ package com.mc.HouseManagement.service;
 
 import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
+import com.mc.HouseManagement.api.dto.person.AddUpdateNewPerson;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,17 +34,17 @@ class PersonServiceImplTest {
     @Test
     void canAddPerson() {
         // Given: Setup object or precondition
-        Owner testOwner = Owner.createOwner("a","b","e",
-                123456,null);
+        AddUpdateNewPerson testPerson = AddUpdateNewPerson.creteAddUpdatePerson("a","b","e",
+                123456L,"Owner");
 
         // When: Action or behavior that we are going to test
-        personService.addUpdatePerson(testOwner);
+        personService.addUpdatePerson(testPerson);
 
         // Then: Verify the output or expected result
         ArgumentCaptor<Person> personArgumentCaptor = ArgumentCaptor.forClass(Person.class);
         verify(personDAO).addUpdatePerson(personArgumentCaptor.capture());
         Person capturedPerson = personArgumentCaptor.getValue();
-        assertThat(capturedPerson).isEqualTo(testOwner);
+        assertThat(capturedPerson).isEqualTo(testPerson.getPersonWitType());
     }
 
     @Test
@@ -52,9 +53,9 @@ class PersonServiceImplTest {
 
         // When: Action or behavior that we are going to test
         personService.getPersonById(1L, Owner.class);
+
         // Then: Verify the output or expected result
         verify(personDAO).getPersonById(1L, Owner.class);
-
     }
 
     @Test
@@ -66,7 +67,6 @@ class PersonServiceImplTest {
 
         // Then: Verify the output or expected result
         verify(personDAO).loadAllPersons(Owner.class);
-
     }
 
     @Test
@@ -74,10 +74,10 @@ class PersonServiceImplTest {
         // Given: Setup object or precondition
 
         // When: Action or behavior that we are going to test
-        personService.deleteById(1L, Owner.class);
+        personService.deleteById(1L);
 
         // Then: Verify the output or expected result
-        verify(personDAO).deleteById(1L, Owner.class);
+        verify(personDAO).deleteById(1L);
     }
 
     @Test

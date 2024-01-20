@@ -9,8 +9,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ControllerRESTTest {
-    @Autowired ControllerREST controllerREST;
+class ControllerRESTPersonTest {
+    @Autowired
+    ControllerRESTPerson controllerREST;
 
     @LocalServerPort
     private int port;
@@ -25,9 +26,9 @@ class ControllerRESTTest {
 
     @Test
     void greetingShouldReturnDefaultMessage() throws Exception {
-        System.out.println(this.testRestTemplate.getForObject("http://localhost:" + port + "/api/v1/",
+        System.out.println(this.testRestTemplate.getForObject("http://localhost:" + port + "/api/v1/persons/",
                 String.class));
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/api/v1/",
+        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/api/v1/persons/",
                 String.class)).contains("Hello, World");
     }
 

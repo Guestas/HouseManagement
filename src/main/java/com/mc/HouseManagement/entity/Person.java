@@ -1,15 +1,17 @@
 package com.mc.HouseManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "person_type", discriminatorType = DiscriminatorType.STRING)
-public class Person {
+public class Person implements Comparable<Person>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -25,11 +27,12 @@ public class Person {
     private String email;
 
     @Column(name="phone")
-    private Integer phone;
+    private Long phone;
 
     @Column(name="lastUpdate")
     private LocalDate lastUpdate;
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     @JoinTable(name="apartments_persons",
@@ -40,7 +43,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(String firstName, String lastName, String email, Integer phone, List<Apartment> apartments) {
+    public Person(String firstName, String lastName, String email, Long phone, List<Apartment> apartments) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -81,11 +84,11 @@ public class Person {
         this.email = email;
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 
@@ -120,6 +123,16 @@ public class Person {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Person person = (Person) obj;
+        return Objects.equals(this.getId(), person.getId()) &&
+                Objects.equals(this.getFirstName(), person.getFirstName()) &&
+                        Objects.equals(this.getLastName(), person.getLastName());
+    }
+
+    @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
@@ -129,5 +142,10 @@ public class Person {
                 ", phone=" + phone +
                 ", apartments=" + apartments +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        return this.id.compareTo(o.getId());
     }
 }

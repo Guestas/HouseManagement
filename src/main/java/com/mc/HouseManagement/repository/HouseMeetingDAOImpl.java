@@ -60,6 +60,18 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
 
     @Override
     @Transactional
+    public Long deleteHouseMeeting(Long id) {
+        System.out.println(id);
+        HouseMeeting entityToRemove = getHouseMeetingById(id);
+        System.out.println(entityToRemove);
+        entityManager.remove(entityToRemove);
+        HouseMeeting checkEntity = getHouseMeetingById(id);
+        System.out.println(checkEntity);
+        return checkEntity == null?entityToRemove.getId():-1;
+    }
+
+    @Override
+    @Transactional
     public int deleteAllHouseMeetings() {
         Query query = entityManager.createQuery("DELETE FROM HouseMeeting");
         return query.executeUpdate();

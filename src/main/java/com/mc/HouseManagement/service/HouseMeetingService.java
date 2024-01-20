@@ -9,5 +9,6 @@ public interface HouseMeetingService {
     public HouseMeeting getHouseMeetingById(Long id);
     public List<HouseMeeting> loadAllHouseMeetings();
     public Long addApartmentToHouseMeeting(Long houseMeetingID, Long apartmentId);
+    public Long deleteHouseMeeting(Long id);
     public Long delApartmentFromHouseMeeting(Long houseMeetingID, Long apartmentId);
 }

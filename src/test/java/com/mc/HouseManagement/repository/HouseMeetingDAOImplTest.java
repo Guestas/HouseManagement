@@ -1,6 +1,5 @@
 package com.mc.HouseManagement.repository;
 
-import com.mc.HouseManagement.ProcessToDo;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.HouseMeeting;
 import org.junit.jupiter.api.AfterEach;
@@ -94,7 +93,7 @@ class HouseMeetingDAOImplTest {
                 "Early meeting", topics1, null);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment, ProcessToDo.NEW));
+        expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
         testHouseMeeting.setApartments(apartmentDAO.loadAllApartments());
 
         Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);
@@ -121,7 +120,7 @@ class HouseMeetingDAOImplTest {
                 "Early meeting", topics1, null);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment, ProcessToDo.NEW));
+        expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
         testHouseMeeting.setApartments(apartmentDAO.loadAllApartments());
 
         Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);
@@ -152,7 +151,7 @@ class HouseMeetingDAOImplTest {
                 "Early meeting", topics1, null);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment, ProcessToDo.NEW));
+        expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
         testHouseMeeting.setApartments(apartmentDAO.loadAllApartments());
 
         Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);

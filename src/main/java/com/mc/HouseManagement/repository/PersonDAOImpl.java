@@ -53,18 +53,19 @@ public class PersonDAOImpl implements PersonDAO{
 
     @Override
     @Transactional
-    public <T extends Person> Long deleteById(Long id, Class<T> tClass) {
+    public <T extends Person> Long deleteById(Long id) {
         // Assuming entityManager is your EntityManager instance
 
         // Find the entity you want to remove
-        T entityToRemove = entityManager.find(tClass, id);
+        //T entityToRemove = entityManager.find(tClass, id);
+        T entityToRemove = loadPersonByID(id);
 
         // Remove the entity
         entityManager.remove(entityToRemove);
         // Check if the entity is still present in the database
-        T checkEntity = entityManager.find(tClass, id);
+        T checkEntity = loadPersonByID(id);
 
-        return checkEntity == null?entityToRemove.getId():null;
+        return checkEntity == null?entityToRemove.getId():-1;
     }
 
 
