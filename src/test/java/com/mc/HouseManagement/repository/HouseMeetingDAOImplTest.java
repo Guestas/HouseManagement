@@ -13,8 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -57,6 +56,23 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
+    @DisplayName("Test Adding HouseMeeting and delete it by ID")
+    void canAddAndDeleteByIDHouseMeeting() {
+        // Given: Setup object or precondition
+        List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
+        HouseMeeting testHouseMeeting = HouseMeeting.createHouseMeeting("20-5-1998", "Early meeting", topics,null);
+
+        // When: Action or behavior that we are going to test
+        Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);
+        Long deleted = houseMeetingDAO.deleteHouseMeeting(id);
+
+        HouseMeeting returned = houseMeetingDAO.getHouseMeetingById(id);
+        // Then: Verify the output or expected result
+        assertEquals(id, deleted);
+        assertNull(returned);
+    }
+
+    @Test
     @DisplayName("Test Loading all HouseMeetings")
     void canLoadAllHouseMeetings() {
         // Given: Setup object or precondition
@@ -69,7 +85,6 @@ class HouseMeetingDAOImplTest {
         // When: Action or behavior that we are going to test
         expectedHouseMeetingsList.forEach(houseMeetingDAO::addUpdateHouseMeeting);
         List<HouseMeeting> returnedHouseMeetingList = houseMeetingDAO.loadAllHouseMeetings();
-        System.out.println(returnedHouseMeetingList);
 
         // Then: Verify the output or expected result
         assertNotNull(returnedHouseMeetingList);
@@ -106,7 +121,7 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test deleting and updating Apartments to Meetings")
+    @DisplayName("Test deleting Apartments from Meeting")
     void addApartmentToMeetingAndUpdateDel(){
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
@@ -137,7 +152,7 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test adding and updating Apartments to Meetings")
+    @DisplayName("Test adding Apartments to Meeting after adding will be removing som apartments")
     void addApartmentToMeetingAndUpdateAdd(){
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,

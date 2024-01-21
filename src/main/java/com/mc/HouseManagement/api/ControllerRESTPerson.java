@@ -98,10 +98,8 @@ public class ControllerRESTPerson {
 
     @PutMapping("/multiple")
     public int updatePersons(@Valid @RequestBody AddUpdateNewPersons addUpdateNewPersons){
-        System.out.println(addUpdateNewPersons.getPersons().get(0).getFirstName());
         addUpdateNewPersons.getPersons().forEach(person -> {
             Person personFromDB = personService.loadPersonByID(person.getId());
-            System.out.println(person);
             if (personFromDB == null){
                 throw new DataNotFoundException(person.getTypeOfUser()
                         + " not found with id: "

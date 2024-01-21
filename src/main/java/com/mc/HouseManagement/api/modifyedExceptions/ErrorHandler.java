@@ -48,7 +48,6 @@ public class ErrorHandler {
     /** Universal return exception. **/
     @ExceptionHandler
     public ResponseEntity<UserErrorResponse> handleException(Exception exc){
-        System.out.println("Error " + exc);
         UserErrorResponse err = new UserErrorResponse();
         err.setStat(HttpStatus.BAD_REQUEST.value());
         err.setMessage(exc.getMessage());

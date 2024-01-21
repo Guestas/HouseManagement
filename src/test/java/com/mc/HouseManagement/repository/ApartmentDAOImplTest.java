@@ -22,12 +22,10 @@ class ApartmentDAOImplTest {
 
 
     private final ApartmentDAO apartmentDAO;
-    private final HouseMeetingDAO houseMeetingDAO;
 
     @Autowired
-    public ApartmentDAOImplTest(ApartmentDAO apartmentDAO, HouseMeetingDAO houseMeetingDAO){
+    public ApartmentDAOImplTest(ApartmentDAO apartmentDAO){
         this.apartmentDAO = apartmentDAO;
-        this.houseMeetingDAO = houseMeetingDAO;
     }
 
     @AfterEach

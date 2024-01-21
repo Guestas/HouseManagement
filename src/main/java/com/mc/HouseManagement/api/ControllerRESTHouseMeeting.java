@@ -48,14 +48,13 @@ public class ControllerRESTHouseMeeting {
 
     @PostMapping("/")
     public Long addHouseMeeting(@RequestBody AddUpdateHouseMeeting addNewHouseMeeting){
-        System.out.println(addNewHouseMeeting.getHouseMeeting());
         return houseMeetingService.addUpdateHouseMeeting(addNewHouseMeeting.getHouseMeeting());
     }
 
     @PutMapping("/")
     public Long updateHouseMeeting(@RequestBody AddUpdateHouseMeeting addUpdateHouseMeeting){
         HouseMeeting houseMeetingToUp = houseMeetingService.getHouseMeetingById(addUpdateHouseMeeting.getId());
-        if (houseMeetingToUp!=null)
+        if (houseMeetingToUp==null)
             throw new DataNotFoundException("House meeting not found with id: " + addUpdateHouseMeeting.getId());
         return houseMeetingService.addUpdateHouseMeeting(houseMeetingToUp);
     }

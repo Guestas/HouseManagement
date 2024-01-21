@@ -44,7 +44,7 @@ class PersonDAOImplTest {
 */
 
     @Test
-    @DisplayName("Test Owner for Add then load by ID finally Update this Owner")
+    @DisplayName("Test Owner Add then load by ID finally Update this Owner")
     void canAddOwnerLoadByIdAndUpdate() {
         // Given: Setup object or precondition
         Owner testOwner = Owner.createOwner("Anne","Jar","anne@jar.com",
@@ -54,7 +54,7 @@ class PersonDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test User for Add then load by ID finally Update this User")
+    @DisplayName("Test User Add then load by ID finally Update this User")
     void canAddUserLoadByIdAndUpdate() {
         // Given: Setup object or precondition
         User testUser = User.createUser("Anne","Jar","anne@jar.com",
@@ -64,7 +64,7 @@ class PersonDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test SoldMovedOut for Add then load by ID finally Update this SoldMovedOut")
+    @DisplayName("Test SoldMovedOut Add then load by ID finally Update this SoldMovedOut")
     void canAddSoldMovedOutLoadByIdAndUpdate() {
         // Given: Setup object or precondition
         SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("Bob","Jar","bob@jar.com",
@@ -79,21 +79,18 @@ class PersonDAOImplTest {
         // When: Action or behavior that we are going to test
         Long id = personDAO.addUpdatePerson(testPerson);
         Person retrieve = personDAO.getPersonById(id, testPerson.getClass());
-        System.out.println(retrieve);
+
         // Then: Verify the output or expected result
         assertNotNull(retrieve.getFirstName());
         assertEquals(retrieve.getFirstName(), testPerson.getFirstName());
 
         // When: Action or behavior that we are going to test
         testPerson.setId(retrieve.getId());
-        System.out.println(testPerson);
         testPerson.setFirstName("Joe");
-        System.out.println(testPerson);
         personDAO.addUpdatePerson(testPerson);
 
         // Then: Verify the output or expected result
         retrieve = personDAO.getPersonById(id, testPerson.getClass());
-        System.out.println(retrieve);
         assertNotNull(retrieve.getFirstName());
         assertEquals(retrieve.getFirstName(), testPerson.getFirstName());
     }
@@ -103,7 +100,7 @@ class PersonDAOImplTest {
 */
 
     @Test
-    @DisplayName("Test Owner for Add then Delete by ID")
+    @DisplayName("Test Owner Delete by ID")
     void canAddOwnerAndDeleteById() {
         // Given: Setup object or precondition
         Owner testOwner = Owner.createOwner("Anne","Jar","anne@jar.com",
@@ -113,7 +110,7 @@ class PersonDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test AddUser for Add then Delete by ID")
+    @DisplayName("Test AddUser Delete by ID")
     void canAddUserAndDeleteById() {
         // Given: Setup object or precondition
         User testUser = User.createUser("Anne","Jar","anne@jar.com",
@@ -123,7 +120,7 @@ class PersonDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test MovedOutAndDelete for Add then Delete by ID")
+    @DisplayName("Test MovedOut Delete by ID")
     void canAddSoldMovedOutAndDeleteById() {
         // Given: Setup object or precondition
         SoldMovedOut testSoldMovedOut = SoldMovedOut.createSoldMovedOut("Anne","Jar","anne@jar.com",
@@ -200,7 +197,7 @@ class PersonDAOImplTest {
 */
 
     @Test
-    @DisplayName("Test Load Person by First andLast name")
+    @DisplayName("Test Load Person by First and Last name")
     void canLoadPersonByLastOrFirstNameAndType() {
         // Given: Setup object or precondition
         Person testOwner1 = new Person("Bob","Jara","bob@jar.com",
@@ -272,7 +269,7 @@ class PersonDAOImplTest {
                 123456789L,null);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment));
+        expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
         testUser1.setApartments(apartmentDAO.loadAllApartments());
 
         Long id = personDAO.addUpdatePerson(testUser1);
@@ -303,7 +300,7 @@ class PersonDAOImplTest {
                 123456789L,null);
 
         // When: Action or behavior that we are going to test
-        expectedApartmentList.forEach(apartment -> apartmentDAO.addUpdateApartment(apartment));
+        expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
         testUser1.setApartments(apartmentDAO.loadAllApartments());
 
         Long id = personDAO.addUpdatePerson(testUser1);

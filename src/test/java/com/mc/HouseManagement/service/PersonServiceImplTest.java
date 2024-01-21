@@ -13,8 +13,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -81,13 +87,31 @@ class PersonServiceImplTest {
     }
 
     @Test
-    //@Disabled
-    void deleteAllPersons() {
-        // Given: Setup object or precondition
+    public void testLoadPersonByLastOrFirstNameAndType() {
 
-        // When: Action or behavior that we are going to test
+        // Sample input data
+        String oneOfNames = "John";
+        Class<Person> personClass = Person.class;
 
-        // Then: Verify the output or expected result
+        // Sample data to be returned by the mock
+        AddUpdateNewPerson testPerson1 = AddUpdateNewPerson.creteAddUpdatePerson("a","b","e",
+                123456L,"Owner");
+        AddUpdateNewPerson testPerson2 = AddUpdateNewPerson.creteAddUpdatePerson("a","b","e",
+                123456L,"Owner");
+        List<Person> expectedResults = Arrays.asList(testPerson1.getPersonWitType(), testPerson2.getPersonWitType());
+
+        // Configuring the mock behavior
+        when(personDAO.loadPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(personClass)))
+                .thenReturn(expectedResults);
+
+        // Calling the method under test
+        List<Person> actualResults = personService.loadPersonByLastOrFirstNameAndType(oneOfNames, personClass);
+
+        // Verifying the mock interactions
+        verify(personDAO).loadPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(personClass));
+
+        // Asserting the results
+        assertEquals(expectedResults, actualResults);
     }
 
 }
