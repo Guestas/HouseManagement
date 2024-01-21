@@ -132,6 +132,7 @@ public class Person implements Comparable<Person>{
                         Objects.equals(this.getLastName(), person.getLastName());
     }
 
+    /** This function returns string with values in Person. **/
     @Override
     public String toString() {
         return "Person{" +

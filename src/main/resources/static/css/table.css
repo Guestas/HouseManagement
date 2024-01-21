@@ -1,0 +1,42 @@
+/*Table*/
+.table-container {
+    max-height: 60vh; /* Set a maximum height for the table container */
+    overflow-y: auto; /* Enable vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    width: 80%;
+    padding-left: 10%;
+    min-width: 700px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background-color: #000; /* Change to desired background color */
+    z-index: 1; /* Ensure header appears on top of other content */
+}
+
+th{
+    background: black;
+}
+
+thead th, tbody td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd; /* Add borders between rows/columns */
+}
+
+/* Define styles for table rows */
+tr {
+    background-color: #333; /* Dark background color */
+    color: #fff; /* Light text color */
+}
+
+/* Define hover effect for table rows */
+tr:hover {
+    background-color: #555; /* Darker background color on hover */
+}

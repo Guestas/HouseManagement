@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/css/table.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div th:replace="~{fragments/menu :: menu}"></div>
+<h1>Tab of Apartments</h1>
+<div class="table-container">
+    <table>
+        <thead>
+        <tr>
+            <th>Number</th>
+            <th>Flor</th>
+            <th>Branch</th>
+            <th>Street</th>
+            <th>Vote value</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="apartment:${allApartmentList}">
+            <td th:text="${apartment.id}"></td>
+            <td th:text="${apartment.flor}"></td>
+            <td th:text="${apartment.branchAntenna}"></td>
+            <td th:text="${apartment.street}"></td>
+            <td th:text="${apartment.voteValue}"></td>
+            <td>
+                <form th:action="@{/api/v2/apartments/{id}(id=${apartment.id})}" th:method="GET">
+                    <input type="hidden" name="_method" value="GET" />
+                    <button type="submit" class="btn btn-danger">Load</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="~{fragments/menu :: footer}"></div>
+</body>
+
+</html>

@@ -26,9 +26,9 @@ class ControllerRESTPersonTest {
 
     @Test
     void greetingShouldReturnDefaultMessage() throws Exception {
-        System.out.println(this.testRestTemplate.getForObject("http://localhost:" + port + "/api/v1/persons/",
+        System.out.println(this.testRestTemplate.getForObject("http://localhost:" + port + "/api/v1/persons",
                 String.class));
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/api/v1/persons/",
+        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/api/v1/persons",
                 String.class)).contains("Hello, World");
     }
 

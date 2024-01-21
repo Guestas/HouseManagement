@@ -1,6 +1,6 @@
 package com.mc.HouseManagement.api;
 
-import com.mc.HouseManagement.api.adedExceptions.DataNotFoundException;
+import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.api.dto.person.AddApartmentToPerson;
 import com.mc.HouseManagement.api.dto.person.AddUpdateNewPerson;
 import com.mc.HouseManagement.api.dto.person.AddUpdateNewPersons;
@@ -8,6 +8,8 @@ import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +32,12 @@ public class ControllerRESTPerson {
     // Created request's by type POST, PUT, GET and DEL this will communicate with Web browser or Postman ...
     @PostConstruct //caled once after start to download new data or other functionality
     public void loadData(){
-        System.out.println("Rest controller person started!");
+        //TODO finish logger
+        Logger logger = LoggerFactory.getLogger(ControllerApartment.class);
+        logger.debug("Rest controller person started!");
     }
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public @ResponseBody String greeting() {
         return "Hello, World";
     }

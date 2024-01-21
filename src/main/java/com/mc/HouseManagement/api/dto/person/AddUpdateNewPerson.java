@@ -98,27 +98,11 @@ public class AddUpdateNewPerson {
         return typeOfUser;
     }
 
-    public User getUser(){
-        User user = User.createUser(firstName, lastName, email, phone, null);
-        if (id!=null)
-            user.setId(id);
-        return user;
-    };
-
-    public Owner getOwner(){
-        Owner owner = Owner.createOwner(firstName, lastName, email, phone, null);
-        if (id!=null)
-            owner.setId(id);
-        return owner;
-    }
-
-    public SoldMovedOut getSoldMovedOut(){
-        SoldMovedOut soldMovedOut = SoldMovedOut.createSoldMovedOut(firstName, lastName, email, phone, null);
-        if (id!=null)
-            soldMovedOut.setId(id);
-        return soldMovedOut;
-    }
-
+    /**
+     * Creates and returns a Person based on the typeOfUser.
+     *
+     * @return Person object based on the typeOfUser, or null if the type is unknown.
+     */
     public Person getPersonWitType() {
         if ("User".equals(typeOfUser)) {
             User user = User.createUser(firstName, lastName, email, phone, null);
@@ -138,13 +122,6 @@ public class AddUpdateNewPerson {
         } else {
             return null;
         }
-    }
-
-    public Person getPerson(){
-        Person person = new Person(firstName, lastName, email, phone, null);
-        if (id!=null)
-            person.setId(id);
-        return person;
     }
 
     public static AddUpdateNewPerson creteAddUpdatePerson(String firstName, String lastName, String email, Long phone, String typeOfUser){

@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-
+/** Apartment is blueprint for table of apartments. **/
 @Entity
 @Table(name="Apartment")
 public class Apartment {
@@ -129,7 +129,7 @@ public class Apartment {
     public void setPersonsInApartment(List<Person> personsInApartment) {
         this.personsInApartment = personsInApartment;
     }
-
+    /** This function compare Classes, Ids of objects if CLass and Id is different it returns False else True. **/
     @Override
     public boolean equals(Object obj) {
         if (super.equals(obj)) return true;
@@ -138,6 +138,7 @@ public class Apartment {
         return Objects.equals(this.getId(), apartment.getId());
     }
 
+    /** Returns string with values from apartment. **/
     @Override
     public String toString() {
         return "Apartment{" +
@@ -150,6 +151,7 @@ public class Apartment {
                 '}';
     }
 
+    /** This function returns Apartment with values which are described above. **/
     public static Apartment createApartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street, List<HouseMeeting> absolvedMeetings, List<Person> personsInApartment){
         return new Apartment(voteValue, branchAntenna, flor, address,street, absolvedMeetings, personsInApartment);
     }

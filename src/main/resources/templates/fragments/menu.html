@@ -1,0 +1,12 @@
+<nav th:fragment="menu" xmlns:th="http://www.thymeleaf.org">
+  <ul class="nav-menu">
+    <li><a th:href="@{/}">Home</a></li>
+    <li><a th:href="@{/api/v2/persons/}">Persons</a></li>
+    <li><a th:href="@{/api/v2/persons/add}">Add Person</a></li>
+    <li><a th:href="@{/api/v2/apartments/}">Apartments</a></li>
+  </ul>
+</nav>
+
+<footer th:fragment="footer" xmlns:th="http://www.thymeleaf.org">
+  <p>This is the footer</p>
+</footer>

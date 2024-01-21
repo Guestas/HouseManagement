@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 
 import java.util.List;
 
+/** SoldMovedOut is blueprint for table of Sold Moved Out these will be in table Persons. **/
 @Entity
 @DiscriminatorValue("Sold_moved_out")
 public class SoldMovedOut extends Person{
@@ -15,6 +16,7 @@ public class SoldMovedOut extends Person{
         super(firstName,lastName,email,phone,apartments);
     }
 
+    /** This function returns SoldMovedOut with values which are described above. **/
     public static SoldMovedOut createSoldMovedOut(String firstName, String lastName, String email, Long phone, List<Apartment> apartments){
         return new SoldMovedOut(firstName,lastName,email,phone,apartments);
     }

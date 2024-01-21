@@ -13,8 +13,10 @@ public class HouseManagementApplication {
 		SpringApplication.run(HouseManagementApplication.class, args);
 
 		final Logger logger = LoggerFactory.getLogger(HouseManagementApplication.class);
+		//TODO finish rest of controllers with thymeleaf
+
 		logger.info("asdfasdf");
-		logger.error("dfsa");
+		//logger.error("dfsa");
 
 	}
 

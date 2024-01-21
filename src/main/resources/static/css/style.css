@@ -1,0 +1,70 @@
+body {
+  background-color: rgb(40, 40, 40);
+  text-align: center;
+  margin-block: 60px;
+}
+
+
+p {
+    font-family: sans-serif;
+    color: white;
+}
+
+
+/* Define styles for buttons */
+.btn {
+    color: #fff; /* Light text color for buttons */
+    background-color: #444; /* Dark button background color */
+    border: none;
+    margin: 3px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 15px;
+}
+
+/* Hover effect for buttons */
+.btn:hover {
+    background-color: #666; /* Darker button background color on hover */
+    cursor: pointer;
+}
+
+
+/*Menu*/
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    margin-left: 40px;
+    height: 60px;
+}
+
+.nav-menu li {
+    margin-inline: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: #bfbfbf; /* Set link color */
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-menu li a:hover {
+    background-color: #f0f0f0; /* Change background color on hover */
+    color: rgb(142, 88, 0);
+}
+
+/* Footer styles */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #000;
+    margin: -10px;
+}

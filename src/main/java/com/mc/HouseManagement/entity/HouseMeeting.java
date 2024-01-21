@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/** HouseMeeting is blueprint for table of HouseMeetings. **/
 @Entity
 @Table(name="HouseMeeting")
 public class HouseMeeting {
@@ -79,6 +80,7 @@ public class HouseMeeting {
         this.apartments = apartments;
     }
 
+    /** Check if apartment is in list if it is not it will add this apartment. **/
     public void addApartment(Apartment apartment){
         if (apartments == null){
             apartments = new ArrayList<>();
@@ -89,7 +91,7 @@ public class HouseMeeting {
         else
             System.out.println("Already in list");
     }
-
+    /** Check if apartment is in list if it is it will delete this apartment. **/
     public void delApartment(Apartment apartment){
         if (apartments == null){
             apartments = new ArrayList<>();
@@ -101,6 +103,7 @@ public class HouseMeeting {
             System.out.println("Not in list");
     }
 
+    /** Returns string with values from apartment. **/
     @Override
     public String toString() {
         return "HouseMeeting{" +
@@ -112,6 +115,7 @@ public class HouseMeeting {
                 '}';
     }
 
+    /** This function returns HouseMeeting with values which are described above. **/
     public static HouseMeeting createHouseMeeting(String date, String name, List<String> topics, List<Apartment> apartments){
         return new HouseMeeting(date,name, topics, apartments);
     }

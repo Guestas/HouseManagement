@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User add</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div th:replace="~{fragments/menu :: menu}"></div>
+
+<div class="container">
+    <h1>Add user</h1>
+    <hr>
+    <h2>Save User</h2>
+
+    <form action="#" th:action="@{/api/v2/persons/add}" th:object="${person}"
+          method="POST">
+        <div class="form-group">
+            <label for="firstName">First name:</label>
+            <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last name:</label>
+            <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" th:field="*{email}" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" class="form-control" id="phone" th:field="*{phone}" required>
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="typeOfUser" th:field="*{typeOfUser}">
+                <option value="Owner">Owner</option>
+                <option value="User">User</option>
+                <option value="SoldMovedOut">Sold Moved Out</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-info col-2">Save Person</button>
+    </form>
+
+    <hr>
+
+    <a th:href="@{/users/}"> Back to User List</a>
+</div>
+<script th:src="@{/js/check.js}"></script>
+
+<div th:replace="~{fragments/menu :: footer}"></div>
+</body>
+</html>

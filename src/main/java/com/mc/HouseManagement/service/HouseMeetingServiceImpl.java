@@ -37,6 +37,11 @@ public class HouseMeetingServiceImpl implements HouseMeetingService {
     }
 
     @Override
+    public Long deleteHouseMeeting(Long id) {
+        return houseMeetingDAO.deleteHouseMeeting(id);
+    }
+
+    @Override
     public Long addApartmentToHouseMeeting(Long houseMeetingID, Long apartmentId) {
         HouseMeeting houseMeeting = houseMeetingDAO.getHouseMeetingById(houseMeetingID);
         Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
@@ -47,11 +52,6 @@ public class HouseMeetingServiceImpl implements HouseMeetingService {
         else
             houseMeeting.addApartment(apartment);
         return houseMeetingDAO.addUpdateHouseMeeting(houseMeeting);
-    }
-
-    @Override
-    public Long deleteHouseMeeting(Long id) {
-        return houseMeetingDAO.deleteHouseMeeting(id);
     }
 
     @Override
@@ -66,4 +66,5 @@ public class HouseMeetingServiceImpl implements HouseMeetingService {
             houseMeeting.delApartment(apartment);
         return houseMeetingDAO.addUpdateHouseMeeting(houseMeeting);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.mc.HouseManagement.api.adedExceptions;
+package com.mc.HouseManagement.api.modifyedExceptions;
 
 public class UserErrorResponse {
     private int stat;

@@ -24,14 +24,6 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
     @Override
     @Transactional
     public Long addUpdateHouseMeeting(HouseMeeting houseMeeting) {
-        //TODO check it if it works propperly
-        /*if (houseMeeting.getId()==null)
-            return entityManager.merge(houseMeeting).getId();
-        else {
-            HouseMeeting existingMeeting = getHouseMeetingById(houseMeeting.getId());
-            existingMeeting.setApartments(houseMeeting.getApartments());
-            return entityManager.merge(existingMeeting).getId();
-        }*/
         return entityManager.merge(houseMeeting).getId();
     }
 
@@ -48,7 +40,6 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
         } catch (NoResultException e) {
             return entityManager.find(HouseMeeting.class, id);
         }
-        //return entityManager.find(HouseMeeting.class, id);
     }
 
     @Override

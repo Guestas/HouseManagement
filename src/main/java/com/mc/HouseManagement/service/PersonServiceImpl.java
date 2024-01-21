@@ -42,13 +42,8 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public <T extends Person> Long deleteById(Long id) {
+    public Long deleteById(Long id) {
         return personDAO.deleteById(id);
-    }
-
-    @Override
-    public int deleteAllPersons() {
-        return personDAO.deleteAllPersons();
     }
 
     @Override

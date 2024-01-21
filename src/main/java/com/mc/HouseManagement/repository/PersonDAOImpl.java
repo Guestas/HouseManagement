@@ -1,6 +1,6 @@
 package com.mc.HouseManagement.repository;
 
-import com.mc.HouseManagement.api.adedExceptions.DataNotFoundException;
+import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.entity.SoldMovedOut;
@@ -26,13 +26,6 @@ public class PersonDAOImpl implements PersonDAO{
     @Override
     @Transactional
     public <T extends Person> Long addUpdatePerson(T person) {
-        /*if (person.getId() == null)
-            return entityManager.merge(person).getId();
-        else {
-            var existingPerson = getPersonById(person.getId(), person.getClass());
-            existingPerson.setApartments(person.getApartments());
-            return entityManager.merge(existingPerson).getId();
-        }*/
         return entityManager.merge(person).getId();
     }
 
@@ -54,15 +47,9 @@ public class PersonDAOImpl implements PersonDAO{
     @Override
     @Transactional
     public <T extends Person> Long deleteById(Long id) {
-        // Assuming entityManager is your EntityManager instance
-
-        // Find the entity you want to remove
-        //T entityToRemove = entityManager.find(tClass, id);
         T entityToRemove = loadPersonByID(id);
 
-        // Remove the entity
         entityManager.remove(entityToRemove);
-        // Check if the entity is still present in the database
         T checkEntity = loadPersonByID(id);
 
         return checkEntity == null?entityToRemove.getId():-1;

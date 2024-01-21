@@ -1,6 +1,6 @@
 package com.mc.HouseManagement.api;
 
-import com.mc.HouseManagement.api.adedExceptions.DataNotFoundException;
+import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddApartmentToHouseMeeting;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeeting;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeetings;
@@ -8,6 +8,9 @@ import com.mc.HouseManagement.entity.HouseMeeting;
 import com.mc.HouseManagement.service.HouseMeetingService;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +21,16 @@ public class ControllerRESTHouseMeeting {
 
     HouseMeetingService houseMeetingService;
 
+    @Autowired
     public ControllerRESTHouseMeeting(HouseMeetingService houseMeetingService) {
         this.houseMeetingService = houseMeetingService;
     }
 
     @PostConstruct //caled once after start to download new data or other functionality
     public void loadData(){
-        System.out.println("Rest controller apartment started!");
+        //TODO finish logger
+        Logger logger = LoggerFactory.getLogger(ControllerApartment.class);
+        logger.debug("Rest controller apartment started!");
     }
 
     @GetMapping("/")
@@ -56,7 +62,10 @@ public class ControllerRESTHouseMeeting {
 
     @DeleteMapping("/{id}")
     public Long delHouseMeeting(@PathVariable Long id){
-        return houseMeetingService.deleteHouseMeeting(id);
+        Long result = houseMeetingService.deleteHouseMeeting(id);
+        if (result==-1)
+            throw new DataNotFoundException("House meeting not found with id: " + id);
+        return result;
     }
 
     @PostMapping("/multiple/")

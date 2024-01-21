@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @AutoConfigureTestDatabase
 @DisplayName("Testing of Person class and inherited classes")
 class PersonDAOImplTest {
-    private PersonDAO personDAO;
-    private ApartmentDAO apartmentDAO;
+    private final PersonDAO personDAO;
+    private final ApartmentDAO apartmentDAO;
 
     @Autowired
     public PersonDAOImplTest(PersonDAO personDAO, ApartmentDAO apartmentDAO) {

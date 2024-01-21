@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div th:replace="~{fragments/menu :: menu}"></div>
+
+
+<h1>API with HTML render</h1>
+<p>You can just control everything in this window.</p>
+<h1>REST API</h1>
+<article>
+    <h3 tabindex="-1" dir="auto"><a id="user-content-apartments-requests" class="anchor" aria-hidden="true" tabindex="-1" href="#apartments-requests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>Apartments requests:</h3>
+    <ol dir="auto">
+        <li>
+            <p dir="auto">Get all apartments in json: (GET) <a href="http://localhost:8080/api/apartments/" rel="nofollow">http://localhost:8080/api/apartments/</a></p>
+        </li>
+        <li>
+            <p dir="auto">Adding apartment to year meeting means Users have come there: (PUT) <a href="http://localhost:8080/api/apartments/" rel="nofollow">http://localhost:8080/api/apartments/</a> and json body</p>
+        </li>
+    </ol>
+    <p dir="auto"><code>{ "apartment":4, "houseMeeting":3 }</code></p>
+    <ol start="3" dir="auto">
+        <li>Get apartment by ID it is apartment number: (GET) <a href="http://localhost:8080/api/apartments/apartment_id" rel="nofollow">http://localhost:8080/api/apartments/apartment_id</a></li>
+    </ol>
+    <h3 tabindex="-1" dir="auto"><a id="user-content-users-requests" class="anchor" aria-hidden="true" tabindex="-1" href="#users-requests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>Users requests:</h3>
+    <ol dir="auto">
+        <li>
+            <p dir="auto">Get all users: (GET) <a href="http://localhost:8080/api/users/" rel="nofollow">http://localhost:8080/api/users/</a></p>
+        </li>
+        <li>
+            <p dir="auto">Get user by id: (GET) <a href="http://localhost:8080/api/users/user_id" rel="nofollow">http://localhost:8080/api/users/user_id</a></p>
+        </li>
+        <li>
+            <p dir="auto">Create new user: (POST) <a href="http://localhost:8080/api/users/" rel="nofollow">http://localhost:8080/api/users/</a> and json body</p>
+        </li>
+    </ol>
+    <p dir="auto"><code>{ "username":"Ala", "email":"ala@s.z", "phone":125432, "owner":true, "apartment":126 }</code></p>
+    <ol start="4" dir="auto">
+        <li>Update user: (PUT) <a href="http://localhost:8080/api/users/" rel="nofollow">http://localhost:8080/api/users/</a> and json body</li>
+    </ol>
+    <p dir="auto"><code>{ "id":"131", "username":"Ala", "email":"ala@s.z", "phone":125432, "owner":true, "apartment":2 }</code></p>
+    <ol start="5" dir="auto">
+        <li>Delete user: (DEL) <a href="http://localhost:8080/api/users/1user_id" rel="nofollow">http://localhost:8080/api/users/1user_id</a></li>
+    </ol>
+    <h3 tabindex="-1" dir="auto"><a id="user-content-meetings-requests" class="anchor" aria-hidden="true" tabindex="-1" href="#meetings-requests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a>Meetings requests:</h3>
+    <ol dir="auto">
+        <li>Create meeting: (POST) <a href="http://localhost:8080/api/houseMeetings/" rel="nofollow">http://localhost:8080/api/houseMeetings/</a> and json body</li>
+
+        <p dir="auto"><code>{ "date":"1.1.2001", "name":"Third Meeting.", "topics":[ "1. First topic. ", "2. Second topic. ", "3. Third topic. " ] }</code></p>
+
+        <li>
+            <p dir="auto">Get all meetings: (GET) <a href="http://localhost:8080/api/houseMeetings/" rel="nofollow">http://localhost:8080/api/houseMeetings/</a></p>
+        </li>
+        <li>
+            <p dir="auto">Get meeting by id: (GET) <a href="http://localhost:8080/api/houseMeetings/meeting_id" rel="nofollow">http://localhost:8080/api/houseMeetings/meeting_id</a></p>
+        </li>
+    </ol>
+</article>
+
+<div th:replace="~{fragments/menu :: footer}"></div>
+</body>
+</html>
