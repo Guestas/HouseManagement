@@ -15,7 +15,7 @@ public class HouseManagementApplication {
 		final Logger logger = LoggerFactory.getLogger(HouseManagementApplication.class);
 		//TODO finish rest of controllers with thymeleaf
 
-		logger.info("asdfasdf");
+		//logger.info("asdfasdf");
 		//logger.error("dfsa");
 
 	}

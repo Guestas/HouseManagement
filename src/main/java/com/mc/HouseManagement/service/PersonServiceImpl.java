@@ -29,7 +29,7 @@ public class PersonServiceImpl implements PersonService{
         return personDAO.getPersonById(id, tClass);
     }
 
-    /** Return list of Persons if tClass is Person.class it will return User and Owner. Else Return given type. **/
+
     @Override
     public <T extends Person> List<T> loadAllPersons(Class<T> tClass) {
         if (tClass.equals(Person.class)){
