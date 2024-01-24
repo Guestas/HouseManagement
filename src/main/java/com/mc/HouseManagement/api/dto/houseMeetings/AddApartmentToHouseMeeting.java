@@ -27,4 +27,5 @@ public class AddApartmentToHouseMeeting {
     public void setIdApartment(Long idApartment) {
         this.idApartment = idApartment;
     }
+
 }

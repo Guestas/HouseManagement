@@ -152,7 +152,7 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test adding Apartments to Meeting after adding will be removing som apartments")
+    @DisplayName("Test adding Apartments to Meeting after adding will be removing some apartments")
     void addApartmentToMeetingAndUpdateAdd(){
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,

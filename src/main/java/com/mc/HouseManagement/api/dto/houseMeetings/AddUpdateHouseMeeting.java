@@ -14,7 +14,13 @@ public class AddUpdateHouseMeeting {
 
     }
 
-    public AddUpdateHouseMeeting(long id, String date, String name, List<String> topics) {
+    public AddUpdateHouseMeeting( String date, String name, List<String> topics) {
+        this.date = date;
+        this.name = name;
+        this.topics = topics;
+    }
+
+    public AddUpdateHouseMeeting(Long id, String date, String name, List<String> topics) {
         this.id = id;
         this.date = date;
         this.name = name;
@@ -61,6 +67,9 @@ public class AddUpdateHouseMeeting {
         }
         else
             return new HouseMeeting(date, name, topics, null);
+    }
 
+    public static AddUpdateHouseMeeting createAddUpsateHouseMeeting(String date, String name, List<String> topics){
+        return new AddUpdateHouseMeeting(date, name, topics);
     }
 }

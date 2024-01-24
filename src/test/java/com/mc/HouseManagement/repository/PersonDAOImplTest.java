@@ -16,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Testing persons subclasses User, Owner and SoldMovedOut**/
 @SpringBootTest
 @AutoConfigureTestDatabase
 @DisplayName("Testing of Person class and inherited classes")
@@ -252,6 +254,20 @@ class PersonDAOImplTest {
 
         // Then: Verify the output or expected result
         assertThat(actualSize1+actualSize2).isEqualTo(expectedSize);
+    }
+
+    @Test
+    @DisplayName("Testing loading all persons without SoldMoved  first or last name is not in DB")
+    <T extends Person> void loadingAllPersonsByNameOrLNameNamesNotFound(){
+        // Given: Setup object or precondition
+
+
+        // When: Action or behavior that we are going to test
+        int actualSize1 = personDAO.loadPersonByLastOrFirstNameAndType("Jara", User.class).size();
+        int actualSize2 = personDAO.loadPersonByLastOrFirstNameAndType("Jara", Owner.class).size();
+
+        // Then: Verify the output or expected result
+        assertThat(actualSize1+actualSize2).isEqualTo(0);
     }
 
     @Test

@@ -275,15 +275,10 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testDelApartmentToPersonPersonNotFound() {
+    void testDelApartmentFromPersonPersonNotFound() {
         // Given: Setup object or precondition
         Long personId = 1L;
         Long apartmentId = 101L;
-
-        User testUser = (User) AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe",
-                "john@doe.com",126555111L, "User").getPersonWitType();
-        Apartment testApartment = Apartment.createApartment(50,5,4,6,
-                "Lombart st.", null, null);
 
         // When: Action or behavior that we are going to test
         when(personDAO.loadPersonByID(eq(personId))).thenReturn(null);
@@ -297,15 +292,13 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testDelApartmentToPersonApartmentNotFound() {
+    void testDelApartmentFromPersonApartmentNotFound() {
         // Given: Setup object or precondition
         Long personId = 1L;
         Long apartmentId = 101L;
 
         User testUser = (User) AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe",
                 "john@doe.com",126555111L, "User").getPersonWitType();
-        Apartment testApartment = Apartment.createApartment(50,5,4,6,
-                "Lombart st.", null, null);
 
         // When: Action or behavior that we are going to test
         when(personDAO.loadPersonByID(eq(personId))).thenReturn(testUser);

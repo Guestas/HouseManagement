@@ -12,8 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -55,6 +54,19 @@ class ApartmentDAOImplTest {
         // Then: Verify the output or expected result
         assertNotNull(retrieve);
         assertThat(id).isEqualTo(testApartment1.getId());
+    }
+
+    @Test
+    @DisplayName("Test Get Apartment by ID without data in DB")
+    void getApartmentById() {
+        // Given: Setup object or precondition
+        Long id = 5L;
+
+        // When: Action or behavior that we are going to test
+        Apartment retrieve = apartmentDAO.getApartmentById(id);
+
+        // Then: Verify the output or expected result
+        assertNull(retrieve);
     }
 
     @Test
