@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.service;
 
+import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeeting;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.HouseMeeting;
 import com.mc.HouseManagement.repository.ApartmentDAO;
@@ -22,8 +23,8 @@ public class HouseMeetingServiceImpl implements HouseMeetingService {
     }
 
     @Override
-    public Long addUpdateHouseMeeting(HouseMeeting houseMeeting) {
-        return houseMeetingDAO.addUpdateHouseMeeting(houseMeeting);
+    public Long addUpdateHouseMeeting(AddUpdateHouseMeeting addUpdateHouseMeeting) {
+        return houseMeetingDAO.addUpdateHouseMeeting(addUpdateHouseMeeting.getHouseMeeting());
     }
 
     @Override

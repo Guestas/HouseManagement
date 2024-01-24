@@ -39,13 +39,13 @@ class HouseMeetingServiceImplTest {
         // Given: Setup object or precondition
         List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
         AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1998", "Early meeting", topics);
-        HouseMeeting testHouseMeeting = addUpdateHouseMeeting.getHouseMeeting();
+
         // When: Action or behavior that we are going to test
         when(houseMeetingDAO.addUpdateHouseMeeting(any())).thenReturn(1L);
 
         // Then: Verify the output or expected result
-        Long result = houseMeetingService.addUpdateHouseMeeting(testHouseMeeting);
-        verify(houseMeetingDAO).addUpdateHouseMeeting(eq(testHouseMeeting));
+        Long result = houseMeetingService.addUpdateHouseMeeting(addUpdateHouseMeeting);
+        verify(houseMeetingDAO).addUpdateHouseMeeting(eq(addUpdateHouseMeeting.getHouseMeeting()));
         assertEquals(1L, result);
     }
 

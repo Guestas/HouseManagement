@@ -2,7 +2,6 @@ package com.mc.HouseManagement.service;
 
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.repository.ApartmentDAO;
-import com.mc.HouseManagement.repository.HouseMeetingDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,6 @@ import static org.mockito.Mockito.verify;
 class ApartmentServiceImplTest {
 
     @Mock private ApartmentDAO apartmentDAO;
-    @Mock private HouseMeetingDAO houseMeetingDAO;
     private ApartmentService apartmentService;
 
     @BeforeEach

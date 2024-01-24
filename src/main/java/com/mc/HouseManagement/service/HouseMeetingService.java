@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.service;
 
+import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeeting;
 import com.mc.HouseManagement.entity.HouseMeeting;
 
 import java.util.List;
@@ -8,10 +9,10 @@ public interface HouseMeetingService {
     /**
      * Adds or updates a house meeting.
      *
-     * @param houseMeeting The house meeting to be added or updated.
+     * @param addUpdateHouseMeeting The house meeting to be added or updated.
      * @return The ID of the added or updated house meeting.
      */
-    public Long addUpdateHouseMeeting(HouseMeeting houseMeeting);
+    public Long addUpdateHouseMeeting(AddUpdateHouseMeeting addUpdateHouseMeeting);
 
     /**
      * Retrieves a house meeting by its ID.

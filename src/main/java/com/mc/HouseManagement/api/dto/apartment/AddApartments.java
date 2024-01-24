@@ -7,7 +7,10 @@ import java.util.List;
 public class AddApartments {
     private List<AddApartment> apartments;
 
-    public AddApartments() {
+    public AddApartments() {}
+
+    public AddApartments(List<AddApartment> apartments) {
+        this.apartments = apartments;
     }
 
     public List<Apartment> getApartments() {

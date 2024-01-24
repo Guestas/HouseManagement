@@ -1,24 +1,22 @@
 package com.mc.HouseManagement.api.dto.houseMeetings;
 
-import com.mc.HouseManagement.entity.HouseMeeting;
-
 import java.util.List;
 
 public class AddUpdateHouseMeetings {
-    private List<HouseMeeting> houseMeetings;
+    private List<AddUpdateHouseMeeting> houseMeetings;
 
     public AddUpdateHouseMeetings() {
     }
 
-    public AddUpdateHouseMeetings(List<HouseMeeting> houseMeetings) {
+    public AddUpdateHouseMeetings(List<AddUpdateHouseMeeting> houseMeetings) {
         this.houseMeetings = houseMeetings;
     }
 
-    public List<HouseMeeting> getHouseMeetings() {
+    public List<AddUpdateHouseMeeting> getHouseMeetings() {
         return houseMeetings;
     }
 
-    public void setHouseMeetings(List<HouseMeeting> houseMeetings) {
+    public void setHouseMeetings(List<AddUpdateHouseMeeting> houseMeetings) {
         this.houseMeetings = houseMeetings;
     }
 }

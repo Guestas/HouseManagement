@@ -80,4 +80,8 @@ public class AddApartment {
     public Apartment getApartment(){
         return new Apartment(voteValue, branchAntenna, flor, address, street, null, null);
     }
+
+    public static AddApartment getAddApartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street){
+        return new AddApartment(voteValue, branchAntenna, flor, address, street);
+    }
 }

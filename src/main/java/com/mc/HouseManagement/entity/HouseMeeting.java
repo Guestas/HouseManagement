@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /** HouseMeeting is blueprint for table of HouseMeetings. **/
 @Entity
@@ -118,5 +119,13 @@ public class HouseMeeting {
     /** This function returns HouseMeeting with values which are described above. **/
     public static HouseMeeting createHouseMeeting(String date, String name, List<String> topics, List<Apartment> apartments){
         return new HouseMeeting(date,name, topics, apartments);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        HouseMeeting houseMeeting = (HouseMeeting) obj;
+        return Objects.equals(this.getId(), houseMeeting.getId())&&Objects.equals(this.getDate(), houseMeeting.getDate());
     }
 }

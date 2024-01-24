@@ -3,6 +3,7 @@ package com.mc.HouseManagement.api.dto.houseMeetings;
 import com.mc.HouseManagement.entity.HouseMeeting;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AddUpdateHouseMeeting {
     private Long id;
@@ -71,5 +72,17 @@ public class AddUpdateHouseMeeting {
 
     public static AddUpdateHouseMeeting createAddUpsateHouseMeeting(String date, String name, List<String> topics){
         return new AddUpdateHouseMeeting(date, name, topics);
+    }
+    public static AddUpdateHouseMeeting createAddUpsateHouseMeeting(Long id, String date, String name, List<String> topics){
+        return new AddUpdateHouseMeeting(id, date, name, topics);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (super.equals(obj)) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        AddUpdateHouseMeeting addUpdateHouseMeeting = (AddUpdateHouseMeeting) obj;
+        return Objects.equals(this.getId(), addUpdateHouseMeeting.getId()) &&
+                Objects.equals(this.getDate(), addUpdateHouseMeeting.getDate());
     }
 }
