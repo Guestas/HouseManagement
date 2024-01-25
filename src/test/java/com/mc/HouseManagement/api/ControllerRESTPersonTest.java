@@ -158,29 +158,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
-    void testGetUsersByNameOrLastName() {
-        // Given: Setup object or precondition
-
-        // When: Action or behavior that we are going to test
-
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTPerson).build();
-
-        // Then: Verify the output or expected result
-    }
-
-    @Test
-    void testAddMultiplePersons() {
-        // Given: Setup object or precondition
-
-        // When: Action or behavior that we are going to test
-
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTPerson).build();
-
-        // Then: Verify the output or expected result
-    }
-
-    @Test
-    void testUpdatePersons() throws Exception {
+    void testGetUsersByNameOrLastName() throws Exception {
         // Given: Setup object or precondition
 
         // When: Action or behavior that we are going to test
@@ -194,6 +172,46 @@ class ControllerRESTPersonTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(asJsonString(TestVariables.PERSON_LIST)));
         verify(personService, times(2)).loadPersonByLastOrFirstName("Black");
+
+    }
+
+    @Test
+    void testAddMultiplePersons() throws Exception {
+        // Given: Setup object or precondition
+        // TestVariables.ADD_UPDATE_HOUSE_MEETINGS
+
+        // When: Action or behavior that we are going to test
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTPerson).build();
+
+        // Then: Verify the output or expected result
+        mockMvc.perform(MockMvcRequestBuilders.post(requestMapping+"/multiple/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(UtilityMethods.asJsonString(TestVariables.ADD_UPDATE_NEW_PERSONS)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("2"));
+
+        verify(personService, times(2)).addUpdatePerson(any());
+    }
+
+    @Test
+    void testUpdatePersons() throws Exception {
+        // Given: Setup object or precondition
+        // TestVariables.ADD_UPDATE_HOUSE_MEETINGS
+
+        // When: Action or behavior that we are going to test
+        when(personService.loadPersonByID(any()))
+                .thenReturn(new Person());
+
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTPerson).build();
+
+        // Then: Verify the output or expected result
+        mockMvc.perform(MockMvcRequestBuilders.put(requestMapping+"/multiple/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(UtilityMethods.asJsonString(TestVariables.ADD_UPDATE_NEW_PERSONS)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("2"));
+
+        verify(personService, times(2)).loadPersonByID(any());
     }
 
     @Test
@@ -235,4 +253,5 @@ class ControllerRESTPersonTest {
 
         verify(personService, times(1)).delApartmentFromPerson(1L, 2L);
     }
+
 }
