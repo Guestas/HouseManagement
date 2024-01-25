@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.Objects;
+
 public class AddUpdateNewPerson {
 
     private Long id;
@@ -146,6 +148,10 @@ public class AddUpdateNewPerson {
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (super.equals(obj)) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        AddUpdateNewPerson addUpdateNewPerson = (AddUpdateNewPerson) obj;
+        return Objects.equals(this.getId(), addUpdateNewPerson.getId()) &&
+                Objects.equals(this.getTypeOfUser(), addUpdateNewPerson.getTypeOfUser());
     }
 }

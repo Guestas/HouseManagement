@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.repository;
 
+import com.mc.HouseManagement.TestVariables;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.HouseMeeting;
 import org.junit.jupiter.api.AfterEach;
@@ -155,15 +156,9 @@ class HouseMeetingDAOImplTest {
     @DisplayName("Test adding Apartments to Meeting after adding will be removing some apartments")
     void addApartmentToMeetingAndUpdateAdd(){
         // Given: Setup object or precondition
-        Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null,null);
-        Apartment testApartment2 = Apartment.createApartment(10, 8, 10,
-                2553, "street2", null,null);
-        List<Apartment> expectedApartmentList = Arrays.asList(testApartment1);
-
-        List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        HouseMeeting testHouseMeeting = HouseMeeting.createHouseMeeting("20-5-1998",
-                "Early meeting", topics1, null);
+        List<Apartment> expectedApartmentList = Arrays.asList(TestVariables.APARTMENT_LIST.get(0));
+        // TestVariables.APARTMENT_LIST
+        HouseMeeting testHouseMeeting = TestVariables.HOUSE_MEETING;
 
         // When: Action or behavior that we are going to test
         expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
@@ -172,7 +167,7 @@ class HouseMeetingDAOImplTest {
         Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);
 
         HouseMeeting houseMeetingWillBeUpdated = houseMeetingDAO.getHouseMeetingById(id);
-        houseMeetingWillBeUpdated.addApartment(testApartment2);
+        houseMeetingWillBeUpdated.addApartment(TestVariables.APARTMENT_LIST.get(1));
         houseMeetingDAO.addUpdateHouseMeeting(houseMeetingWillBeUpdated);
 
         HouseMeeting returnedHouseMeeting = houseMeetingDAO.getHouseMeetingById(id);

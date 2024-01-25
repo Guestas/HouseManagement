@@ -1,7 +1,7 @@
 package com.mc.HouseManagement.service;
 
+import com.mc.HouseManagement.TestVariables;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeeting;
-import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.HouseMeeting;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.HouseMeetingDAO;
@@ -52,39 +52,32 @@ class HouseMeetingServiceImplTest {
     @Test
     void getHouseMeetingById() {
         // Given: Setup object or precondition
-        List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1998", "Early meeting", topics);
-        HouseMeeting testHouseMeeting = addUpdateHouseMeeting.getHouseMeeting();
+        // TestVariables.HOUSE_MEETING
         Long houseMeetingID = 1L;
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.getHouseMeetingById(eq(houseMeetingID))).thenReturn(testHouseMeeting);
+        when(houseMeetingDAO.getHouseMeetingById(eq(houseMeetingID))).thenReturn(TestVariables.HOUSE_MEETING);
 
         // Then: Verify the output or expected result
         HouseMeeting result = houseMeetingService.getHouseMeetingById(houseMeetingID);
         verify(houseMeetingDAO).getHouseMeetingById(eq(houseMeetingID));
-        assertEquals(result, testHouseMeeting);
+        assertEquals(result, TestVariables.HOUSE_MEETING);
 
     }
 
     @Test
     void loadAllHouseMeetings() {
         // Given: Setup object or precondition
-        List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        AddUpdateHouseMeeting addUpdateHouseMeeting1 = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1998", "Early meeting1", topics);
-        AddUpdateHouseMeeting addUpdateHouseMeeting2 = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1999", "Early meeting2", topics);
-        HouseMeeting testHouseMeeting1 = addUpdateHouseMeeting1.getHouseMeeting();
-        HouseMeeting testHouseMeeting2 = addUpdateHouseMeeting2.getHouseMeeting();
-        List<HouseMeeting> expectedResult = Arrays.asList(testHouseMeeting1,testHouseMeeting2);
+        // TestVariables.HOUSE_MEETING_LIST
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.loadAllHouseMeetings()).thenReturn(expectedResult);
+        when(houseMeetingDAO.loadAllHouseMeetings()).thenReturn(TestVariables.HOUSE_MEETING_LIST);
 
         // Then: Verify the output or expected result
         List<HouseMeeting> result = houseMeetingService.loadAllHouseMeetings();
 
         verify(houseMeetingDAO).loadAllHouseMeetings();
-        assertEquals(expectedResult, result);
+        assertEquals(TestVariables.HOUSE_MEETING_LIST, result);
 
     }
 
@@ -119,20 +112,15 @@ class HouseMeetingServiceImplTest {
     @Test
     void addApartmentToHouseMeeting() {
         // Given: Setup object or precondition
-        Long houseMeetingId = 1L;
-        Long apartmentId = 101L;
-
-        List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1998", "Early meeting1", topics);
-        HouseMeeting testHouseMeeting = addUpdateHouseMeeting.getHouseMeeting();
-
-        Apartment testApartment = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null,null);
+        Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
+        Long apartmentId = TestVariables.APARTMENT.getId();
+        // TestVariables.HOUSE_MEETING
+        // TestVariables.APARTMENT
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(testHouseMeeting);
-        when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(testApartment);
-        when(houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting)).thenReturn(houseMeetingId);
+        when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(TestVariables.HOUSE_MEETING);
+        when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(TestVariables.APARTMENT);
+        when(houseMeetingDAO.addUpdateHouseMeeting(TestVariables.HOUSE_MEETING)).thenReturn(houseMeetingId);
 
         // Then: Verify the output or expected result
         Long returnedValue = houseMeetingService.addApartmentToHouseMeeting(houseMeetingId, apartmentId);
@@ -144,15 +132,13 @@ class HouseMeetingServiceImplTest {
     @Test
     void addApartmentToHouseMeetingHouseMeetingNotFound() {
         // Given: Setup object or precondition
-        Long houseMeetingId = 1L;
-        Long apartmentId = 101L;
-
-        Apartment testApartment = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null,null);
+        Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
+        Long apartmentId = TestVariables.APARTMENT.getId();
+        // TestVariables.APARTMENT
 
         // When: Action or behavior that we are going to test
         when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(null);
-        when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(testApartment);
+        when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(TestVariables.APARTMENT);
 
         // Then: Verify the output or expected result
         Long returnedValue = houseMeetingService.addApartmentToHouseMeeting(houseMeetingId, apartmentId);
@@ -164,16 +150,13 @@ class HouseMeetingServiceImplTest {
     @Test
     void addApartmentToHouseMeetingApartmentNotFound() {
         // Given: Setup object or precondition
-        Long houseMeetingId = 1L;
-        Long apartmentId = 101L;
-
-        List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1998", "Early meeting1", topics);
-        HouseMeeting testHouseMeeting = addUpdateHouseMeeting.getHouseMeeting();
+        Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
+        Long apartmentId = TestVariables.APARTMENT.getId();
+        // TestVariables.HOUSE_MEETING
 
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(testHouseMeeting);
+        when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(TestVariables.HOUSE_MEETING);
         when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(null);
 
         // Then: Verify the output or expected result
@@ -186,20 +169,15 @@ class HouseMeetingServiceImplTest {
     @Test
     void delApartmentFromHouseMeeting() {
         // Given: Setup object or precondition
-        Long houseMeetingId = 1L;
-        Long apartmentId = 101L;
-
-        List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1998", "Early meeting1", topics);
-        HouseMeeting testHouseMeeting = addUpdateHouseMeeting.getHouseMeeting();
-
-        Apartment testApartment = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null,null);
+        Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
+        Long apartmentId = TestVariables.APARTMENT.getId();
+        // TestVariables.HOUSE_MEETING
+        // TestVariables.APARTMENT
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(testHouseMeeting);
-        when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(testApartment);
-        when(houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting)).thenReturn(houseMeetingId);
+        when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(TestVariables.HOUSE_MEETING);
+        when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(TestVariables.APARTMENT);
+        when(houseMeetingDAO.addUpdateHouseMeeting(TestVariables.HOUSE_MEETING)).thenReturn(houseMeetingId);
 
         // Then: Verify the output or expected result
         Long returnedValue = houseMeetingService.delApartmentFromHouseMeeting(houseMeetingId, apartmentId);
@@ -211,15 +189,13 @@ class HouseMeetingServiceImplTest {
     @Test
     void delApartmentFromHouseMeetingHouseMeetingNotFound() {
         // Given: Setup object or precondition
-        Long houseMeetingId = 1L;
-        Long apartmentId = 101L;
-
-        Apartment testApartment = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null,null);
+        Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
+        Long apartmentId = TestVariables.APARTMENT.getId();
+        // TestVariables.APARTMENT
 
         // When: Action or behavior that we are going to test
         when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(null);
-        when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(testApartment);
+        when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(TestVariables.APARTMENT);
 
         // Then: Verify the output or expected result
         Long returnedValue = houseMeetingService.delApartmentFromHouseMeeting(houseMeetingId, apartmentId);
@@ -231,16 +207,13 @@ class HouseMeetingServiceImplTest {
     @Test
     void delApartmentFromHouseMeetingApartmentNotFound() {
         // Given: Setup object or precondition
-        Long houseMeetingId = 1L;
-        Long apartmentId = 101L;
-
-        List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1998", "Early meeting1", topics);
-        HouseMeeting testHouseMeeting = addUpdateHouseMeeting.getHouseMeeting();
+        Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
+        Long apartmentId = TestVariables.APARTMENT.getId();
+        // TestVariables.HOUSE_MEETING
 
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(testHouseMeeting);
+        when(houseMeetingDAO.getHouseMeetingById(houseMeetingId)).thenReturn(TestVariables.HOUSE_MEETING);
         when(apartmentDAO.getApartmentById(apartmentId)).thenReturn(null);
 
         // Then: Verify the output or expected result

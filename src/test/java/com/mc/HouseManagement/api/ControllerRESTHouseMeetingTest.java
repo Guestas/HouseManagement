@@ -1,9 +1,7 @@
 package com.mc.HouseManagement.api;
 
+import com.mc.HouseManagement.TestVariables;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddApartmentToHouseMeeting;
-import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeeting;
-import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeetings;
-import com.mc.HouseManagement.entity.HouseMeeting;
 import com.mc.HouseManagement.service.HouseMeetingService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -16,9 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static com.mc.HouseManagement.api.UtilityMethods.asJsonString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,24 +39,18 @@ class ControllerRESTHouseMeetingTest {
     @Test
     void testGetAllHouseMeetings() throws Exception {
         // Given: Setup object or precondition
-        List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        List<HouseMeeting> expectedHouseMeetings = Arrays.asList(
-            HouseMeeting.createHouseMeeting("20-5-1998",
-                    "Early meeting1", topics1, null),
-            HouseMeeting.createHouseMeeting("20-5-1999",
-                    "Early meeting2", topics1, null)
-        );
+        // TestVariables.HOUSE_MEETING_LIST
 
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingService.loadAllHouseMeetings()).thenReturn(expectedHouseMeetings);
+        when(houseMeetingService.loadAllHouseMeetings()).thenReturn(TestVariables.HOUSE_MEETING_LIST);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
 
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.get(requestMapping+"/")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(asJsonString(expectedHouseMeetings)));
+                .andExpect(MockMvcResultMatchers.content().json(asJsonString(TestVariables.HOUSE_MEETING_LIST)));
 
         verify(houseMeetingService, times(1)).loadAllHouseMeetings();
     }
@@ -69,20 +58,18 @@ class ControllerRESTHouseMeetingTest {
     @Test
     void testGetHouseMeetingById() throws Exception {
         // Given: Setup object or precondition
-        Long houseMeetingId = 1L;
-        List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        HouseMeeting testHouseMeeting = HouseMeeting.createHouseMeeting("20-5-1998",
-                "Early meeting1", topics1, null);
+        Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
+        // TestVariables.HOUSE_MEETING
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingService.getHouseMeetingById(houseMeetingId)).thenReturn(testHouseMeeting);
+        when(houseMeetingService.getHouseMeetingById(houseMeetingId)).thenReturn(TestVariables.HOUSE_MEETING);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
 
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.get(requestMapping+"/" + houseMeetingId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(testHouseMeeting.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(TestVariables.HOUSE_MEETING.getId()))
                 .andReturn();
         verify(houseMeetingService, times(1)).getHouseMeetingById(houseMeetingId);
     }
@@ -90,65 +77,59 @@ class ControllerRESTHouseMeetingTest {
     @Test
     void testAddHouseMeeting() throws Exception {
         // Given: Setup object or precondition
-        List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting(0L,"20-5-1998",
-                "Early meeting1", topics1);
+        // TestVariables.ADD_UPDATE_HOUSE_MEETING1
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingService.addUpdateHouseMeeting(addUpdateHouseMeeting)).thenReturn(0L);
+        when(houseMeetingService.addUpdateHouseMeeting(TestVariables.ADD_UPDATE_HOUSE_MEETING1)).thenReturn(TestVariables.ADD_UPDATE_HOUSE_MEETING1.getId());
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
 
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.post(requestMapping+"/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(addUpdateHouseMeeting)))
+                        .content(asJsonString(TestVariables.ADD_UPDATE_HOUSE_MEETING1)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("0"));
+                .andExpect(MockMvcResultMatchers.content().string("1"));
 
-        verify(houseMeetingService, times(1)).addUpdateHouseMeeting(addUpdateHouseMeeting);
+        verify(houseMeetingService, times(1)).addUpdateHouseMeeting(TestVariables.ADD_UPDATE_HOUSE_MEETING1);
     }
 
     @Test
-    void updateAddHouseMeeting() throws Exception {
+    void testUpdateAddHouseMeeting() throws Exception {
         // Given: Setup object or precondition
-        List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-        AddUpdateHouseMeeting testAdUpdate = AddUpdateHouseMeeting.createAddUpsateHouseMeeting(0L,"20-5-1998",
-                "Early meeting1", topics1);
+        // TestVariables.ADD_UPDATE_HOUSE_MEETING1
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingService.addUpdateHouseMeeting(testAdUpdate)).thenReturn(testAdUpdate.getId());
+        when(houseMeetingService.addUpdateHouseMeeting(TestVariables.ADD_UPDATE_HOUSE_MEETING1)).thenReturn(TestVariables.ADD_UPDATE_HOUSE_MEETING1.getId());
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
 
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.post(requestMapping+"/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(testAdUpdate)))
+                        .content(asJsonString(TestVariables.ADD_UPDATE_HOUSE_MEETING1)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("0"));
+                .andExpect(MockMvcResultMatchers.content().string("1"));
 
-        verify(houseMeetingService, times(1)).addUpdateHouseMeeting(testAdUpdate);
+        verify(houseMeetingService, times(1)).addUpdateHouseMeeting(TestVariables.ADD_UPDATE_HOUSE_MEETING1);
     }
 
     @Test
     void testUpdateHouseMeeting() throws Exception {
         // Given: Setup object or precondition
-        AddUpdateHouseMeeting testAdUpdate = AddUpdateHouseMeeting.createAddUpsateHouseMeeting("20-5-1998",
-                "Early meeting1", null);
-        testAdUpdate.setId(1L);
+        // TestVariables.ADD_UPDATE_HOUSE_MEETING1
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingService.getHouseMeetingById(testAdUpdate.getId())).thenReturn(testAdUpdate.getHouseMeeting());
-        when(houseMeetingService.addUpdateHouseMeeting(any())).thenReturn(1L);
+        when(houseMeetingService.getHouseMeetingById(TestVariables.ADD_UPDATE_HOUSE_MEETING1.getId())).thenReturn(TestVariables.ADD_UPDATE_HOUSE_MEETING1.getHouseMeeting());
+        when(houseMeetingService.addUpdateHouseMeeting(any())).thenReturn(TestVariables.ADD_UPDATE_HOUSE_MEETING1.getId());
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
 
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.put(requestMapping+"/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(testAdUpdate.getHouseMeeting())))
+                        .content(asJsonString(TestVariables.ADD_UPDATE_HOUSE_MEETING1.getHouseMeeting())))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("1"));  // Assuming your service returns a Long
 
-        verify(houseMeetingService, times(1)).getHouseMeetingById(testAdUpdate.getId());
+        verify(houseMeetingService, times(1)).getHouseMeetingById(TestVariables.ADD_UPDATE_HOUSE_MEETING1.getId());
         verify(houseMeetingService, times(1)).addUpdateHouseMeeting(any());
     }
 
@@ -172,14 +153,7 @@ class ControllerRESTHouseMeetingTest {
     @Test
     void testAddHouseMeetings() throws Exception {
         // Given: Setup object or precondition
-        List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
-
-        AddUpdateHouseMeetings expectedHouseMeetings = new AddUpdateHouseMeetings(Arrays.asList(
-                AddUpdateHouseMeeting.createAddUpsateHouseMeeting(1L,"20-5-1998",
-                        "Early meeting1", null),
-                AddUpdateHouseMeeting.createAddUpsateHouseMeeting(2L,"20-5-1999",
-                        "Early meeting1", null)
-        ));
+        // TestVariables.ADD_UPDATE_HOUSE_MEETINGS
 
         // When: Action or behavior that we are going to test
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
@@ -187,7 +161,7 @@ class ControllerRESTHouseMeetingTest {
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.post(requestMapping+"/multiple/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(UtilityMethods.asJsonString(expectedHouseMeetings)))
+                        .content(UtilityMethods.asJsonString(TestVariables.ADD_UPDATE_HOUSE_MEETINGS)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("2"));
 

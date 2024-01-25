@@ -14,6 +14,11 @@ public class AddApartmentToPerson {
     public AddApartmentToPerson() {
     }
 
+    public AddApartmentToPerson(Long idPerson, Long idApartment) {
+        this.idPerson = idPerson;
+        this.idApartment = idApartment;
+    }
+
     public Long getIdPerson() {
         return idPerson;
     }

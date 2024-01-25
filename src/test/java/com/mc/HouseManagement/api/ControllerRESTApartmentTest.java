@@ -1,8 +1,6 @@
 package com.mc.HouseManagement.api;
 
-import com.mc.HouseManagement.api.dto.apartment.AddApartment;
-import com.mc.HouseManagement.api.dto.apartment.AddApartments;
-import com.mc.HouseManagement.entity.Apartment;
+import com.mc.HouseManagement.TestVariables;
 import com.mc.HouseManagement.service.ApartmentService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -15,9 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,22 +37,17 @@ class ControllerRESTApartmentTest {
     @Test
     void testGetAllApartments() throws Exception {
         // Given: Setup object or precondition
-        List<Apartment> expectedApartments = Arrays.asList(
-                Apartment.createApartment(5, 4, 5,
-                        2553, "street1", null, null),
-                Apartment.createApartment(8, 8, 4,
-                        2558, "street2", null, null)
-        );
+        // TestVariables.APARTMENT_LIST
 
         // When: Action or behavior that we are going to test
-        when(apartmentService.loadAllApartments()).thenReturn(expectedApartments);
+        when(apartmentService.loadAllApartments()).thenReturn(TestVariables.APARTMENT_LIST);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTApartment).build();
 
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.get(requestMapping+"/")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(UtilityMethods.asJsonString(expectedApartments)));
+                .andExpect(MockMvcResultMatchers.content().json(UtilityMethods.asJsonString(TestVariables.APARTMENT_LIST)));
 
         verify(apartmentService, times(1)).loadAllApartments();
     }
@@ -66,42 +56,36 @@ class ControllerRESTApartmentTest {
     void testGetApartmentById() throws Exception {
         // Given: Setup object or precondition
         Long apartmentId = 1L;
-        Apartment expectedApartment = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null, null);
+        // TestVariables.ADD_APARTMENT1
 
         // When: Action or behavior that we are going to test
-        when(apartmentService.getApartmentById(apartmentId)).thenReturn(expectedApartment);
+        when(apartmentService.getApartmentById(apartmentId)).thenReturn(TestVariables.ADD_APARTMENT1.getApartment());
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTApartment).build();
 
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.get(requestMapping+"/" + apartmentId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(expectedApartment.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(TestVariables.ADD_APARTMENT1.getApartment().getId()))
                 .andReturn();
         verify(apartmentService, times(1)).getApartmentById(apartmentId);
     }
 
     @Test
     void testAddApartments() throws Exception {
-        // Given
-        AddApartments addApartments = new AddApartments(Arrays.asList(
-                AddApartment.getAddApartment(5, 4, 5,
-                        2553, "street1"),
-                AddApartment.getAddApartment(8, 3, 2,
-                        2553, "street2")
-        ));
+        // Given: Setup object or precondition
+        // TestVariables.ADD_APARTMENTS
 
-        // When/Then
+        // When: Action or behavior that we are going to test
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTApartment).build();
 
         mockMvc.perform(MockMvcRequestBuilders.post(requestMapping+"/")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(UtilityMethods.asJsonString(addApartments)))
+                        .content(UtilityMethods.asJsonString(TestVariables.ADD_APARTMENTS)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("2")); // Assuming you are returning the size of the list
 
-        // Verify that the apartmentService method was called for each apartment
-        verify(apartmentService, times(addApartments.getApartments().size())).addUpdateApartment(any());
+        // Then: Verify the output or expected result
+        verify(apartmentService, times(TestVariables.ADD_APARTMENTS.getApartments().size())).addUpdateApartment(any());
     }
 }

@@ -108,7 +108,6 @@ class PersonServiceImplTest {
 
     @Test
     public void testLoadPersonByLastOrFirstNameAndType() {
-
         // Given: Setup object or precondition
         String oneOfNames = "John";
         Class<Person> personClass = Person.class;

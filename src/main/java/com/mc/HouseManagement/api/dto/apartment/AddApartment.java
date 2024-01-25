@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 
 public class AddApartment {
 
+    private Long id;
+
     @NotNull(message = "VoteValue antenna cannot be null.")
     @Min(value = 1, message = "Min vote value is 1.")
     private Integer voteValue;
@@ -30,6 +32,15 @@ public class AddApartment {
     }
 
     public AddApartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street) {
+        this.voteValue = voteValue;
+        this.branchAntenna = branchAntenna;
+        this.flor = flor;
+        this.address = address;
+        this.street = street;
+    }
+
+    public AddApartment(Long id, Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street) {
+        this.id = id;
         this.voteValue = voteValue;
         this.branchAntenna = branchAntenna;
         this.flor = flor;
@@ -77,11 +88,24 @@ public class AddApartment {
         this.street = street;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Apartment getApartment(){
         return new Apartment(voteValue, branchAntenna, flor, address, street, null, null);
     }
 
-    public static AddApartment getAddApartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street){
+    public static AddApartment createAddApartment(Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street){
         return new AddApartment(voteValue, branchAntenna, flor, address, street);
     }
+
+    public static AddApartment createAddApartment(Long id, Integer voteValue, Integer branchAntenna, Integer flor, Integer address, String street){
+        return new AddApartment(id, voteValue, branchAntenna, flor, address, street);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.mc.HouseManagement.service;
 
+import com.mc.HouseManagement.TestVariables;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,20 +29,15 @@ class ApartmentServiceImplTest {
     @Test
     void canAddApartment() {
         // Given: Setup object or precondition
-
-        Apartment testApartment = Apartment.createApartment(5, 4, 5,
-                2553, "street1", null,null);
-
+        // TestVariables.APARTMENT
         // When: Action or behavior that we are going to test
-        apartmentService.addUpdateApartment(testApartment);
+        apartmentService.addUpdateApartment(TestVariables.APARTMENT);
 
         // Then: Verify the output or expected result
         ArgumentCaptor<Apartment> apartmentArgumentCaptor = ArgumentCaptor.forClass(Apartment.class);
-        //ArgumentCaptor<ProcessToDo> processToDoArgumentCaptor = ArgumentCaptor.forClass(ProcessToDo.class);
-        //verify(apartmentDAO).addUpdateApartment(apartmentArgumentCaptor.capture(), processToDoArgumentCaptor.capture());
         verify(apartmentDAO).addUpdateApartment(apartmentArgumentCaptor.capture());
         Apartment capturedApartment = apartmentArgumentCaptor.getValue();
-        assertThat(capturedApartment).isEqualTo(testApartment);
+        assertThat(capturedApartment).isEqualTo(TestVariables.APARTMENT);
     }
 
     @Test
