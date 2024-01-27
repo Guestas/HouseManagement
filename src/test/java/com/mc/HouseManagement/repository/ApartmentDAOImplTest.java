@@ -59,7 +59,7 @@ class ApartmentDAOImplTest {
     @DisplayName("Test Get Apartment by ID without data in DB")
     void getApartmentById() {
         // Given: Setup object or precondition
-        Long id = 5L;
+        Long id = 0L;
 
         // When: Action or behavior that we are going to test
         Apartment retrieve = apartmentDAO.getApartmentById(id);
