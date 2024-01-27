@@ -52,13 +52,13 @@ class ApartmentServiceImplTest {
     }
 
     @Test
-    void loadAllApartments() {
+    void getAllApartments() {
         // Given: Setup object or precondition
 
         // When: Action or behavior that we are going to test
-        apartmentService.loadAllApartments();
+        apartmentService.getAllApartments();
 
         // Then: Verify the output or expected result
-        verify(apartmentDAO).loadAllApartments();
+        verify(apartmentDAO).getAllApartments();
     }
 }

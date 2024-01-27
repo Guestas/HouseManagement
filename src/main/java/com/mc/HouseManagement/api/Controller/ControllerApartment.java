@@ -1,4 +1,4 @@
-package com.mc.HouseManagement.api;
+package com.mc.HouseManagement.api.Controller;
 
 import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.entity.Apartment;
@@ -30,17 +30,17 @@ public class ControllerApartment {
 
     @GetMapping("/")
     public String getAllApartments(Model model){
-        model.addAttribute("allApartmentList", apartmentService.loadAllApartments());
+        model.addAttribute("allApartmentList", apartmentService.getAllApartments());
         return "apartments";
     }
 
     @GetMapping("/{id}")
     @ResponseBody
     public Apartment getApartmentByID(@PathVariable Long id){
-        Apartment loaded = apartmentService.getApartmentById(id);
-        if (loaded==null)
+        Apartment loadedApartment = apartmentService.getApartmentById(id);
+        if (loadedApartment==null)
             throw new DataNotFoundException("Apartment not found on ID: "+id);
-        return loaded;
+        return loadedApartment;
     }
 
 }

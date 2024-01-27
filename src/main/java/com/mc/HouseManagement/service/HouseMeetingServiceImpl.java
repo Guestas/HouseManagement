@@ -33,13 +33,13 @@ public class HouseMeetingServiceImpl implements HouseMeetingService {
     }
 
     @Override
-    public List<HouseMeeting> loadAllHouseMeetings() {
-        return houseMeetingDAO.loadAllHouseMeetings();
+    public List<HouseMeeting> getAllHouseMeetings() {
+        return houseMeetingDAO.getAllHouseMeetings();
     }
 
     @Override
-    public Long deleteHouseMeeting(Long id) {
-        return houseMeetingDAO.deleteHouseMeeting(id);
+    public Long deleteHouseMeetingById(Long houseMeetingId) {
+        return houseMeetingDAO.deleteHouseMeetingByIdById(houseMeetingId);
     }
 
     @Override

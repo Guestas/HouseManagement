@@ -4,8 +4,8 @@ import com.mc.HouseManagement.api.dto.apartment.AddApartment;
 import com.mc.HouseManagement.api.dto.apartment.AddApartments;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeeting;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeetings;
-import com.mc.HouseManagement.api.dto.person.AddUpdateNewPerson;
-import com.mc.HouseManagement.api.dto.person.AddUpdateNewPersons;
+import com.mc.HouseManagement.api.dto.person.AddUpdatePerson;
+import com.mc.HouseManagement.api.dto.person.AddUpdatePersons;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.HouseMeeting;
 import com.mc.HouseManagement.entity.Person;
@@ -17,31 +17,31 @@ public record TestVariables() {
     /* Person */
 
     /** Test data for a person **/
-    public static final AddUpdateNewPerson ADD_UPDATE_NEW_PERSON1 = AddUpdateNewPerson
+    public static final AddUpdatePerson ADD_UPDATE_PERSON1 = AddUpdatePerson
             .creteAddUpdatePerson(1L, "Joe", "Black",
                     "joe@black.com", 123456789L, "Owner");
 
-    /** Extracting the person from ADD_UPDATE_NEW_PERSON1 for easier reference **/
-    public static final Person PERSON = ADD_UPDATE_NEW_PERSON1.getPersonWitType();
+    /** Extracting the person from ADD_UPDATE_PERSON1 for easier reference **/
+    public static final Person PERSON = ADD_UPDATE_PERSON1.getPersonWitType();
 
     /** Another test data for a person**/
-    public static final AddUpdateNewPerson ADD_UPDATE_NEW_PERSON2 = AddUpdateNewPerson
+    public static final AddUpdatePerson ADD_UPDATE_PERSON2 = AddUpdatePerson
             .creteAddUpdatePerson(2L, "Nina", "Black",
                     "nina@black.com", 987654321L, "Owner");
 
     /** Lists of test addPersons**/
-    public static final List<AddUpdateNewPerson> ADD_UPDATE_NEW_PERSON_LIST = Arrays.asList(
-            ADD_UPDATE_NEW_PERSON1,
-            ADD_UPDATE_NEW_PERSON2
+    public static final List<AddUpdatePerson> ADD_UPDATE_PERSON_LIST = Arrays.asList(
+            ADD_UPDATE_PERSON1,
+            ADD_UPDATE_PERSON2
     );
     /** Lists of test persons**/
     public static final List<Person> PERSON_LIST = Arrays.asList(
-            ADD_UPDATE_NEW_PERSON1.getPersonWitType(),
-            ADD_UPDATE_NEW_PERSON2.getPersonWitType()
+            ADD_UPDATE_PERSON1.getPersonWitType(),
+            ADD_UPDATE_PERSON2.getPersonWitType()
     );
 
     /** Test data for a collection of persons**/
-    public static final AddUpdateNewPersons ADD_UPDATE_NEW_PERSONS = new AddUpdateNewPersons(ADD_UPDATE_NEW_PERSON_LIST);
+    public static final AddUpdatePersons ADD_UPDATE_PERSONS = new AddUpdatePersons(ADD_UPDATE_PERSON_LIST);
 
     /* House Meeting */
     /** Test data for a house meeting**/

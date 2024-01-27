@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
-public class AddUpdateNewPerson {
+public class AddUpdatePerson {
 
     private Long id;
 
@@ -33,17 +33,17 @@ public class AddUpdateNewPerson {
     @Pattern(regexp = "^(Owner|User|SoldMovedOut)$", message = "typeOfUser must be 'Owner', 'User' or SoldMovedOut")
     private String typeOfUser;
 
-    public AddUpdateNewPerson() {
+    public AddUpdatePerson() {
     }
 
-    public AddUpdateNewPerson(String firstName, String lastName, String email, Long phone, String typeOfUser) {
+    public AddUpdatePerson(String firstName, String lastName, String email, Long phone, String typeOfUser) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.typeOfUser = typeOfUser;
     }
-    public AddUpdateNewPerson(Long id, String firstName, String lastName, String email, Long phone, String typeOfUser) {
+    public AddUpdatePerson(Long id, String firstName, String lastName, String email, Long phone, String typeOfUser) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -126,17 +126,17 @@ public class AddUpdateNewPerson {
         }
     }
 
-    public static AddUpdateNewPerson creteAddUpdatePerson(String firstName, String lastName, String email, Long phone, String typeOfUser){
-        return new AddUpdateNewPerson(firstName, lastName, email, phone, typeOfUser);
+    public static AddUpdatePerson creteAddUpdatePerson(String firstName, String lastName, String email, Long phone, String typeOfUser){
+        return new AddUpdatePerson(firstName, lastName, email, phone, typeOfUser);
     }
 
-    public static AddUpdateNewPerson creteAddUpdatePerson(Long id, String firstName, String lastName, String email, Long phone, String typeOfUser){
-        return new AddUpdateNewPerson(id, firstName, lastName, email, phone, typeOfUser);
+    public static AddUpdatePerson creteAddUpdatePerson(Long id, String firstName, String lastName, String email, Long phone, String typeOfUser){
+        return new AddUpdatePerson(id, firstName, lastName, email, phone, typeOfUser);
     }
 
     @Override
     public String toString() {
-        return "AddUpdateNewPerson{" +
+        return "AddUpdatePerson{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -150,8 +150,8 @@ public class AddUpdateNewPerson {
     public boolean equals(Object obj) {
         if (super.equals(obj)) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        AddUpdateNewPerson addUpdateNewPerson = (AddUpdateNewPerson) obj;
-        return Objects.equals(this.getId(), addUpdateNewPerson.getId()) &&
-                Objects.equals(this.getTypeOfUser(), addUpdateNewPerson.getTypeOfUser());
+        AddUpdatePerson AddUpdatePerson = (AddUpdatePerson) obj;
+        return Objects.equals(this.getId(), AddUpdatePerson.getId()) &&
+                Objects.equals(this.getTypeOfUser(), AddUpdatePerson.getTypeOfUser());
     }
 }

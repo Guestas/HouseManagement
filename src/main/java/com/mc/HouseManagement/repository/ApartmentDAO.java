@@ -18,17 +18,17 @@ public interface ApartmentDAO{
     /**
      * Retrieves an apartment by ID.
      *
-     * @param id The ID of the apartment to retrieve.
+     * @param apartmentId The ID of the apartment to retrieve.
      * @return The apartment with the specified ID, or null if not found.
      */
-    public Apartment getApartmentById(Long id);
+    public Apartment getApartmentById(Long apartmentId);
 
     /**
      * Loads all apartments.
      *
      * @return A list of all apartments.
      */
-    public List<Apartment> loadAllApartments();
+    public List<Apartment> getAllApartments();
 
     /**
      * Deletes all apartments not in app just for testing.

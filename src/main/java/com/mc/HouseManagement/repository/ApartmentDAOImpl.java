@@ -29,13 +29,13 @@ public class ApartmentDAOImpl implements ApartmentDAO{
     }
 
     @Override
-    public Apartment getApartmentById(Long id) {
+    public Apartment getApartmentById(Long apartmentId) {
         try {
             TypedQuery<Apartment> query = entityManager.createQuery(
                     "select a from Apartment a "
                             + "WHERE a.id = :data", Apartment.class);
 
-            query.setParameter("data", id);
+            query.setParameter("data", apartmentId);
             return query.getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -43,7 +43,7 @@ public class ApartmentDAOImpl implements ApartmentDAO{
     }
 
     @Override
-    public List<Apartment> loadAllApartments() {
+    public List<Apartment> getAllApartments() {
         TypedQuery<Apartment> query = entityManager
                 .createQuery("SELECT a FROM Apartment a", Apartment.class);
         return query.getResultList();

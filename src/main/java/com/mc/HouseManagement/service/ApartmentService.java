@@ -18,16 +18,16 @@ public interface ApartmentService {
     /**
      * Retrieves an apartment by its ID.
      *
-     * @param id The ID of the apartment to retrieve.
+     * @param apartmentId The ID of the apartment to retrieve.
      * @return The apartment with the specified ID, or null if not found.
      */
-    public Apartment getApartmentById(Long id);
+    public Apartment getApartmentById(Long apartmentId);
 
     /**
      * Retrieves a list of all apartments in the system.
      *
      * @return A list containing all apartments in the system.
      */
-    public List<Apartment> loadAllApartments();
+    public List<Apartment> getAllApartments();
     
 }

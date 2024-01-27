@@ -1,5 +1,6 @@
-package com.mc.HouseManagement.api;
+package com.mc.HouseManagement.api.ControllerRest;
 
+import com.mc.HouseManagement.api.Controller.ControllerApartment;
 import com.mc.HouseManagement.api.dto.apartment.AddApartments;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.service.ApartmentService;
@@ -31,12 +32,12 @@ public class ControllerRESTApartment {
 
     @GetMapping("/")
     public List<Apartment> getAllApartments(){
-        return apartmentService.loadAllApartments();
+        return apartmentService.getAllApartments();
     }
 
-    @GetMapping("/{id}")
-    public Apartment getApartmentById(@PathVariable Long id){
-        return apartmentService.getApartmentById(id);
+    @GetMapping("/{apartmentId}")
+    public Apartment getApartmentById(@PathVariable Long apartmentId){
+        return apartmentService.getApartmentById(apartmentId);
     }
 
     @PostMapping("/")

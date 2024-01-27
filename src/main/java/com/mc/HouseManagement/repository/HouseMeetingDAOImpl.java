@@ -28,22 +28,22 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
     }
 
     @Override
-    public HouseMeeting getHouseMeetingById(Long id) {
+    public HouseMeeting getHouseMeetingById(Long houseMeetingId) {
         try {
             TypedQuery<HouseMeeting> query = entityManager.createQuery(
                     "select hm from HouseMeeting hm "
                             + "JOIN FETCH hm.apartments "
                             + "where hm.id = :data", HouseMeeting.class);
 
-            query.setParameter("data", id);
+            query.setParameter("data", houseMeetingId);
             return query.getSingleResult();
         } catch (NoResultException e) {
-            return entityManager.find(HouseMeeting.class, id);
+            return entityManager.find(HouseMeeting.class, houseMeetingId);
         }
     }
 
     @Override
-    public List<HouseMeeting> loadAllHouseMeetings() {
+    public List<HouseMeeting> getAllHouseMeetings() {
         TypedQuery<HouseMeeting> query = entityManager
                 .createQuery("SELECT h FROM HouseMeeting h", HouseMeeting.class);
         return query.getResultList();
@@ -51,7 +51,7 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
 
     @Override
     @Transactional
-    public Long deleteHouseMeeting(Long id) {
+    public Long deleteHouseMeetingByIdById(Long id) {
         HouseMeeting entityToRemove = getHouseMeetingById(id);
         entityManager.remove(entityToRemove);
         HouseMeeting checkEntity = getHouseMeetingById(id);

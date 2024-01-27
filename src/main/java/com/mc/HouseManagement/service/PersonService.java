@@ -1,7 +1,8 @@
 package com.mc.HouseManagement.service;
 
+import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
 import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.api.dto.person.AddUpdateNewPerson;
+import com.mc.HouseManagement.api.dto.person.AddUpdatePerson;
 
 import java.util.List;
 
@@ -9,44 +10,53 @@ public interface PersonService {
 
     /**
      * Adds or updates a person in the database.
-     * @param addUpdateNewPerson An object containing the person details.
+     * @param AddUpdatePerson An object containing the person details.
      * @return The ID of the added or updated person.
      */
-    public Long addUpdatePerson(AddUpdateNewPerson addUpdateNewPerson);
+    public Long addUpdatePerson(AddUpdatePerson AddUpdatePerson);
 
     /**
      * Retrieves a person by ID and class type.
-     * @param id The ID of the person.
-     * @param tClass The class type of the person.
+     * @param personID The ID of the person.
+     * @param personTClass The class type of the person.
      * @param <T> Type of the person.
      * @return The person with the specified ID and type.
      */
-    public <T extends Person> T getPersonById(Long id, Class<T> tClass);
+    public <T extends Person> T getPersonByIdAndType(Long personID, Class<T> personTClass);
+
+    /**
+     * Retrieves a person by ID and class type.
+     * @param apartmentId The ID of the person.
+     * @param personTClass The class type of the person.
+     * @param <T> Type of the person.
+     * @return List of person entities matching the criteria.
+     */
+    public <T extends Person> List<ReturnMultiplePersonsForApartment>  getPersonsByApartmentsIdAndType(Long apartmentId, Class<T> personTClass);
 
     /**
      * Returns a list of persons based on the specified class type.
-     * If tClass is Person.class, it will return User and Owner; otherwise, it returns the given type.
-     * @param tClass The class type of the person.
+     * If personTClass is Person.class, it will return User and Owner; otherwise, it returns the given type.
+     * @param personTClass The class type of the person.
      * @param <T> Type of the person.
      * @return List of persons based on the specified class type.
      */
-    public <T extends Person> List<T> loadAllPersons(Class<T> tClass);
+    public <T extends Person> List<T> getAllPersonsByClassType(Class<T> personTClass);
 
     /**
      * Deletes a person by ID.
-     * @param id The ID of the person to be deleted.
+     * @param personId The ID of the person to be deleted.
      * @return The ID of the deleted person.
      */
-    public Long deleteById(Long id);
+    public Long deletePersonById(Long personId);
 
     /**
      * Loads persons based on the last or first name and specified class type.
      * @param oneOfNames The last or first name to search for.
-     * @param tClass The class type of the person.
+     * @param personTClass The class type of the person.
      * @param <T> Type of the person.
      * @return List of persons based on the last or first name and specified class type.
      */
-    public <T extends Person> List<T> loadPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> tClass);
+    public <T extends Person> List<T> getPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> personTClass);
 
     /**
      * Loads persons based on the last or first name.
@@ -54,7 +64,7 @@ public interface PersonService {
      * @param <T> Type of the person.
      * @return List of persons based on the last or first name.
      */
-    public <T extends Person> List<T> loadPersonByLastOrFirstName(String oneOfNames);
+    public <T extends Person> List<T> getPersonByLastOrFirstName(String oneOfNames);
 
     /**
      * Loads a person by ID.
@@ -62,7 +72,8 @@ public interface PersonService {
      * @param <T> Type of the person.
      * @return The person with the specified ID.
      */
-    public <T extends Person> T loadPersonByID(Long id);
+    public <T extends Person> T getPersonById(Long id);
+    
 
     /**
      * Adds an apartment to a person.

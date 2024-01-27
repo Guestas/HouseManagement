@@ -66,46 +66,46 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
-    void loadAllHouseMeetings() {
+    void getAllHouseMeetings() {
         // Given: Setup object or precondition
         // TestVariables.HOUSE_MEETING_LIST
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.loadAllHouseMeetings()).thenReturn(TestVariables.HOUSE_MEETING_LIST);
+        when(houseMeetingDAO.getAllHouseMeetings()).thenReturn(TestVariables.HOUSE_MEETING_LIST);
 
         // Then: Verify the output or expected result
-        List<HouseMeeting> result = houseMeetingService.loadAllHouseMeetings();
+        List<HouseMeeting> result = houseMeetingService.getAllHouseMeetings();
 
-        verify(houseMeetingDAO).loadAllHouseMeetings();
+        verify(houseMeetingDAO).getAllHouseMeetings();
         assertEquals(TestVariables.HOUSE_MEETING_LIST, result);
 
     }
 
     @Test
-    void deleteHouseMeetingIsInDB() {
+    void deleteHouseMeetingByIdIsInDB() {
         // Given: Setup object or precondition
         Long houseMeetingID = 1L;
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.deleteHouseMeeting(houseMeetingID)).thenReturn(houseMeetingID);
+        when(houseMeetingDAO.deleteHouseMeetingByIdById(houseMeetingID)).thenReturn(houseMeetingID);
 
         // Then: Verify the output or expected result
-        Long result = houseMeetingService.deleteHouseMeeting(houseMeetingID);
-        verify(houseMeetingDAO).deleteHouseMeeting(houseMeetingID);
+        Long result = houseMeetingService.deleteHouseMeetingById(houseMeetingID);
+        verify(houseMeetingDAO).deleteHouseMeetingByIdById(houseMeetingID);
         assertEquals(houseMeetingID, result);
     }
 
     @Test
-    void deleteHouseMeetingIsNotInDB() {
+    void deleteHouseMeetingByIdIsNotInDB() {
         // Given: Setup object or precondition
         Long houseMeetingID = 1L;
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingDAO.deleteHouseMeeting(houseMeetingID)).thenReturn(null);
+        when(houseMeetingDAO.deleteHouseMeetingByIdById(houseMeetingID)).thenReturn(null);
 
         // Then: Verify the output or expected result
-        Long result = houseMeetingService.deleteHouseMeeting(houseMeetingID);
-        verify(houseMeetingDAO).deleteHouseMeeting(houseMeetingID);
+        Long result = houseMeetingService.deleteHouseMeetingById(houseMeetingID);
+        verify(houseMeetingDAO).deleteHouseMeetingByIdById(houseMeetingID);
         assertNull(result);
     }
 

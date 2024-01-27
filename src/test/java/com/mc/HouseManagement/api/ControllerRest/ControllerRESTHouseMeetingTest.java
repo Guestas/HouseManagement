@@ -1,6 +1,8 @@
-package com.mc.HouseManagement.api;
+package com.mc.HouseManagement.api.ControllerRest;
 
 import com.mc.HouseManagement.TestVariables;
+import com.mc.HouseManagement.api.ControllerRest.ControllerRESTHouseMeeting;
+import com.mc.HouseManagement.api.UtilityMethods;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddApartmentToHouseMeeting;
 import com.mc.HouseManagement.service.HouseMeetingService;
 import org.junit.jupiter.api.Test;
@@ -43,7 +45,7 @@ class ControllerRESTHouseMeetingTest {
 
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingService.loadAllHouseMeetings()).thenReturn(TestVariables.HOUSE_MEETING_LIST);
+        when(houseMeetingService.getAllHouseMeetings()).thenReturn(TestVariables.HOUSE_MEETING_LIST);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
 
         // Then: Verify the output or expected result
@@ -52,7 +54,7 @@ class ControllerRESTHouseMeetingTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(asJsonString(TestVariables.HOUSE_MEETING_LIST)));
 
-        verify(houseMeetingService, times(1)).loadAllHouseMeetings();
+        verify(houseMeetingService, times(1)).getAllHouseMeetings();
     }
 
     @Test
@@ -139,7 +141,7 @@ class ControllerRESTHouseMeetingTest {
         Long houseMeetingId = 1L;
 
         // When: Action or behavior that we are going to test
-        when(houseMeetingService.deleteHouseMeeting(houseMeetingId)).thenReturn(1L);
+        when(houseMeetingService.deleteHouseMeetingById(houseMeetingId)).thenReturn(1L);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
 
         // Then: Verify the output or expected result
@@ -147,7 +149,7 @@ class ControllerRESTHouseMeetingTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("1"));
 
-        verify(houseMeetingService, times(1)).deleteHouseMeeting(houseMeetingId);
+        verify(houseMeetingService, times(1)).deleteHouseMeetingById(houseMeetingId);
     }
 
     @Test

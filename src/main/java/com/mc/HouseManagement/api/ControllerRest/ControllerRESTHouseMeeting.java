@@ -1,5 +1,6 @@
-package com.mc.HouseManagement.api;
+package com.mc.HouseManagement.api.ControllerRest;
 
+import com.mc.HouseManagement.api.Controller.ControllerApartment;
 import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddApartmentToHouseMeeting;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeeting;
@@ -35,14 +36,14 @@ public class ControllerRESTHouseMeeting {
 
     @GetMapping("/")
     public List<HouseMeeting> getAllHouseMeetings(){
-        return houseMeetingService.loadAllHouseMeetings();
+        return houseMeetingService.getAllHouseMeetings();
     }
 
-    @GetMapping("/{id}")
-    public HouseMeeting getHouseMeetingById(@PathVariable Long id){
-        HouseMeeting houseMeeting = houseMeetingService.getHouseMeetingById(id);
+    @GetMapping("/{houseMeetingId}")
+    public HouseMeeting getHouseMeetingById(@PathVariable Long houseMeetingId){
+        HouseMeeting houseMeeting = houseMeetingService.getHouseMeetingById(houseMeetingId);
         if (houseMeeting==null)
-            throw new DataNotFoundException("House meeting not found on ID: "+id);
+            throw new DataNotFoundException("House meeting not found on ID: "+houseMeetingId);
         return houseMeeting;
     }
 
@@ -59,11 +60,11 @@ public class ControllerRESTHouseMeeting {
         return houseMeetingService.addUpdateHouseMeeting(addUpdateHouseMeeting);
     }
 
-    @DeleteMapping("/{id}")
-    public Long delHouseMeeting(@PathVariable Long id){
-        Long result = houseMeetingService.deleteHouseMeeting(id);
+    @DeleteMapping("/{houseMeetingId}")
+    public Long delHouseMeeting(@PathVariable Long houseMeetingId){
+        Long result = houseMeetingService.deleteHouseMeetingById(houseMeetingId);
         if (result==-1)
-            throw new DataNotFoundException("House meeting not found with id: " + id);
+            throw new DataNotFoundException("House meeting not found with id: " + houseMeetingId);
         return result;
     }
 

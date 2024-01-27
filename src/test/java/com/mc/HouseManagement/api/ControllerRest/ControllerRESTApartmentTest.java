@@ -1,6 +1,8 @@
-package com.mc.HouseManagement.api;
+package com.mc.HouseManagement.api.ControllerRest;
 
 import com.mc.HouseManagement.TestVariables;
+import com.mc.HouseManagement.api.ControllerRest.ControllerRESTApartment;
+import com.mc.HouseManagement.api.UtilityMethods;
 import com.mc.HouseManagement.service.ApartmentService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +42,7 @@ class ControllerRESTApartmentTest {
         // TestVariables.APARTMENT_LIST
 
         // When: Action or behavior that we are going to test
-        when(apartmentService.loadAllApartments()).thenReturn(TestVariables.APARTMENT_LIST);
+        when(apartmentService.getAllApartments()).thenReturn(TestVariables.APARTMENT_LIST);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTApartment).build();
 
         // Then: Verify the output or expected result
@@ -49,7 +51,7 @@ class ControllerRESTApartmentTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(UtilityMethods.asJsonString(TestVariables.APARTMENT_LIST)));
 
-        verify(apartmentService, times(1)).loadAllApartments();
+        verify(apartmentService, times(1)).getAllApartments();
     }
 
     @Test

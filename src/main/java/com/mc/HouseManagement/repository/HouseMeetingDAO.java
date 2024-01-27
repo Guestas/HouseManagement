@@ -16,25 +16,25 @@ public interface HouseMeetingDAO {
     /**
      * This method retrieves a house meeting by its ID.
      *
-     * @param id The ID of the HouseMeeting to retrieve.
+     * @param houseMeetingId The ID of the HouseMeeting to retrieve.
      * @return The HouseMeeting with the specified ID.
      */
-    public HouseMeeting getHouseMeetingById(Long id);
+    public HouseMeeting getHouseMeetingById(Long houseMeetingId);
 
     /**
      * This method retrieves all house meetings from the database.
      *
      * @return A list of all HouseMeeting objects.
      */
-    public List<HouseMeeting> loadAllHouseMeetings();
+    public List<HouseMeeting> getAllHouseMeetings();
 
     /**
      * This method deletes a house meeting by its ID.
      *
-     * @param id The ID of the HouseMeeting to delete.
+     * @param houseMeetingId The ID of the HouseMeeting to delete.
      * @return The ID of the deleted HouseMeeting, or -1 if the deletion fails.
      */
-    public Long deleteHouseMeeting(Long id);
+    public Long deleteHouseMeetingByIdById(Long houseMeetingId);
 
     /**
      * This method deletes all house meetings from the database.

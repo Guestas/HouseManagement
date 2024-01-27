@@ -30,27 +30,39 @@ public class PersonDAOImpl implements PersonDAO{
     }
 
     @Override
-    public <T extends Person> T getPersonById(Long id, Class<T> tClass) {
-        return entityManager.find(tClass, id);
+    public <T extends Person> T getPersonByIdAndType(Long id, Class<T> personTClass) {
+        return entityManager.find(personTClass, id);
     }
 
     @Override
-    public <T extends Person> List<T> loadAllPersons(Class<T> tClass) {
+    public <T extends Person> List<T> getPersonsByApartmentsIdAndType(Long apartmentId, Class<T> personTClass) {
+        try {
+            TypedQuery<T> query = entityManager.createQuery("SELECT p FROM " +
+                    personTClass.getCanonicalName() +
+                    " p JOIN FETCH p.apartments a WHERE a.id=:theData", personTClass);
+            return query.setParameter("theData", apartmentId).getResultList();
+        } catch (DataNotFoundException e){
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public <T extends Person> List<T> getAllPersonsByClassType(Class<T> personTClass) {
         TypedQuery<T> query = entityManager
                 .createQuery("SELECT t FROM " +
-                                tClass.getCanonicalName() +
+                                personTClass.getCanonicalName() +
                                 " t",
-                        tClass);
+                        personTClass);
         return query.getResultList();
     }
 
     @Override
     @Transactional
-    public <T extends Person> Long deleteById(Long id) {
-        T entityToRemove = loadPersonByID(id);
+    public <T extends Person> Long deletePersonById(Long personId) {
+        T entityToRemove = getPersonById(personId);
 
         entityManager.remove(entityToRemove);
-        T checkEntity = loadPersonByID(id);
+        T checkEntity = getPersonById(personId);
 
         return checkEntity == null?entityToRemove.getId():-1;
     }
@@ -64,12 +76,12 @@ public class PersonDAOImpl implements PersonDAO{
     }
 
     @Override
-    public <T extends Person> List<T> loadPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> tClass) {
+    public <T extends Person> List<T> getPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> personTClass) {
         try {
             TypedQuery<T> query = entityManager.createQuery("SELECT p FROM " +
-                    tClass.getCanonicalName() +
+                    personTClass.getCanonicalName() +
                     " p WHERE lastName=:theData or " +
-                    "firstName=:theData", tClass);
+                    "firstName=:theData", personTClass);
             return query.setParameter("theData", oneOfNames).getResultList();
         } catch (DataNotFoundException e){
             return new ArrayList<>();
@@ -77,7 +89,7 @@ public class PersonDAOImpl implements PersonDAO{
     }
 
     @Override
-    public <T extends Person> T loadPersonByID(Long id) {
+    public <T extends Person> T getPersonById(Long id) {
         try {
             String queryString = "SELECT p.person_type FROM person p WHERE id=:theData";
             Query nativeQuery = entityManager.createNativeQuery(queryString);

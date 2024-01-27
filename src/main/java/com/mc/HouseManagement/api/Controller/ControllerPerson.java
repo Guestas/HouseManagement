@@ -1,7 +1,7 @@
-package com.mc.HouseManagement.api;
+package com.mc.HouseManagement.api.Controller;
 
 import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
-import com.mc.HouseManagement.api.dto.person.AddUpdateNewPerson;
+import com.mc.HouseManagement.api.dto.person.AddUpdatePerson;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
@@ -33,14 +33,14 @@ public class ControllerPerson {
 
     @GetMapping("/")
     public String getUserDetails(Model model) {
-        model.addAttribute("allPersonList", personService.loadAllPersons(Person.class));
+        model.addAttribute("allPersonList", personService.getAllPersonsByClassType(Person.class));
         return "persons";
     }
 
     @GetMapping("/{id}")
     @ResponseBody
     public <T extends Person> T getUsersByID(@PathVariable Long id){
-        T loaded = personService.loadPersonByID(id);
+        T loaded = personService.getPersonById(id);
         if (loaded==null)
             throw new DataNotFoundException("User not found on ID: "+id);
         return loaded;
@@ -49,13 +49,13 @@ public class ControllerPerson {
     // addition
     @GetMapping("/add")
     public String addPerson(Model model){
-        model.addAttribute("person", new AddUpdateNewPerson());
+        model.addAttribute("person", new AddUpdatePerson());
         return "newPerson";
     }
 
     @PostMapping("/add")
-    public String savePerson(@ModelAttribute("person") AddUpdateNewPerson addUpdateNewPerson){
-        personService.addUpdatePerson(addUpdateNewPerson);
+    public String savePerson(@ModelAttribute("person") AddUpdatePerson AddUpdatePerson){
+        personService.addUpdatePerson(AddUpdatePerson);
         return "redirect:/api/v2/persons/";
     }
 
@@ -73,7 +73,7 @@ public class ControllerPerson {
     @DeleteMapping("/{id}")
     @ResponseBody
     public Long deletePerson(@PathVariable Long id){
-        Long idOfDelPerson = personService.deleteById(id);
+        Long idOfDelPerson = personService.deletePersonById(id);
         if (idOfDelPerson==-1)
             throw new DataNotFoundException("Person not found with id: "+id);
         return idOfDelPerson;

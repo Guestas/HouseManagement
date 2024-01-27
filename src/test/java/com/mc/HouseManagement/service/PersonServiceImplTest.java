@@ -1,13 +1,12 @@
 package com.mc.HouseManagement.service;
 
-import com.mc.HouseManagement.api.dto.person.AddUpdateNewPerson;
-import com.mc.HouseManagement.entity.Apartment;
-import com.mc.HouseManagement.entity.Owner;
-import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.User;
+import com.mc.HouseManagement.api.dto.person.AddUpdatePerson;
+import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
+import com.mc.HouseManagement.entity.*;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -18,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -40,7 +40,7 @@ class PersonServiceImplTest {
     @Test
     void canAddPerson() {
         // Given: Setup object or precondition
-        AddUpdateNewPerson testPerson = AddUpdateNewPerson.creteAddUpdatePerson("a","b","e",
+        AddUpdatePerson testPerson = AddUpdatePerson.creteAddUpdatePerson("a","b","e",
                 123456L,"Owner");
 
         // When: Action or behavior that we are going to test
@@ -54,100 +54,100 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void tryGetPersonById() {
+    void trygetPersonByIdAndType() {
         // Given: Setup object or precondition
         Long personID = 1L;
-        AddUpdateNewPerson testPerson = AddUpdateNewPerson.creteAddUpdatePerson("a","b","e",
+        AddUpdatePerson testPerson = AddUpdatePerson.creteAddUpdatePerson("a","b","e",
                 123456L,"Owner");
 
         // When: Action or behavior that we are going to test
-        when(personDAO.getPersonById(any(), any())).thenReturn(testPerson.getPersonWitType());
+        when(personDAO.getPersonByIdAndType(any(), any())).thenReturn(testPerson.getPersonWitType());
 
         // Then: Verify the output or expected result
-        Person returned = personService.getPersonById(personID, Owner.class);
-        verify(personDAO).getPersonById(1L, Owner.class);
+        Person returned = personService.getPersonByIdAndType(personID, Owner.class);
+        verify(personDAO).getPersonByIdAndType(1L, Owner.class);
         assertEquals(testPerson.getPersonWitType(), returned);
     }
 
     @Test
-    void loadAllPersonsOwner() {
+    void getAllPersonsOwner() {
         // Given: Setup object or precondition
 
         // When: Action or behavior that we are going to test
-        personService.loadAllPersons(Owner.class);
+        personService.getAllPersonsByClassType(Owner.class);
 
         // Then: Verify the output or expected result
-        verify(personDAO).loadAllPersons(Owner.class);
+        verify(personDAO).getAllPersonsByClassType(Owner.class);
     }
 
     @Test
-    void loadAllPersonsPersonUniversalReturn() {
+    void getAllPersonsPersonUniversalReturn() {
         // Given: Setup object or precondition
 
         // When: Action or behavior that we are going to test
-        personService.loadAllPersons(Person.class);
+        personService.getAllPersonsByClassType(Person.class);
 
         // Then: Verify the output or expected result
-        verify(personDAO).loadAllPersons(User.class);
-        verify(personDAO).loadAllPersons(Owner.class);
+        verify(personDAO).getAllPersonsByClassType(User.class);
+        verify(personDAO).getAllPersonsByClassType(Owner.class);
     }
 
     @Test
-    void deleteById() {
+    void deletePersonById() {
         // Given: Setup object or precondition
         Long personId = 1L;
 
         // When: Action or behavior that we are going to test
-        when(personDAO.deleteById(eq(personId))).thenReturn(1L);
+        when(personDAO.deletePersonById(eq(personId))).thenReturn(1L);
 
         // Then: Verify the output or expected result
-        Long result = personService.deleteById(personId);
-        verify(personDAO).deleteById(eq(personId));
+        Long result = personService.deletePersonById(personId);
+        verify(personDAO).deletePersonById(eq(personId));
         assertEquals(personId, result);
     }
 
     @Test
-    public void testLoadPersonByLastOrFirstNameAndType() {
+    public void testgetPersonByLastOrFirstNameAndType() {
         // Given: Setup object or precondition
         String oneOfNames = "John";
         Class<Person> personClass = Person.class;
 
         // Sample data to be returned by the mock
-        AddUpdateNewPerson testPerson1 = AddUpdateNewPerson.creteAddUpdatePerson("a","b","e",
+        AddUpdatePerson testPerson1 = AddUpdatePerson.creteAddUpdatePerson("a","b","e",
                 123456L,"Owner");
-        AddUpdateNewPerson testPerson2 = AddUpdateNewPerson.creteAddUpdatePerson("a","b","e",
+        AddUpdatePerson testPerson2 = AddUpdatePerson.creteAddUpdatePerson("a","b","e",
                 123456L,"Owner");
         List<Person> expectedResults = Arrays.asList(testPerson1.getPersonWitType(), testPerson2.getPersonWitType());
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(personClass)))
+        when(personDAO.getPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(personClass)))
                 .thenReturn(expectedResults);
 
         // Then: Verify the output or expected result
-        List<Person> actualResults = personService.loadPersonByLastOrFirstNameAndType(oneOfNames, personClass);
+        List<Person> actualResults = personService.getPersonByLastOrFirstNameAndType(oneOfNames, personClass);
 
-        verify(personDAO).loadPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(personClass));
+        verify(personDAO).getPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(personClass));
         assertEquals(expectedResults, actualResults);
     }
 
     @Test
-    <T extends Person> void testLoadPersonByLastOrFirstName(){
+    <T extends Person> void testgetPersonByLastOrFirstName(){
         // Given: Setup object or precondition
         String oneOfNames = "John";
-        AddUpdateNewPerson testPerson1 = AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe","e",
+        AddUpdatePerson testPerson1 = AddUpdatePerson.creteAddUpdatePerson("John", "Doe","e",
                 123456L,"User");
-        AddUpdateNewPerson testPerson2 = AddUpdateNewPerson.creteAddUpdatePerson("John", "Smith","e",
+        AddUpdatePerson testPerson2 = AddUpdatePerson.creteAddUpdatePerson("John", "Smith","e",
                 123456L,"User");
 
         List<User> userResults = Arrays.asList((User) testPerson1.getPersonWitType(), (User) testPerson2.getPersonWitType());
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(User.class)))
+        when(personDAO.getPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(User.class)))
                 .thenReturn(userResults);
 
         // Then: Verify the output or expected result
-        List<Person> result = personService.loadPersonByLastOrFirstName(oneOfNames);
-        verify(personDAO).loadPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(User.class));
+        List<Person> result = personService.getPersonByLastOrFirstName(oneOfNames);
+        verify(personDAO).getPersonByLastOrFirstNameAndType(eq(oneOfNames), eq(User.class));
 
         assertEquals(2, result.size()); // Assuming that all three instances are returned
         assertEquals(testPerson1.getPersonWitType(), result.get(0));
@@ -161,19 +161,19 @@ class PersonServiceImplTest {
         Long personId = 1L;
         Long apartmentId = 101L;
 
-        User testUser = (User) AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe",
+        User testUser = (User) AddUpdatePerson.creteAddUpdatePerson("John", "Doe",
                  "john@doe.com",126555111L, "User").getPersonWitType();
         Apartment testApartment = Apartment.createApartment(50,5,4,6,
                 "Lombart st.", null, null);
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByID(eq(personId))).thenReturn(testUser);
+        when(personDAO.getPersonById(eq(personId))).thenReturn(testUser);
         when(apartmentDAO.getApartmentById(eq(apartmentId))).thenReturn(testApartment);
         when(personDAO.addUpdatePerson(any())).thenReturn(1L);
 
         // Then: Verify the output or expected result
         Long result = personService.addApartmentToPerson(personId, apartmentId);
-        verify(personDAO).loadPersonByID(eq(personId));
+        verify(personDAO).getPersonById(eq(personId));
         verify(apartmentDAO).getApartmentById(eq(apartmentId));
         verify(personDAO).addUpdatePerson(any());
 
@@ -186,18 +186,18 @@ class PersonServiceImplTest {
         Long personId = 1L;
         Long apartmentId = 101L;
 
-        User testUser = (User) AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe",
+        User testUser = (User) AddUpdatePerson.creteAddUpdatePerson("John", "Doe",
                 "john@doe.com",126555111L, "User").getPersonWitType();
         Apartment testApartment = Apartment.createApartment(50,5,4,6,
                 "Lombart st.", null, null);
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByID(eq(personId))).thenReturn(null);
+        when(personDAO.getPersonById(eq(personId))).thenReturn(null);
 
         // Then: Verify the output or expected result
         Long result = personService.addApartmentToPerson(personId, apartmentId);
 
-        verify(personDAO).loadPersonByID(eq(personId));
+        verify(personDAO).getPersonById(eq(personId));
 
         assertEquals(-1L, result);
     }
@@ -208,13 +208,13 @@ class PersonServiceImplTest {
         Long personId = 1L;
         Long apartmentId = 101L;
 
-        User testUser = (User) AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe",
+        User testUser = (User) AddUpdatePerson.creteAddUpdatePerson("John", "Doe",
                 "john@doe.com",126555111L, "User").getPersonWitType();
         Apartment testApartment = Apartment.createApartment(50,5,4,6,
                 "Lombart st.", null, null);
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByID(eq(personId))).thenReturn(testUser);
+        when(personDAO.getPersonById(eq(personId))).thenReturn(testUser);
         when(apartmentDAO.getApartmentById(eq(apartmentId))).thenReturn(null);
 
 
@@ -222,7 +222,7 @@ class PersonServiceImplTest {
 
         Long result = personService.addApartmentToPerson(personId, apartmentId);
 
-        verify(personDAO).loadPersonByID(eq(personId));
+        verify(personDAO).getPersonById(eq(personId));
         verify(apartmentDAO).getApartmentById(eq(apartmentId));
         verifyNoMoreInteractions(personDAO); // Make sure personDAO methods are not called
 
@@ -234,17 +234,17 @@ class PersonServiceImplTest {
     void testLadPersonByID(){
         // Given: Setup object or precondition
         Long personId = 1L;
-        Person testUser = AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe",
+        Person testUser = AddUpdatePerson.creteAddUpdatePerson("John", "Doe",
                 "john@doe.com",126555111L, "User").getPersonWitType();
 
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByID(eq(personId))).thenReturn(testUser);
+        when(personDAO.getPersonById(eq(personId))).thenReturn(testUser);
 
         // Then: Verify the output or expected result
-        User result = personService.loadPersonByID(personId);
+        User result = personService.getPersonById(personId);
 
-        verify(personDAO).loadPersonByID(eq(personId));
+        verify(personDAO).getPersonById(eq(personId));
         assertEquals(testUser, result);
     }
 
@@ -254,19 +254,19 @@ class PersonServiceImplTest {
         Long personId = 1L;
         Long apartmentId = 101L;
 
-        User testUser = (User) AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe",
+        User testUser = (User) AddUpdatePerson.creteAddUpdatePerson("John", "Doe",
                 "john@doe.com",126555111L, "User").getPersonWitType();
         Apartment testApartment = Apartment.createApartment(50,5,4,6,
                 "Lombart st.", null, null);
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByID(eq(personId))).thenReturn(testUser);
+        when(personDAO.getPersonById(eq(personId))).thenReturn(testUser);
         when(apartmentDAO.getApartmentById(eq(apartmentId))).thenReturn(testApartment);
         when(personDAO.addUpdatePerson(any())).thenReturn(1L);
 
         // Then: Verify the output or expected result
         Long result = personService.delApartmentFromPerson(personId, apartmentId);
-        verify(personDAO).loadPersonByID(eq(personId));
+        verify(personDAO).getPersonById(eq(personId));
         verify(apartmentDAO).getApartmentById(eq(apartmentId));
         verify(personDAO).addUpdatePerson(any());
 
@@ -280,12 +280,12 @@ class PersonServiceImplTest {
         Long apartmentId = 101L;
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByID(eq(personId))).thenReturn(null);
+        when(personDAO.getPersonById(eq(personId))).thenReturn(null);
 
         // Then: Verify the output or expected result
         Long result = personService.delApartmentFromPerson(personId, apartmentId);
 
-        verify(personDAO).loadPersonByID(eq(personId));
+        verify(personDAO).getPersonById(eq(personId));
 
         assertEquals(-1L, result);
     }
@@ -296,11 +296,11 @@ class PersonServiceImplTest {
         Long personId = 1L;
         Long apartmentId = 101L;
 
-        User testUser = (User) AddUpdateNewPerson.creteAddUpdatePerson("John", "Doe",
+        User testUser = (User) AddUpdatePerson.creteAddUpdatePerson("John", "Doe",
                 "john@doe.com",126555111L, "User").getPersonWitType();
 
         // When: Action or behavior that we are going to test
-        when(personDAO.loadPersonByID(eq(personId))).thenReturn(testUser);
+        when(personDAO.getPersonById(eq(personId))).thenReturn(testUser);
         when(apartmentDAO.getApartmentById(eq(apartmentId))).thenReturn(null);
 
 
@@ -308,12 +308,39 @@ class PersonServiceImplTest {
 
         Long result = personService.delApartmentFromPerson(personId, apartmentId);
 
-        verify(personDAO).loadPersonByID(eq(personId));
+        verify(personDAO).getPersonById(eq(personId));
         verify(apartmentDAO).getApartmentById(eq(apartmentId));
         verifyNoMoreInteractions(personDAO); // Make sure personDAO methods are not called
 
 
         assertEquals(-2L, result); // Apartment not found
+    }
+
+    @Test
+    @DisplayName("Test get Persons by apartment id")
+    void testGetPersonsByApartmentId(){
+        // Given: Setup object or precondition
+        Apartment testApartment = Apartment.createApartment(5, 4, 5,
+                2553, "street1", null,null);
+
+        Owner owner = new Owner("Anne","Jara","anne@jar.com",
+                987654321L,null);
+        SoldMovedOut soldMovedOut = new SoldMovedOut("Diana","Jara","diana@anne.com",
+                987654321L,null);
+        User user = new User("Kala","Anne","diana@anne.com",
+                987654321L,null);
+        user.addApartment(testApartment);
+
+        // When: Action or behavior that we are going to test
+        when(personDAO.getPersonsByApartmentsIdAndType(1L, User.class)).thenReturn(Arrays.asList(user));
+
+
+        // Then: Verify the output or expected result
+        List<ReturnMultiplePersonsForApartment> result = personService
+                .getPersonsByApartmentsIdAndType(1L, User.class);
+        assertNotNull(result);
+        assertEquals(new ReturnMultiplePersonsForApartment(user), result.get(0));
+
     }
 
 }

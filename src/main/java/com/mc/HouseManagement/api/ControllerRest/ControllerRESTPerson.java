@@ -1,10 +1,10 @@
-package com.mc.HouseManagement.api;
+package com.mc.HouseManagement.api.ControllerRest;
 
+import com.mc.HouseManagement.api.Controller.ControllerApartment;
+import com.mc.HouseManagement.api.dto.person.*;
 import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
-import com.mc.HouseManagement.api.dto.person.AddApartmentToPerson;
-import com.mc.HouseManagement.api.dto.person.AddUpdateNewPerson;
-import com.mc.HouseManagement.api.dto.person.AddUpdateNewPersons;
 import com.mc.HouseManagement.entity.Person;
+import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -44,72 +44,80 @@ public class ControllerRESTPerson {
 
     @GetMapping("/")
     public <T extends Person> List<Person> getAllUsers() {
-        List<Person> outputPersons = personService.loadAllPersons(Person.class);
+        List<Person> outputPersons = personService.getAllPersonsByClassType(Person.class);
         Collections.sort(outputPersons);
         return outputPersons;
     }
 
-    @GetMapping("/{id}")
-    public <T extends Person> T getUsersByID(@PathVariable Long id){
-        T loaded = personService.loadPersonByID(id);
+    @GetMapping("/{personId}")
+    public <T extends Person> T getUsersByID(@PathVariable Long personId){
+        T loaded = personService.getPersonById(personId);
         if (loaded==null)
-            throw new DataNotFoundException("User not found on ID: "+id);
+            throw new DataNotFoundException("User not found on ID: "+personId);
         return loaded;
     }
 
     @PostMapping("/")
-    public Long addPerson(@Valid @RequestBody AddUpdateNewPerson addUpdateNewPerson){
-        return personService.addUpdatePerson(addUpdateNewPerson);
+    public Long addPerson(@Valid @RequestBody AddUpdatePerson AddUpdatePerson){
+        return personService.addUpdatePerson(AddUpdatePerson);
     }
 
     @PutMapping("/")
-    public Long updatePerson(@Valid @RequestBody AddUpdateNewPerson addUpdateNewPerson){
-        Person person = personService.loadPersonByID(addUpdateNewPerson.getId());
-        if (person != null && addUpdateNewPerson.getPersonWitType().getClass() != person.getClass()){
-            personService.deleteById(addUpdateNewPerson.getId());
+    public Long updatePerson(@Valid @RequestBody AddUpdatePerson AddUpdatePerson){
+        Person person = personService.getPersonById(AddUpdatePerson.getId());
+        if (person != null && AddUpdatePerson.getPersonWitType().getClass() != person.getClass()){
+            personService.deletePersonById(AddUpdatePerson.getId());
         } else if (person == null) {
-            throw new DataNotFoundException(addUpdateNewPerson.getTypeOfUser()
+            throw new DataNotFoundException(AddUpdatePerson.getTypeOfUser()
                     + " not found with id: "
-                    + addUpdateNewPerson.getId());
+                    + AddUpdatePerson.getId());
         }
-        return personService.addUpdatePerson(addUpdateNewPerson);
+        return personService.addUpdatePerson(AddUpdatePerson);
     }
 
-    @DeleteMapping("/{id}")
-    public Long deletePerson(@PathVariable Long id){
-        Long idOfDelPerson = personService.deleteById(id);
+    @DeleteMapping("/{personId}")
+    public Long deletePerson(@PathVariable Long personId){
+        Long idOfDelPerson = personService.deletePersonById(personId);
         if (idOfDelPerson==-1)
-            throw new DataNotFoundException("User not found with id: "+id);
+            throw new DataNotFoundException("User not found with id: "+personId);
         return idOfDelPerson;
     }
 
     @GetMapping("/name/{name}")
     public <T extends Person> List<Person> getUsersByNameOrLastName(@PathVariable String name){
-        if (personService.loadPersonByLastOrFirstName(name).isEmpty())
+        if (personService.getPersonByLastOrFirstName(name).isEmpty())
             throw new DataNotFoundException("User not found with firs name or last name: " + name);
-        return personService.loadPersonByLastOrFirstName(name);
+        return personService.getPersonByLastOrFirstName(name);
     }
 
-    @PostMapping("/multiple")
-    public int addMultiplePersons(@Valid @RequestBody AddUpdateNewPersons addUpdateNewPersons){
-        addUpdateNewPersons.getPersons().forEach(personService::addUpdatePerson);
-        return addUpdateNewPersons.getPersons().size();
+    @GetMapping("/apartment/")
+    public List<ReturnMultiplePersonsForApartment> getUsersByApartmentId(@Valid @RequestBody GetPersonsByApartmentId getPersonsByApartmentId){
+        return personService.getPersonsByApartmentsIdAndType(
+                    getPersonsByApartmentId.getIdApartment(),
+                        getPersonsByApartmentId.getPersonType()
+                );
     }
 
-    @PutMapping("/multiple")
-    public int updatePersons(@Valid @RequestBody AddUpdateNewPersons addUpdateNewPersons){
-        addUpdateNewPersons.getPersons().forEach(person -> {
-            Person personFromDB = personService.loadPersonByID(person.getId());
+    @PostMapping("/multiple/")
+    public int addMultiplePersons(@Valid @RequestBody AddUpdatePersons AddUpdatePersons){
+        AddUpdatePersons.getPersons().forEach(personService::addUpdatePerson);
+        return AddUpdatePersons.getPersons().size();
+    }
+
+    @PutMapping("/multiple/")
+    public int updatePersons(@Valid @RequestBody AddUpdatePersons AddUpdatePersons){
+        AddUpdatePersons.getPersons().forEach(person -> {
+            Person personFromDB = personService.getPersonById(person.getId());
             if (personFromDB == null){
                 throw new DataNotFoundException(person.getTypeOfUser()
                         + " not found with id: "
                         + person.getId());
             }
         });
-        return addUpdateNewPersons.getPersons().size();
+        return AddUpdatePersons.getPersons().size();
     }
 
-    @PostMapping("/apartment")
+    @PostMapping("/apartment/")
     public Long addApartmentToPerson(@Valid @RequestBody AddApartmentToPerson addApartmentToPerson){
         Long idOfUpdatedPerson = personService.addApartmentToPerson(addApartmentToPerson.getIdPerson(), addApartmentToPerson.getIdApartment());
         if (idOfUpdatedPerson==-1)
@@ -120,7 +128,7 @@ public class ControllerRESTPerson {
         return idOfUpdatedPerson;
     }
 
-    @DeleteMapping("/apartment")
+    @DeleteMapping("/apartment/")
     public Long delApartmentToPerson(@Valid @RequestBody AddApartmentToPerson addApartmentToPerson){
         Long idOfUpdatedPerson = personService.delApartmentFromPerson(addApartmentToPerson.getIdPerson(), addApartmentToPerson.getIdApartment());
         if (idOfUpdatedPerson==-1)

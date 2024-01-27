@@ -33,7 +33,7 @@ class HouseMeetingDAOImplTest {
     void clearAllData(){
         // Call the method to be tested
         houseMeetingDAO.deleteAllHouseMeetings();
-        List<HouseMeeting> actualHouseMeetingList = houseMeetingDAO.loadAllHouseMeetings();
+        List<HouseMeeting> actualHouseMeetingList = houseMeetingDAO.getAllHouseMeetings();
 
         // Assertions
         assertThat(actualHouseMeetingList).isEmpty();
@@ -58,14 +58,14 @@ class HouseMeetingDAOImplTest {
 
     @Test
     @DisplayName("Test Adding HouseMeeting and delete it by ID")
-    void canAddAndDeleteByIDHouseMeeting() {
+    void canAddAnddeletePersonByIdHouseMeeting() {
         // Given: Setup object or precondition
         List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
         HouseMeeting testHouseMeeting = HouseMeeting.createHouseMeeting("20-5-1998", "Early meeting", topics,null);
 
         // When: Action or behavior that we are going to test
         Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);
-        Long deleted = houseMeetingDAO.deleteHouseMeeting(id);
+        Long deleted = houseMeetingDAO.deleteHouseMeetingByIdById(id);
 
         HouseMeeting returned = houseMeetingDAO.getHouseMeetingById(id);
         // Then: Verify the output or expected result
@@ -75,7 +75,7 @@ class HouseMeetingDAOImplTest {
 
     @Test
     @DisplayName("Test Loading all HouseMeetings")
-    void canLoadAllHouseMeetings() {
+    void cangetAllHouseMeetings() {
         // Given: Setup object or precondition
         List<String> topics1 = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
         HouseMeeting testHouseMeeting1 = HouseMeeting.createHouseMeeting("20-5-1998", "Early meeting", topics1,null);
@@ -85,7 +85,7 @@ class HouseMeetingDAOImplTest {
 
         // When: Action or behavior that we are going to test
         expectedHouseMeetingsList.forEach(houseMeetingDAO::addUpdateHouseMeeting);
-        List<HouseMeeting> returnedHouseMeetingList = houseMeetingDAO.loadAllHouseMeetings();
+        List<HouseMeeting> returnedHouseMeetingList = houseMeetingDAO.getAllHouseMeetings();
 
         // Then: Verify the output or expected result
         assertNotNull(returnedHouseMeetingList);
@@ -110,7 +110,7 @@ class HouseMeetingDAOImplTest {
 
         // When: Action or behavior that we are going to test
         expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
-        testHouseMeeting.setApartments(apartmentDAO.loadAllApartments());
+        testHouseMeeting.setApartments(apartmentDAO.getAllApartments());
 
         Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);
 
@@ -137,7 +137,7 @@ class HouseMeetingDAOImplTest {
 
         // When: Action or behavior that we are going to test
         expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
-        testHouseMeeting.setApartments(apartmentDAO.loadAllApartments());
+        testHouseMeeting.setApartments(apartmentDAO.getAllApartments());
 
         Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);
 
@@ -162,7 +162,7 @@ class HouseMeetingDAOImplTest {
 
         // When: Action or behavior that we are going to test
         expectedApartmentList.forEach(apartmentDAO::addUpdateApartment);
-        testHouseMeeting.setApartments(apartmentDAO.loadAllApartments());
+        testHouseMeeting.setApartments(apartmentDAO.getAllApartments());
 
         Long id = houseMeetingDAO.addUpdateHouseMeeting(testHouseMeeting);
 

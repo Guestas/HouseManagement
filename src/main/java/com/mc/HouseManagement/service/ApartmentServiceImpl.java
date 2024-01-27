@@ -23,12 +23,12 @@ public class ApartmentServiceImpl implements ApartmentService{
     }
 
     @Override
-    public Apartment getApartmentById(Long id) {
-        return apartmentDAO.getApartmentById(id);
+    public Apartment getApartmentById(Long apartmentId) {
+        return apartmentDAO.getApartmentById(apartmentId);
     }
 
     @Override
-    public List<Apartment> loadAllApartments() {
-        return apartmentDAO.loadAllApartments();
+    public List<Apartment> getAllApartments() {
+        return apartmentDAO.getAllApartments();
     }
 }

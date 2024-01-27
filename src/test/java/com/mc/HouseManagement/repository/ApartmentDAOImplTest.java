@@ -33,7 +33,7 @@ class ApartmentDAOImplTest {
 
         // When: Action or behavior that we are going to test
         apartmentDAO.deleteAllApartments();
-        List<Apartment> actualApartmentList = apartmentDAO.loadAllApartments();
+        List<Apartment> actualApartmentList = apartmentDAO.getAllApartments();
 
         // Then: Verify the output or expected result
         assertThat(actualApartmentList).isEmpty();
@@ -70,13 +70,13 @@ class ApartmentDAOImplTest {
 
     @Test
     @DisplayName("Test Loading all Apartments")
-    void loadAllApartments() {
+    void getAllApartments() {
         // Given: Setup object or precondition
         // TestVariables.APARTMENT_LIST
 
         // When: Action or behavior that we are going to test
         TestVariables.APARTMENT_LIST.forEach(apartmentDAO::addUpdateApartment);
-        List<Apartment> actualApartmentList = apartmentDAO.loadAllApartments();
+        List<Apartment> actualApartmentList = apartmentDAO.getAllApartments();
 
         // Then: Verify the output or expected result
         assertNotNull(actualApartmentList);

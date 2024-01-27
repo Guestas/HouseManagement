@@ -17,17 +17,17 @@ public interface HouseMeetingService {
     /**
      * Retrieves a house meeting by its ID.
      *
-     * @param id The ID of the house meeting to retrieve.
+     * @param houseMeetingId The ID of the house meeting to retrieve.
      * @return The house meeting with the specified ID, or null if not found.
      */
-    public HouseMeeting getHouseMeetingById(Long id);
+    public HouseMeeting getHouseMeetingById(Long houseMeetingId);
 
     /**
      * Loads all house meetings.
      *
      * @return A list of all house meetings.
      */
-    public List<HouseMeeting> loadAllHouseMeetings();
+    public List<HouseMeeting> getAllHouseMeetings();
 
     /**
      * Deletes a house meeting by its ID.
@@ -35,7 +35,7 @@ public interface HouseMeetingService {
      * @param id The ID of the house meeting to delete.
      * @return The ID of the deleted house meeting.
      */
-    public Long deleteHouseMeeting(Long id);
+    public Long deleteHouseMeetingById(Long id);
 
     /**
      * Adds an apartment to a house meeting.

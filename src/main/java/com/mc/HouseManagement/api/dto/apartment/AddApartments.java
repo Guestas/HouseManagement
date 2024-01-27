@@ -5,19 +5,19 @@ import com.mc.HouseManagement.entity.Apartment;
 import java.util.List;
 
 public class AddApartments {
-    private List<AddApartment> apartments;
+    private List<AddApartment> addApartments;
 
     public AddApartments() {}
 
-    public AddApartments(List<AddApartment> apartments) {
-        this.apartments = apartments;
+    public AddApartments(List<AddApartment> addApartments) {
+        this.addApartments = addApartments;
     }
 
     public List<Apartment> getApartments() {
-        return apartments.stream().map(AddApartment::getApartment).toList();
+        return addApartments.stream().map(AddApartment::getApartment).toList();
     }
 
-    public void setApartments(List<AddApartment> apartments) {
-        this.apartments = apartments;
+    public void setApartments(List<AddApartment> addApartments) {
+        this.addApartments = addApartments;
     }
 }
