@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class AddUpdatePerson {
     @Min(value = 99_999_999, message = "Invalid phone number.")
     private Long phone;
 
-    private List<String> apartmentNumber;
+    private List<String> apartmentNumber = new ArrayList<>();
 
     @NotNull(message = "Type of person must be [User, Owner, SoldMovedOut] name cannot be null.")
     @Pattern(regexp = "^(Owner|User|SoldMovedOut)$", message = "typeOfUser must be 'Owner', 'User' or SoldMovedOut")

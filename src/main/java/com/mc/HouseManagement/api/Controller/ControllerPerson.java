@@ -56,9 +56,6 @@ public class ControllerPerson {
     public String savePerson(@ModelAttribute("person") AddUpdatePerson addUpdatePerson){
         Long personId = personService.addUpdatePerson(addUpdatePerson);
         addUpdatePerson.getApartmentNumber().forEach(p->personService.addApartmentToPerson(personId, Long.parseLong(p)));
-
-        //TODO finish deleting!!
-        //personService.addApartmentToPerson(personId, addUpdatePerson.getApartmentNumber());
         return "redirect:/api/v2/persons/";
     }
 
@@ -85,30 +82,28 @@ public class ControllerPerson {
     public void updatePerson(@ModelAttribute AddUpdatePerson addUpdatePerson) {
         Long idOfUpdatedPerson = personService.addUpdatePerson(addUpdatePerson);
         addUpdatePerson.getApartmentNumber().forEach(p->personService.addApartmentToPerson(idOfUpdatedPerson, Long.parseLong(p)));
-//TODO finish add dell
         if (idOfUpdatedPerson == -1) {
             throw new DataNotFoundException("Person not found with id: " + addUpdatePerson.getId());
         }
     }
 
-
     // deletion
-    @PostMapping(value = "/{id}") // This method should handle POST requests
+    @PostMapping(value = "/{personId}") // This method should handle POST requests
     @ResponseBody
-    public RedirectView handleDeleteUserPost(@PathVariable Long id) {
+    public RedirectView handleDeleteUserPost(@PathVariable Long personId) {
         // Logic to handle the simulated DELETE request
-        deletePerson(id);// Call the delete method from here
+        deletePerson(personId);// Call the delete method from here
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl("/api/v2/persons/");
         return redirectView;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{personId}")
     @ResponseBody
-    public void deletePerson(@PathVariable Long id){
-        Long idOfDelPerson = personService.deletePersonById(id);
+    public void deletePerson(@PathVariable Long personId){
+        Long idOfDelPerson = personService.deletePersonById(personId);
         if (idOfDelPerson==-1)
-            throw new DataNotFoundException("Person not found with id: "+id);
+            throw new DataNotFoundException("Person not found with id: "+personId);
     }
 
 }

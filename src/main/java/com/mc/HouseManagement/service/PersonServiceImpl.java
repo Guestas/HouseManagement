@@ -29,7 +29,9 @@ public class PersonServiceImpl implements PersonService{
         if (person != null && addUpdatePerson.getPersonWitType().getClass() != person.getClass()){
             personDAO.deletePersonById(addUpdatePerson.getId());
         }
-        return personDAO.addUpdatePerson(addUpdatePerson.getPersonWitType());
+        Long personId = personDAO.addUpdatePerson(addUpdatePerson.getPersonWitType());
+        addUpdatePerson.getApartmentNumber().forEach(a->addApartmentToPerson(personId, Long.parseLong(a)));
+        return personId;
     }
 
     @Override

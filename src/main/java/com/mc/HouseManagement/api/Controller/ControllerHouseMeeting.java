@@ -36,8 +36,6 @@ public class ControllerHouseMeeting {
     public String savePerson(@ModelAttribute("person") AddUpdateHouseMeeting addUpdateHouseMeeting){
         Long personId = houseMeetingService.addUpdateHouseMeeting(addUpdateHouseMeeting);
         addUpdateHouseMeeting.getApartmentNumber().forEach(a->houseMeetingService.addApartmentToHouseMeeting(personId, Long.parseLong(a)));
-//TODO finish adding/del apartments
-        //personService.addApartmentToPerson(personId, addUpdatePerson.getApartmentNumber());
         return "redirect:/api/v2/houseMeetings/";
     }
 
@@ -47,8 +45,6 @@ public class ControllerHouseMeeting {
         ModelAndView updateView = new ModelAndView("updateHouseMeeting");
         HouseMeeting houseMeeting = houseMeetingService.getHouseMeetingById(houseMeetingId);
         AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting(houseMeeting);
-        //TODO finish adding/del apartments
-
         addUpdateHouseMeeting.setApartmentNumber(houseMeeting.getApartments().stream().map(apartment -> apartment.getId().toString()).toList());
         updateView.addObject("houseMeeting", addUpdateHouseMeeting);
         return updateView;
@@ -82,7 +78,7 @@ public class ControllerHouseMeeting {
         return redirectView;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{houseMeetingId}")
     @ResponseBody
     public void deleteHouseMeeting(@PathVariable Long houseMeetingId){
         Long idOfDelHouseMeeting = houseMeetingService.deleteHouseMeetingById(houseMeetingId);

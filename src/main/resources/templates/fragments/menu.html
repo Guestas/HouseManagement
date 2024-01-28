@@ -1,15 +1,19 @@
 <nav th:fragment="menu" xmlns:th="http://www.thymeleaf.org">
   <ul class="nav-menu">
-    <li><a th:href="@{/}">Home</a></li>
-    <li><a th:href="@{/api/v2/persons/}">Persons</a></li>
-    <li><a th:href="@{/api/v2/persons/soldMovedOut/}">Sold or Moved Out</a></li>
-    <li><a th:href="@{/api/v2/persons/add}">Add Person</a></li>
-    <li><a th:href="@{/api/v2/apartments/}">Apartments</a></li>
-    <li><a th:href="@{/api/v2/houseMeetings/}">House Meetings</a></li>
-    <li><a th:href="@{/api/v2/houseMeetings/add}">Add House Meeting</a></li>
+    <!-- <li><a th:href="@{/}" th:text="#{menu.home}" type="hidden">Home</a></li>-->
+    <li><a th:href="@{/api/v2/persons/}" th:text="#{menu.persons}">Persons</a></li>
+    <li><a th:href="@{/api/v2/persons/soldMovedOut/}" th:text="#{menu.soldOrMovedOut}">Sold or Moved Out</a></li>
+    <li><a th:href="@{/api/v2/persons/add}" th:text="#{menu.addPerson}">Add Person</a></li>
+    <li><a th:href="@{/api/v2/apartments/}" th:text="#{menu.apartments}">Apartments</a></li>
+    <li><a th:href="@{/api/v2/houseMeetings/}" th:text="#{menu.houseMeetings}">House Meetings</a></li>
+    <li><a th:href="@{/api/v2/houseMeetings/add}" th:text="#{menu.addHouseMeeting}">Add House Meeting</a></li>
+    <li><a>          </a></li>
+    <li><a th:href="@{/change-language?lang=en}" th:text="#{menu.language.english}">English</a></li>
+    <li><a th:href="@{/change-language?lang=es}" th:text="#{menu.language.spanish}">Español</a></li>
+    <li><a th:href="@{/change-language?lang=cz}" th:text="#{menu.language.czech}">Čeština</a></li>
   </ul>
 </nav>
 
 <footer th:fragment="footer" xmlns:th="http://www.thymeleaf.org">
-  <p>This is the footer</p>
+  <p th:text="#{footer.descript}">This is the footer</p>
 </footer>

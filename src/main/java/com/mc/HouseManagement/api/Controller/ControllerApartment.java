@@ -1,6 +1,8 @@
 package com.mc.HouseManagement.api.Controller;
 
 import com.mc.HouseManagement.entity.Owner;
+import com.mc.HouseManagement.entity.SoldMovedOut;
+import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.service.ApartmentService;
 import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
@@ -42,26 +44,10 @@ public class ControllerApartment {
     public String getApartmentByID(@PathVariable(name = "apartmentId") Long apartmentId, Model model){
         model.addAttribute("apartment", apartmentService.getApartmentById(apartmentId));
         model.addAttribute("ownersList", personService.getPersonsByApartmentsIdAndType(apartmentId, Owner.class));
-        model.addAttribute("usersList", personService.getPersonsByApartmentsIdAndType(apartmentId, Owner.class));
-        model.addAttribute("soldMovedOutsList", personService.getPersonsByApartmentsIdAndType(apartmentId, Owner.class));
+        model.addAttribute("usersList", personService.getPersonsByApartmentsIdAndType(apartmentId, User.class));
+        model.addAttribute("soldMovedOutsList", personService.getPersonsByApartmentsIdAndType(apartmentId, SoldMovedOut.class));
 
         return "apartment";
     }
 
-
-/*
-    @GetMapping("/")
-    public String getUserDetails(Model model) {
-        model.addAttribute("allPersonList", personService.getAllPersonsByClassType(Person.class));
-        return "persons";
-    }*/
-    /*
-    @GetMapping("/{id}")
-    public Apartment getApartmentByIDNew(@PathVariable Long apartmentId){
-        System.out.println(personService.getPersonsByApartmentsIdAndType(apartmentId, Owner.class));
-        System.out.println(personService.getPersonsByApartmentsIdAndType(apartmentId, User.class));
-        System.out.println(personService.getPersonsByApartmentsIdAndType(apartmentId, SoldMovedOut.class));
-        return null;
-    }
-*/
 }

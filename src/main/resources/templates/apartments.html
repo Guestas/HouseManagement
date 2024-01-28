@@ -8,17 +8,17 @@
 </head>
 <body>
 <div th:replace="~{fragments/menu :: menu}"></div>
-<h1>Tab of Apartments</h1>
+<h1 th:text="#{title.tableOfApartments}">Tab of Apartments</h1>
 <div class="table-container">
     <table>
         <thead>
         <tr>
-            <th>Number</th>
-            <th>Flor</th>
-            <th>Branch</th>
-            <th>Street</th>
-            <th>Vote value</th>
-            <th>Action</th>
+            <th th:text="#{table.header.number}">Number</th>
+            <th th:text="#{table.header.floor}">Floor</th>
+            <th th:text="#{table.header.branch}">Branch</th>
+            <th th:text="#{table.header.street}">Street</th>
+            <th th:text="#{table.header.voteValue}">Vote value</th>
+            <th th:text="#{table.header.action}">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
             <td>
                 <form th:action="@{/api/v2/apartments/{id}(id=${apartment.id})}" th:method="GET">
                     <input type="hidden" name="_method" value="GET" />
-                    <button type="submit" class="btn btn-danger">Load</button>
+                    <button type="submit" class="btn btn-danger" th:text="#{button.load}">Load</button>
                 </form>
             </td>
         </tr>

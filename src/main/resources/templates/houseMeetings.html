@@ -8,14 +8,14 @@
 </head>
 <body>
 <div th:replace="~{fragments/menu :: menu}"></div>
-<h2>Tab of Apartments</h2>
+<h1 th:text="#{title.tebleOfApartments}">Tab of Apartments</h1>
 <div class="table-container">
     <table>
         <thead>
         <tr>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Actions</th>
+            <th th:text="#{table.header.dateOfHouseMeeting}">Date</th>
+            <th th:text="#{table.header.nameOfHouseMeeting}">Name</th>
+            <th th:text="#{table.header.action}">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -25,11 +25,11 @@
             <td>
                 <form th:action="@{/api/v2/houseMeetings/update/{id}(id=${meeting.id})}" method="POST">
                     <input type="hidden" name="_method" value="DELETE" />
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger" th:text="#{button.delete}">Delete</button>
                 </form>
                 <form th:action="@{/api/v2/houseMeetings/update/{id}(id=${meeting.id})}" th:method="GET">
                     <input type="hidden" name="_method" value="GET" />
-                    <button type="submit" class="btn btn-danger">Load</button>
+                    <button type="submit" class="btn btn-danger" th:text="#{button.load}">Load</button>
                 </form>
             </td>
         </tr>

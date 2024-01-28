@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Users</title>
+    <title th:text="#{title.users}">Users</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     <link href="/css/table.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div th:replace="~{fragments/menu :: menu}"></div>
-<h2>Tab of Apartments</h2>
+<h2 th:text="#{title.apartment}">Tab of Apartments</h2>
 <div class="table-container">
     <table>
         <thead>
         <tr>
-            <th>Number</th>
-            <th>Flor</th>
-            <th>Branch</th>
-            <th>Street</th>
-            <th>Vote value</th>
+            <th th:text="#{table.header.number}">Number</th>
+            <th th:text="#{table.header.floor}">Floor</th>
+            <th th:text="#{table.header.branch}">Branch</th>
+            <th th:text="#{table.header.street}">Street</th>
+            <th th:text="#{table.header.voteValue}">Vote value</th>
         </tr>
         </thead>
         <tbody>
@@ -36,11 +36,11 @@
     <table>
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Action</th>
+            <th th:text="#{table.header.firstName}">First Name</th>
+            <th th:text="#{table.header.lastName}">Last Name</th>
+            <th th:text="#{table.header.email}">Email</th>
+            <th th:text="#{table.header.phone}">Phone</th>
+            <th th:text="#{table.header.action}">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -68,11 +68,11 @@
     <table>
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Action</th>
+            <th th:text="#{table.header.firstName}">First Name</th>
+            <th th:text="#{table.header.lastName}">Last Name</th>
+            <th th:text="#{table.header.email}">Email</th>
+            <th th:text="#{table.header.phone}">Phone</th>
+            <th th:text="#{table.header.action}">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -100,11 +100,11 @@
     <table>
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Action</th>
+            <th th:text="#{table.header.firstName}">First Name</th>
+            <th th:text="#{table.header.lastName}">Last Name</th>
+            <th th:text="#{table.header.email}">Email</th>
+            <th th:text="#{table.header.phone}">Phone</th>
+            <th th:text="#{table.header.action}">Action</th>
         </tr>
         </thead>
         <tbody>

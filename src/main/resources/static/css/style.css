@@ -1,12 +1,23 @@
 body {
-  background-color: rgb(40, 40, 40);
-  text-align: center;
-  margin-block: 60px;
+    background-color: rgb(40, 40, 40);
+    text-align: center;
+    margin-block: 60px;
 }
 
 
 p {
     font-family: sans-serif;
+    color: white;
+}
+
+
+/* Style for labels and other texts */
+
+label {
+    color: white;
+}
+
+h1 {
     color: white;
 }
 
