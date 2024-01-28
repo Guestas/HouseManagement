@@ -30,7 +30,6 @@ public class AddUpdatePerson {
     @Min(value = 99_999_999, message = "Invalid phone number.")
     private Long phone;
 
-    @NotNull(message = "Apartment cannot be null")
     private List<String> apartmentNumber;
 
     @NotNull(message = "Type of person must be [User, Owner, SoldMovedOut] name cannot be null.")

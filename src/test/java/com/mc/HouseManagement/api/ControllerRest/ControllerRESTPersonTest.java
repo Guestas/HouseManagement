@@ -8,7 +8,6 @@ import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.service.PersonService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -103,7 +102,6 @@ class ControllerRESTPersonTest {
     }
 
     @Test
-    @Disabled
     void testAddPerson() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_PERSON1
@@ -125,7 +123,6 @@ class ControllerRESTPersonTest {
     }
 
     @Test
-    @Disabled
     void testUpdatePerson() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_PERSON1
