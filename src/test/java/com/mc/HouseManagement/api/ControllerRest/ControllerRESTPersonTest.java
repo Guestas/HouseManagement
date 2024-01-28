@@ -59,7 +59,6 @@ class ControllerRESTPersonTest {
                 .andExpect(content()
                         .string("Hello, World"));
     }
-    //TODO finish testing
 
     @Test
     void testGetAllPPersons() throws Exception {

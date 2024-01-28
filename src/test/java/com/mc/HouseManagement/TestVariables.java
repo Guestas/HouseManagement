@@ -97,5 +97,4 @@ public record TestVariables() {
 
     /** Test data for a collection of apartments**/
     public static final AddApartments ADD_APARTMENTS = new AddApartments(ADD_APARTMENT_LIST);
-
 }

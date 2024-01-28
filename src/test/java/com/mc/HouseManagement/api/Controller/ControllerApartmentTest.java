@@ -1,29 +1,31 @@
 package com.mc.HouseManagement.api.Controller;
 
 import com.mc.HouseManagement.TestVariables;
-import com.mc.HouseManagement.api.ControllerRest.ControllerRESTApartment;
 import com.mc.HouseManagement.service.ApartmentService;
+import com.mc.HouseManagement.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ControllerApartmentTest {
+class ControllerApartmentTest{
 
     private final String requestMapping = "/api/v2/apartments";
 
     @Mock
     private ApartmentService apartmentService;
+
+    @Mock
+    private PersonService personService;
 
     @InjectMocks
     private ControllerApartment controllerApartment;
@@ -39,8 +41,28 @@ class ControllerApartmentTest {
 
         // Then: Verify the output or expected result
         mockMvc.perform(MockMvcRequestBuilders.get(requestMapping+"/"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attribute("allApartmentList", TestVariables.APARTMENT_LIST))
-                .andExpect(MockMvcResultMatchers.view().name("apartments"));
+                .andExpect(view().name("apartments"));
     }
+
+    @Test
+    void getAllPeopleInApartment() throws Exception {
+        // Given: Setup object or precondition
+        // TestVariables.APARTMENT_LIST
+        Long apartmentId = 1L;
+
+        // When: Action or behavior that we are going to test
+        when(apartmentService.getApartmentById(apartmentId)).thenReturn(TestVariables.APARTMENT);
+
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerApartment).build();
+
+        // Then: Verify the output or expected result
+        mockMvc.perform(MockMvcRequestBuilders.get(requestMapping+"/" + apartmentId))
+                .andExpect(status().isOk())
+                .andExpect(view().name("apartment"))
+                .andExpect(MockMvcResultMatchers.model().attribute("apartment", TestVariables.APARTMENT));
+    }
+
+
 }
