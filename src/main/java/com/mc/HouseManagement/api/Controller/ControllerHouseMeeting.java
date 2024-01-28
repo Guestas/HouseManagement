@@ -29,7 +29,7 @@ public class ControllerHouseMeeting {
     @GetMapping("/add")
     public String addPerson(Model model){
         model.addAttribute("addUpdateHouseMeeting", new AddUpdateHouseMeeting());
-        return "addHouseMeeting";
+        return "houseMeetingAdd";
     }
 
     @PostMapping("/add")
@@ -42,7 +42,7 @@ public class ControllerHouseMeeting {
     // updation
     @GetMapping("/update/{houseMeetingId}")
     public ModelAndView updatePerson(@PathVariable(name = "houseMeetingId") Long houseMeetingId){
-        ModelAndView updateView = new ModelAndView("updateHouseMeeting");
+        ModelAndView updateView = new ModelAndView("houseMeetingUpdate");
         HouseMeeting houseMeeting = houseMeetingService.getHouseMeetingById(houseMeetingId);
         AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting(houseMeeting);
         addUpdateHouseMeeting.setApartmentNumber(houseMeeting.getApartments().stream().map(apartment -> apartment.getId().toString()).toList());

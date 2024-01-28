@@ -49,7 +49,7 @@ public class ControllerPerson {
     @GetMapping("/add")
     public String addPerson(Model model){
         model.addAttribute("person", new AddUpdatePerson());
-        return "newPerson";
+        return "personAdd";
     }
 
     @PostMapping("/add")
@@ -62,7 +62,7 @@ public class ControllerPerson {
     // updation
     @GetMapping("/update/{personId}")
     public ModelAndView updatePerson(@PathVariable(name = "personId") Long personId){
-        ModelAndView updateView = new ModelAndView("updatePerson");
+        ModelAndView updateView = new ModelAndView("personUpdate");
         Person person = personService.getPersonById(personId);
         AddUpdatePerson addUpdatePerson = AddUpdatePerson.creteAddUpdatePerson(person, person.getClass().getSimpleName());
 
