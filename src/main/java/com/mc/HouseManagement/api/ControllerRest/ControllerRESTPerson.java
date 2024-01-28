@@ -4,7 +4,6 @@ import com.mc.HouseManagement.api.Controller.ControllerApartment;
 import com.mc.HouseManagement.api.dto.person.*;
 import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
@@ -58,21 +57,21 @@ public class ControllerRESTPerson {
     }
 
     @PostMapping("/")
-    public Long addPerson(@Valid @RequestBody AddUpdatePerson AddUpdatePerson){
-        return personService.addUpdatePerson(AddUpdatePerson);
+    public Long addPerson(@Valid @RequestBody AddUpdatePerson addUpdatePerson){
+        return personService.addUpdatePerson(addUpdatePerson);
     }
 
     @PutMapping("/")
-    public Long updatePerson(@Valid @RequestBody AddUpdatePerson AddUpdatePerson){
-        Person person = personService.getPersonById(AddUpdatePerson.getId());
-        if (person != null && AddUpdatePerson.getPersonWitType().getClass() != person.getClass()){
-            personService.deletePersonById(AddUpdatePerson.getId());
+    public Long updatePerson(@Valid @RequestBody AddUpdatePerson addUpdatePerson){
+        Person person = personService.getPersonById(addUpdatePerson.getId());
+        if (person != null && addUpdatePerson.getPersonWitType().getClass() != person.getClass()){
+            personService.deletePersonById(addUpdatePerson.getId());
         } else if (person == null) {
-            throw new DataNotFoundException(AddUpdatePerson.getTypeOfUser()
+            throw new DataNotFoundException(addUpdatePerson.getTypeOfUser()
                     + " not found with id: "
-                    + AddUpdatePerson.getId());
+                    + addUpdatePerson.getId());
         }
-        return personService.addUpdatePerson(AddUpdatePerson);
+        return personService.addUpdatePerson(addUpdatePerson);
     }
 
     @DeleteMapping("/{personId}")
@@ -99,14 +98,14 @@ public class ControllerRESTPerson {
     }
 
     @PostMapping("/multiple/")
-    public int addMultiplePersons(@Valid @RequestBody AddUpdatePersons AddUpdatePersons){
-        AddUpdatePersons.getPersons().forEach(personService::addUpdatePerson);
-        return AddUpdatePersons.getPersons().size();
+    public int addMultiplePersons(@Valid @RequestBody AddUpdatePersons addUpdatePersons){
+        addUpdatePersons.getPersons().forEach(personService::addUpdatePerson);
+        return addUpdatePersons.getPersons().size();
     }
 
     @PutMapping("/multiple/")
-    public int updatePersons(@Valid @RequestBody AddUpdatePersons AddUpdatePersons){
-        AddUpdatePersons.getPersons().forEach(person -> {
+    public int updatePersons(@Valid @RequestBody AddUpdatePersons addUpdatePersons){
+        addUpdatePersons.getPersons().forEach(person -> {
             Person personFromDB = personService.getPersonById(person.getId());
             if (personFromDB == null){
                 throw new DataNotFoundException(person.getTypeOfUser()
@@ -114,7 +113,7 @@ public class ControllerRESTPerson {
                         + person.getId());
             }
         });
-        return AddUpdatePersons.getPersons().size();
+        return addUpdatePersons.getPersons().size();
     }
 
     @PostMapping("/apartment/")

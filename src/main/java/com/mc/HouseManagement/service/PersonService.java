@@ -10,10 +10,10 @@ public interface PersonService {
 
     /**
      * Adds or updates a person in the database.
-     * @param AddUpdatePerson An object containing the person details.
+     * @param addUpdatePerson An object containing the person details.
      * @return The ID of the added or updated person.
      */
-    public Long addUpdatePerson(AddUpdatePerson AddUpdatePerson);
+    public Long addUpdatePerson(AddUpdatePerson addUpdatePerson);
 
     /**
      * Retrieves a person by ID and class type.

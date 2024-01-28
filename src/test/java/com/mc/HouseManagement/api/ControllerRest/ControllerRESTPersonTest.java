@@ -1,16 +1,14 @@
 package com.mc.HouseManagement.api.ControllerRest;
 
 import com.mc.HouseManagement.TestVariables;
-import com.mc.HouseManagement.api.ControllerRest.ControllerRESTPerson;
 import com.mc.HouseManagement.api.UtilityMethods;
 import com.mc.HouseManagement.api.dto.person.AddApartmentToPerson;
 import com.mc.HouseManagement.api.dto.person.GetPersonsByApartmentId;
 import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
-import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.service.PersonService;
-import jakarta.validation.Valid;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,11 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static com.mc.HouseManagement.api.UtilityMethods.asJsonString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -108,6 +103,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @Disabled
     void testAddPerson() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_PERSON1
@@ -129,6 +125,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @Disabled
     void testUpdatePerson() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_PERSON1

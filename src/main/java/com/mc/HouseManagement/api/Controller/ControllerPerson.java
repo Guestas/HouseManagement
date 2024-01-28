@@ -1,8 +1,9 @@
 package com.mc.HouseManagement.api.Controller;
 
-import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.api.dto.person.AddUpdatePerson;
+import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.entity.Person;
+import com.mc.HouseManagement.entity.SoldMovedOut;
 import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RequestMapping("/api/v2/persons")
@@ -37,13 +39,10 @@ public class ControllerPerson {
         return "persons";
     }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-    public <T extends Person> T getUsersByID(@PathVariable Long id){
-        T loaded = personService.getPersonById(id);
-        if (loaded==null)
-            throw new DataNotFoundException("User not found on ID: "+id);
-        return loaded;
+    @GetMapping("/soldMovedOut/")
+    public String getSoldMovedOutDetails(Model model) {
+        model.addAttribute("allPersonList", personService.getAllPersonsByClassType(SoldMovedOut.class));
+        return "persons";
     }
 
     // addition
@@ -54,10 +53,44 @@ public class ControllerPerson {
     }
 
     @PostMapping("/add")
-    public String savePerson(@ModelAttribute("person") AddUpdatePerson AddUpdatePerson){
-        personService.addUpdatePerson(AddUpdatePerson);
+    public String savePerson(@ModelAttribute("person") AddUpdatePerson addUpdatePerson){
+        Long personId = personService.addUpdatePerson(addUpdatePerson);
+        addUpdatePerson.getApartmentNumber().forEach(p->personService.addApartmentToPerson(personId, Long.parseLong(p)));
+
+        //TODO finish deleting!!
+        //personService.addApartmentToPerson(personId, addUpdatePerson.getApartmentNumber());
         return "redirect:/api/v2/persons/";
     }
+
+    // updation
+    @GetMapping("/update/{personId}")
+    public ModelAndView updatePerson(@PathVariable(name = "personId") Long personId){
+        ModelAndView updateView = new ModelAndView("updatePerson");
+        Person person = personService.getPersonById(personId);
+        AddUpdatePerson addUpdatePerson = AddUpdatePerson.creteAddUpdatePerson(person, person.getClass().getSimpleName());
+
+        addUpdatePerson.setApartmentNumber(person.getApartments().stream().map(apartment -> apartment.getId().toString()).toList());
+        updateView.addObject("person", addUpdatePerson);
+        return updateView;
+    }
+
+    @PostMapping("/update/")
+    public String handleUpdatePersonPost(@ModelAttribute AddUpdatePerson addUpdatePerson) {
+        updatePerson(addUpdatePerson);
+        return "redirect:/api/v2/persons/";
+    }
+
+    @PutMapping("/update/")
+    @ResponseBody
+    public void updatePerson(@ModelAttribute AddUpdatePerson addUpdatePerson) {
+        Long idOfUpdatedPerson = personService.addUpdatePerson(addUpdatePerson);
+        addUpdatePerson.getApartmentNumber().forEach(p->personService.addApartmentToPerson(idOfUpdatedPerson, Long.parseLong(p)));
+//TODO finish add dell
+        if (idOfUpdatedPerson == -1) {
+            throw new DataNotFoundException("Person not found with id: " + addUpdatePerson.getId());
+        }
+    }
+
 
     // deletion
     @PostMapping(value = "/{id}") // This method should handle POST requests
@@ -72,11 +105,10 @@ public class ControllerPerson {
 
     @DeleteMapping("/{id}")
     @ResponseBody
-    public Long deletePerson(@PathVariable Long id){
+    public void deletePerson(@PathVariable Long id){
         Long idOfDelPerson = personService.deletePersonById(id);
         if (idOfDelPerson==-1)
             throw new DataNotFoundException("Person not found with id: "+id);
-        return idOfDelPerson;
     }
 
 }

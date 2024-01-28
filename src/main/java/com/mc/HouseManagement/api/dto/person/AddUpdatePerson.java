@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.List;
 import java.util.Objects;
 
 public class AddUpdatePerson {
@@ -28,6 +29,9 @@ public class AddUpdatePerson {
     @NotNull(message = "Fist name cannot be null.")
     @Min(value = 99_999_999, message = "Invalid phone number.")
     private Long phone;
+
+    @NotNull(message = "Apartment cannot be null")
+    private List<String> apartmentNumber;
 
     @NotNull(message = "Type of person must be [User, Owner, SoldMovedOut] name cannot be null.")
     @Pattern(regexp = "^(Owner|User|SoldMovedOut)$", message = "typeOfUser must be 'Owner', 'User' or SoldMovedOut")
@@ -50,6 +54,31 @@ public class AddUpdatePerson {
         this.email = email;
         this.phone = phone;
         this.typeOfUser = typeOfUser;
+    }
+    public AddUpdatePerson(Long id, String firstName, String lastName, String email, Long phone, String typeOfUser, List<String> apartmentNumber) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.typeOfUser = typeOfUser;
+        this.apartmentNumber = apartmentNumber;
+    }
+    public AddUpdatePerson(Person person, String typeOfUser){
+        this.id = person.getId();
+        this.firstName = person.getFirstName();
+        this.lastName = person.getLastName();
+        this.email = person.getEmail();
+        this.phone = person.getPhone();
+        this.typeOfUser = typeOfUser;
+    }
+
+    public List<String> getApartmentNumber() {
+        return apartmentNumber;
+    }
+
+    public void setApartmentNumber(List<String> apartmentNumber) {
+        this.apartmentNumber = apartmentNumber;
     }
 
     public void setId(Long id) {
@@ -100,6 +129,8 @@ public class AddUpdatePerson {
         return typeOfUser;
     }
 
+
+
     /**
      * Creates and returns a Person based on the typeOfUser.
      *
@@ -134,6 +165,10 @@ public class AddUpdatePerson {
         return new AddUpdatePerson(id, firstName, lastName, email, phone, typeOfUser);
     }
 
+    public static AddUpdatePerson creteAddUpdatePerson(Person person, String typeOfUser){
+        return new AddUpdatePerson(person, typeOfUser);
+    }
+
     @Override
     public String toString() {
         return "AddUpdatePerson{" +
@@ -142,6 +177,7 @@ public class AddUpdatePerson {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone=" + phone +
+                ", apartmentNumber=" + apartmentNumber +
                 ", typeOfUser='" + typeOfUser + '\'' +
                 '}';
     }

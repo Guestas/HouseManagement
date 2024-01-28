@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User add</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div th:replace="~{fragments/menu :: menu}"></div>
+
+<div class="container">
+    <h1>Add user</h1>
+    <form action="#" th:action="@{/api/v2/houseMeetings/add}" th:object="${addUpdateHouseMeeting}"
+          method="POST">
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="text" class="form-control" id="date" th:field="*{date}" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        </div>
+        <div class="form-group">
+            <label for="topics">Topics:</label>
+            <textarea class="form-control" id="topics" th:field="*{topics}" required th:value="${#strings.listJoin(topics, '\n')}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="apartmentNumber">Apartments:</label>
+            <textarea class="form-control" id="apartmentNumber" th:field="*{apartmentNumber}" required th:value="${#strings.listJoin(apartmentNumber, '\n')}"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-info col-2">Update Person</button>
+    </form>
+
+</div>
+<script th:src="@{/js/check.js}"></script>
+
+<div th:replace="~{fragments/menu :: footer}"></div>
+</body>
+</html>

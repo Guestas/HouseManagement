@@ -10,9 +10,17 @@ public class AddUpdateHouseMeeting {
     private String date;
     private String name;
     private List<String> topics;
+    private List<String> apartmentNumber;
 
     public AddUpdateHouseMeeting() {
 
+    }
+
+    public AddUpdateHouseMeeting(HouseMeeting houseMeeting) {
+        this.id = houseMeeting.getId();
+        this.date = houseMeeting.getDate();
+        this.name = houseMeeting.getName();
+        this.topics = houseMeeting.getTopics();
     }
 
     public AddUpdateHouseMeeting( String date, String name, List<String> topics) {
@@ -26,6 +34,14 @@ public class AddUpdateHouseMeeting {
         this.date = date;
         this.name = name;
         this.topics = topics;
+    }
+
+    public List<String> getApartmentNumber() {
+        return apartmentNumber;
+    }
+
+    public void setApartmentNumber(List<String> apartmentNumber) {
+        this.apartmentNumber = apartmentNumber;
     }
 
     public long getId() {
@@ -68,6 +84,10 @@ public class AddUpdateHouseMeeting {
         }
         else
             return new HouseMeeting(date, name, topics, null);
+    }
+
+    public static AddUpdateHouseMeeting createAddUpsateHouseMeeting(HouseMeeting houseMeeting) {
+        return new AddUpdateHouseMeeting(houseMeeting);
     }
 
     public static AddUpdateHouseMeeting createAddUpsateHouseMeeting(String date, String name, List<String> topics){

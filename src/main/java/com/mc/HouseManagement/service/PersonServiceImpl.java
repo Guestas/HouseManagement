@@ -1,8 +1,11 @@
 package com.mc.HouseManagement.service;
 
-import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
-import com.mc.HouseManagement.entity.*;
 import com.mc.HouseManagement.api.dto.person.AddUpdatePerson;
+import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
+import com.mc.HouseManagement.entity.Apartment;
+import com.mc.HouseManagement.entity.Owner;
+import com.mc.HouseManagement.entity.Person;
+import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
 import org.springframework.stereotype.Service;
@@ -21,8 +24,12 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public Long addUpdatePerson(AddUpdatePerson AddUpdatePerson) {
-        return personDAO.addUpdatePerson(AddUpdatePerson.getPersonWitType());
+    public Long addUpdatePerson(AddUpdatePerson addUpdatePerson) {
+        Person person = addUpdatePerson.getId()== null ? null: personDAO.getPersonById(addUpdatePerson.getId());
+        if (person != null && addUpdatePerson.getPersonWitType().getClass() != person.getClass()){
+            personDAO.deletePersonById(addUpdatePerson.getId());
+        }
+        return personDAO.addUpdatePerson(addUpdatePerson.getPersonWitType());
     }
 
     @Override

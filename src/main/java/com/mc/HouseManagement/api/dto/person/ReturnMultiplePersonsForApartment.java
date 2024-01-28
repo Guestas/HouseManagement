@@ -1,11 +1,12 @@
 package com.mc.HouseManagement.api.dto.person;
 
 import com.mc.HouseManagement.entity.Person;
-import jakarta.persistence.Column;
 
 import java.util.Objects;
 
 public class ReturnMultiplePersonsForApartment {
+    private Long id;
+
     private String firstName;
 
     private String lastName;
@@ -18,6 +19,7 @@ public class ReturnMultiplePersonsForApartment {
     }
 
     public ReturnMultiplePersonsForApartment(Person person){
+        this.id = person.getId();
         this.firstName = person.getFirstName();
         this.lastName = person.getLastName();
         this.email = person.getEmail();
@@ -29,6 +31,15 @@ public class ReturnMultiplePersonsForApartment {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
