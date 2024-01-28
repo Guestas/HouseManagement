@@ -199,7 +199,7 @@ class PersonDAOImplTest {
 */
 
     @Test
-    @DisplayName("Test Load Person by First and Last name")
+    @DisplayName("Test Load Person by First or Last name")
     void cangetPersonByLastOrFirstNameAndType() {
         // Given: Setup object or precondition
         Person testOwner1 = new Person("Bob","Jara","bob@jar.com",
@@ -257,7 +257,7 @@ class PersonDAOImplTest {
     }
 
     @Test
-    @DisplayName("Testing loading all persons without SoldMoved  first or last name is not in DB")
+    @DisplayName("Testing loading all persons without SoldMoved first or last name is not in DB")
     <T extends Person> void loadingAllPersonsByNameOrLNameNamesNotFound(){
         // Given: Setup object or precondition
 
@@ -271,8 +271,8 @@ class PersonDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test deleting and updating Apartments to Person")
-    void addApartmentToPersonAndUpdateDel(){
+    @DisplayName("Test disconnecting  person with apartment")
+    void delApartmentFromPersonAndUpdateDel(){
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
                 2553, "street1", null,null);
@@ -301,7 +301,7 @@ class PersonDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test adding and updating Apartments to Person")
+    @DisplayName("Test connecting Apartment with Person")
     void addApartmentToPersonAndUpdateAdd(){
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,

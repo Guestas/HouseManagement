@@ -3,6 +3,7 @@ package com.mc.HouseManagement.api.Controller;
 import com.mc.HouseManagement.TestVariables;
 import com.mc.HouseManagement.service.ApartmentService;
 import com.mc.HouseManagement.service.PersonService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -31,6 +32,7 @@ class ControllerApartmentTest{
     private ControllerApartment controllerApartment;
 
     @Test
+    @DisplayName("Can get all apartments.")
     void getAllApartmentsTh() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.APARTMENT_LIST
@@ -47,6 +49,7 @@ class ControllerApartmentTest{
     }
 
     @Test
+    @DisplayName("Can get all persons in apartment.")
     void getAllPeopleInApartment() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.APARTMENT_LIST

@@ -38,6 +38,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can add person")
     void canAddPerson() {
         // Given: Setup object or precondition
         AddUpdatePerson testPerson = AddUpdatePerson.creteAddUpdatePerson("a","b","e",
@@ -54,7 +55,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void trygetPersonByIdAndType() {
+    @DisplayName("Can get person by id and type")
+    void tryGetPersonByIdAndType() {
         // Given: Setup object or precondition
         Long personID = 1L;
         AddUpdatePerson testPerson = AddUpdatePerson.creteAddUpdatePerson("a","b","e",
@@ -70,6 +72,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can get all persons type")
     void getAllPersonsOwner() {
         // Given: Setup object or precondition
 
@@ -81,6 +84,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can get all persons type User and Owner")
     void getAllPersonsPersonUniversalReturn() {
         // Given: Setup object or precondition
 
@@ -93,6 +97,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can delete person id")
     void deletePersonById() {
         // Given: Setup object or precondition
         Long personId = 1L;
@@ -107,6 +112,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can get persons by last or first name")
     public void testgetPersonByLastOrFirstNameAndType() {
         // Given: Setup object or precondition
         String oneOfNames = "John";
@@ -131,7 +137,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    <T extends Person> void testgetPersonByLastOrFirstName(){
+    @DisplayName("Can get persons by last or first name and type")
+    <T extends Person> void testGetPersonByLastOrFirstName(){
         // Given: Setup object or precondition
         String oneOfNames = "John";
         AddUpdatePerson testPerson1 = AddUpdatePerson.creteAddUpdatePerson("John", "Doe","e",
@@ -156,6 +163,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can connect persons with apartment")
     void testAddApartmentToPerson() {
         // Given: Setup object or precondition
         Long personId = 1L;
@@ -181,6 +189,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can connect persons with apartment. Person not found.")
     void testAddApartmentToPersonPersonNotFound() {
         // Given: Setup object or precondition
         Long personId = 1L;
@@ -203,6 +212,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can connect persons with apartment. Apartment not found.")
     void testAddApartmentToPersonApartmentNotFound() {
         // Given: Setup object or precondition
         Long personId = 1L;
@@ -231,6 +241,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can get person by id.")
     void testLadPersonByID(){
         // Given: Setup object or precondition
         Long personId = 1L;
@@ -249,7 +260,8 @@ class PersonServiceImplTest {
     }
 
     @Test
-    void testDelApartmentToPerson() {
+    @DisplayName("Can delete apartment from person.")
+    void testDelApartmentFromPerson() {
         // Given: Setup object or precondition
         Long personId = 1L;
         Long apartmentId = 101L;
@@ -274,6 +286,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can delete apartment from person. Person not found.")
     void testDelApartmentFromPersonPersonNotFound() {
         // Given: Setup object or precondition
         Long personId = 1L;
@@ -291,6 +304,7 @@ class PersonServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can delete apartment from person. Apartment not found.")
     void testDelApartmentFromPersonApartmentNotFound() {
         // Given: Setup object or precondition
         Long personId = 1L;

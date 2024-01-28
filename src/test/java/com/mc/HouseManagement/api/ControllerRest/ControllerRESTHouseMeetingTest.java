@@ -1,10 +1,10 @@
 package com.mc.HouseManagement.api.ControllerRest;
 
 import com.mc.HouseManagement.TestVariables;
-import com.mc.HouseManagement.api.ControllerRest.ControllerRESTHouseMeeting;
 import com.mc.HouseManagement.api.UtilityMethods;
 import com.mc.HouseManagement.api.dto.houseMeetings.AddApartmentToHouseMeeting;
 import com.mc.HouseManagement.service.HouseMeetingService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -39,6 +39,7 @@ class ControllerRESTHouseMeetingTest {
     }
 
     @Test
+    @DisplayName("Can get all house meetings.")
     void testGetAllHouseMeetings() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.HOUSE_MEETING_LIST
@@ -58,6 +59,7 @@ class ControllerRESTHouseMeetingTest {
     }
 
     @Test
+    @DisplayName("Can get house meeting by id.")
     void testGetHouseMeetingById() throws Exception {
         // Given: Setup object or precondition
         Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
@@ -77,6 +79,7 @@ class ControllerRESTHouseMeetingTest {
     }
 
     @Test
+    @DisplayName("Can add house meeting.")
     void testAddHouseMeeting() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_HOUSE_MEETING1
@@ -96,25 +99,7 @@ class ControllerRESTHouseMeetingTest {
     }
 
     @Test
-    void testUpdateAddHouseMeeting() throws Exception {
-        // Given: Setup object or precondition
-        // TestVariables.ADD_UPDATE_HOUSE_MEETING1
-
-        // When: Action or behavior that we are going to test
-        when(houseMeetingService.addUpdateHouseMeeting(TestVariables.ADD_UPDATE_HOUSE_MEETING1)).thenReturn(TestVariables.ADD_UPDATE_HOUSE_MEETING1.getId());
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTHouseMeeting).build();
-
-        // Then: Verify the output or expected result
-        mockMvc.perform(MockMvcRequestBuilders.post(requestMapping+"/")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(TestVariables.ADD_UPDATE_HOUSE_MEETING1)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("1"));
-
-        verify(houseMeetingService, times(1)).addUpdateHouseMeeting(TestVariables.ADD_UPDATE_HOUSE_MEETING1);
-    }
-
-    @Test
+    @DisplayName("Can update house meeting by id.")
     void testUpdateHouseMeeting() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_HOUSE_MEETING1
@@ -136,6 +121,7 @@ class ControllerRESTHouseMeetingTest {
     }
 
     @Test
+    @DisplayName("Can delete house meeting by id.")
     void testDelHouseMeeting() throws Exception {
         // Given: Setup object or precondition
         Long houseMeetingId = 1L;
@@ -153,6 +139,7 @@ class ControllerRESTHouseMeetingTest {
     }
 
     @Test
+    @DisplayName("Can add multiple house meeting by id.")
     void testAddHouseMeetings() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_HOUSE_MEETINGS
@@ -171,6 +158,7 @@ class ControllerRESTHouseMeetingTest {
     }
 
     @Test
+    @DisplayName("Can add apartment to house meeting by id.")
     void testAddApartmentToMeeting() throws Exception {
         // Given: Setup object or precondition
         AddApartmentToHouseMeeting addApartmentToHouseMeeting = new AddApartmentToHouseMeeting(1L, 101L);
@@ -191,6 +179,7 @@ class ControllerRESTHouseMeetingTest {
     }
 
     @Test
+    @DisplayName("Can delete apartment from house meeting by id.")
     void testDelApartmentToMeeting() throws Exception {
         // Given: Setup object or precondition
         AddApartmentToHouseMeeting addApartmentToHouseMeeting = new AddApartmentToHouseMeeting(1L, 101L);

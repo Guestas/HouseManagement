@@ -4,6 +4,7 @@ import com.mc.HouseManagement.TestVariables;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -27,6 +28,7 @@ class ApartmentServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can add apartment")
     void canAddApartment() {
         // Given: Setup object or precondition
         // TestVariables.APARTMENT
@@ -41,6 +43,7 @@ class ApartmentServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can get apartment")
     void canGetApartmentById() {
         // Given: Setup object or precondition
 
@@ -52,6 +55,7 @@ class ApartmentServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can get all apartments")
     void getAllApartments() {
         // Given: Setup object or precondition
 

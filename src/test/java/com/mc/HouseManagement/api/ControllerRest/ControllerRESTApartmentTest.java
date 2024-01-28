@@ -1,9 +1,9 @@
 package com.mc.HouseManagement.api.ControllerRest;
 
 import com.mc.HouseManagement.TestVariables;
-import com.mc.HouseManagement.api.ControllerRest.ControllerRESTApartment;
 import com.mc.HouseManagement.api.UtilityMethods;
 import com.mc.HouseManagement.service.ApartmentService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -37,6 +37,7 @@ class ControllerRESTApartmentTest {
     }
 
     @Test
+    @DisplayName("Can get all apartments.")
     void testGetAllApartments() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.APARTMENT_LIST
@@ -55,6 +56,7 @@ class ControllerRESTApartmentTest {
     }
 
     @Test
+    @DisplayName("Can get apartment by id.")
     void testGetApartmentById() throws Exception {
         // Given: Setup object or precondition
         Long apartmentId = 1L;
@@ -74,6 +76,7 @@ class ControllerRESTApartmentTest {
     }
 
     @Test
+    @DisplayName("Can add apartment.")
     void testAddApartments() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_APARTMENTS

@@ -8,6 +8,7 @@ import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.service.PersonService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -48,6 +49,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can load greeting.")
     void testGreetingShouldReturnDefaultMessageTwo() throws Exception{
 
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTPerson).build();
@@ -61,6 +63,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can get all persons.")
     void testGetAllPPersons() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.PERSON_LIST
@@ -81,6 +84,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can get person by id.")
     void testGetUsersByID() throws Exception {
         // Given: Setup object or precondition
         Long personId = TestVariables.PERSON.getId();
@@ -101,6 +105,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can add person.")
     void testAddPerson() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_PERSON1
@@ -122,6 +127,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can update person.")
     void testUpdatePerson() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_PERSON1
@@ -144,6 +150,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can delete person by id.")
     void testDeletePerson() throws Exception {
         // Given: Setup object or precondition
         Long personId = TestVariables.PERSON.getId();
@@ -161,6 +168,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can get persons by one of names.")
     void testGetUsersByNameOrLastName() throws Exception {
         // Given: Setup object or precondition
 
@@ -179,6 +187,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can add multiple persons.")
     void testAddMultiplePersons() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_HOUSE_MEETINGS
@@ -197,6 +206,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can update person.")
     void testUpdatePersons() throws Exception {
         // Given: Setup object or precondition
         // TestVariables.ADD_UPDATE_HOUSE_MEETINGS
@@ -218,6 +228,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can add apartment to person.")
     void testAddApartmentToPerson() throws Exception {
         // Given: Setup object or precondition
         AddApartmentToPerson addApartmentToPerson = new AddApartmentToPerson(1L, 2L);
@@ -238,6 +249,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can delete apartment from person.")
     void testDelApartmentFromPerson() throws Exception {
         // Given: Setup object or precondition
         AddApartmentToPerson addApartmentToPerson = new AddApartmentToPerson(1L, 2L);
@@ -258,6 +270,7 @@ class ControllerRESTPersonTest {
     }
 
     @Test
+    @DisplayName("Can get person by apartment id.")
     void testGetPersonsByApartments() throws Exception {
         // Given: Setup object or precondition
         User user = new User("Joe", "Black",

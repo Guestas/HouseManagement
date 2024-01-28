@@ -95,7 +95,7 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test adding Apartments to Meetings")
+    @DisplayName("Test connecting Apartments with Meetings")
     void addApartmentToMeeting(){
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
@@ -122,7 +122,7 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test deleting Apartments from Meeting")
+    @DisplayName("Test disconnecting Apartments from Meeting")
     void addApartmentToMeetingAndUpdateDel(){
         // Given: Setup object or precondition
         Apartment testApartment1 = Apartment.createApartment(5, 4, 5,
@@ -153,7 +153,7 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test adding Apartments to Meeting after adding will be removing some apartments")
+    @DisplayName("Test adding Apartments to Meeting")
     void addApartmentToMeetingAndUpdateAdd(){
         // Given: Setup object or precondition
         List<Apartment> expectedApartmentList = Arrays.asList(TestVariables.APARTMENT_LIST.get(0));

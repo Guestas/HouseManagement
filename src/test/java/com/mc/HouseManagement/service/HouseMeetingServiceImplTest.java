@@ -6,6 +6,7 @@ import com.mc.HouseManagement.entity.HouseMeeting;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.HouseMeetingDAO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -35,6 +36,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can add house meeting")
     void addUpdateHouseMeeting() {
         // Given: Setup object or precondition
         List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
@@ -50,6 +52,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can get house meeting by id")
     void getHouseMeetingById() {
         // Given: Setup object or precondition
         // TestVariables.HOUSE_MEETING
@@ -66,6 +69,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can get all house meetings")
     void getAllHouseMeetings() {
         // Given: Setup object or precondition
         // TestVariables.HOUSE_MEETING_LIST
@@ -82,6 +86,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can dell house meeting which is in database")
     void deleteHouseMeetingByIdIsInDB() {
         // Given: Setup object or precondition
         Long houseMeetingID = 1L;
@@ -96,6 +101,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Dell house meeting which is not in database")
     void deleteHouseMeetingByIdIsNotInDB() {
         // Given: Setup object or precondition
         Long houseMeetingID = 1L;
@@ -110,6 +116,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can connect house meeting with apartments")
     void addApartmentToHouseMeeting() {
         // Given: Setup object or precondition
         Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
@@ -130,6 +137,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can connect house meeting with apartments house meeting not in database")
     void addApartmentToHouseMeetingHouseMeetingNotFound() {
         // Given: Setup object or precondition
         Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
@@ -148,6 +156,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Connect house meeting with apartments which is not in database")
     void addApartmentToHouseMeetingApartmentNotFound() {
         // Given: Setup object or precondition
         Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
@@ -167,6 +176,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Can disconnect house meeting with apartments")
     void delApartmentFromHouseMeeting() {
         // Given: Setup object or precondition
         Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
@@ -187,6 +197,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Disconnect house meeting with apartments house meeting not in database")
     void delApartmentFromHouseMeetingHouseMeetingNotFound() {
         // Given: Setup object or precondition
         Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
@@ -205,6 +216,7 @@ class HouseMeetingServiceImplTest {
     }
 
     @Test
+    @DisplayName("Disconnect house meeting with apartments which is not in database")
     void delApartmentFromHouseMeetingApartmentNotFound() {
         // Given: Setup object or precondition
         Long houseMeetingId = TestVariables.HOUSE_MEETING.getId();
