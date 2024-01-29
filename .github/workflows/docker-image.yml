@@ -30,5 +30,5 @@ jobs:
           tags: "image"
           # For pull requests, export results to the build cache.
           # Otherwise, push to a registry.
-          #outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || 'type=registry,push=true' }}
+          # outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || 'type=registry,push=true' }}
   
