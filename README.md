@@ -14,7 +14,7 @@ Execute the following command to run the application pack:
 
 it will create target folder. In command line change folder to /target and run command:
 
-    java -jar House-0.0.1-SNAPSHOT.jar
+    java -jar HouseManagement-0.0.2-SNAPSHOT.jar
 
 Please be cautious, as you need to establish a connection to the database in the application.properties file if you run the application from the terminal.
 
