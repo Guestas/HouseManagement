@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>User add</title>
+    <title th:text="#{title}">User add</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/css/table.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div th:replace="~{fragments/menu :: menu}"></div>
@@ -13,6 +14,9 @@
 
     <form action="#" th:action="@{/api/v2/persons/update/}" th:object="${person}"
           method="POST">
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="id" readonly="readonly" th:field="*{id}" required>
+        </div>
         <div class="form-group">
             <label for="apartmentNumber" th:text="#{label.apartmentsTouser}">Apartments:</label>
             <textarea class="form-control" id="apartmentNumber" th:field="*{apartmentNumber}" required th:value="${#strings.listJoin(apartmentNumber, '\n')}"></textarea>
@@ -44,6 +48,36 @@
 
         <button type="submit" class="btn btn-info col-2" th:text="#{button.updatePerson}">Update Person</button>
     </form>
+    <h1 th:text="#{title.tableOfApartments}">Tab of Apartments</h1>
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th th:text="#{table.header.number}">Number</th>
+                <th th:text="#{table.header.floor}">Floor</th>
+                <th th:text="#{table.header.branch}">Branch</th>
+                <th th:text="#{table.header.street}">Street</th>
+                <th th:text="#{table.header.voteValue}">Vote value</th>
+                <th th:text="#{table.header.action}">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="apartment:${apartmentList}">
+                <td th:text="${apartment.id}"></td>
+                <td th:text="${apartment.flor}"></td>
+                <td th:text="${apartment.branchAntenna}"></td>
+                <td th:text="${apartment.street}"></td>
+                <td th:text="${apartment.voteValue}"></td>
+                <td>
+                    <form th:action="@{/api/v2/apartments/{id}(id=${apartment.id})}" th:method="GET">
+                        <input type="hidden" name="_method" value="GET" />
+                        <button type="submit" class="btn btn-danger" th:text="#{button.load}">Load</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 <script th:src="@{/js/check.js}"></script>

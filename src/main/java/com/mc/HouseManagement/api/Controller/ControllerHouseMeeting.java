@@ -2,6 +2,7 @@ package com.mc.HouseManagement.api.Controller;
 
 import com.mc.HouseManagement.api.dto.houseMeetings.AddUpdateHouseMeeting;
 import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
+import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.HouseMeeting;
 import com.mc.HouseManagement.service.HouseMeetingService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.Comparator;
 
 @Controller
 @RequestMapping("/api/v2/houseMeetings")
@@ -41,12 +44,13 @@ public class ControllerHouseMeeting {
 
     // updation
     @GetMapping("/update/{houseMeetingId}")
-    public ModelAndView updatePerson(@PathVariable(name = "houseMeetingId") Long houseMeetingId){
+    public ModelAndView updatePerson(@PathVariable(name = "houseMeetingId") Long houseMeetingId, Model model){
         ModelAndView updateView = new ModelAndView("houseMeetingUpdate");
         HouseMeeting houseMeeting = houseMeetingService.getHouseMeetingById(houseMeetingId);
         AddUpdateHouseMeeting addUpdateHouseMeeting = AddUpdateHouseMeeting.createAddUpsateHouseMeeting(houseMeeting);
         addUpdateHouseMeeting.setApartmentNumber(houseMeeting.getApartments().stream().map(apartment -> apartment.getId().toString()).toList());
         updateView.addObject("houseMeeting", addUpdateHouseMeeting);
+        model.addAttribute("apartmentsOnHouseMeeting", houseMeeting.getApartments().stream().sorted(Comparator.comparing(Apartment::getId)));
         return updateView;
     }
 

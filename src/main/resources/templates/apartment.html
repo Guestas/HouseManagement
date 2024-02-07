@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{title.users}">Users</title>
+    <title th:text="#{title}">Users</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     <link href="/css/table.css" rel="stylesheet" type="text/css" />
@@ -31,7 +31,7 @@
         </tbody>
     </table>
 </div>
-<h2>Owners</h2>
+<h2 th:text="#{title.owners}">Owners</h2>
 <div class="table-container">
     <table>
         <thead>
@@ -63,7 +63,7 @@
         </tbody>
     </table>
 </div>
-<h2>Users</h2>
+<h2 th:text="#{title.users}">Users</h2>
 <div class="table-container">
     <table>
         <thead>
@@ -95,7 +95,7 @@
         </tbody>
     </table>
 </div>
-<h2>Sold Moved Out</h2>
+<h2 th:text="#{title.soldMovedOut}">Sold Moved Out</h2>
 <div class="table-container">
     <table>
         <thead>

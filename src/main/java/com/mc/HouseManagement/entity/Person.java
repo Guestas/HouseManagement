@@ -34,7 +34,8 @@ public class Person implements Comparable<Person>{
 
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name="apartments_persons",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "apartment_id"))

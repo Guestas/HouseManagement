@@ -2,8 +2,10 @@ package com.mc.HouseManagement.api.Controller;
 
 import com.mc.HouseManagement.api.dto.person.AddUpdatePerson;
 import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
+import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.entity.SoldMovedOut;
+import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -35,13 +37,9 @@ public class ControllerPerson {
 
     @GetMapping("/")
     public String getUserDetails(Model model) {
-        model.addAttribute("allPersonList", personService.getAllPersonsByClassType(Person.class));
-        return "persons";
-    }
-
-    @GetMapping("/soldMovedOut/")
-    public String getSoldMovedOutDetails(Model model) {
-        model.addAttribute("allPersonList", personService.getAllPersonsByClassType(SoldMovedOut.class));
+        model.addAttribute("allOwnersList", personService.getAllPersonsByClassType(Owner.class));
+        model.addAttribute("allUsersList", personService.getAllPersonsByClassType(User.class));
+        model.addAttribute("allSoldMovedOut", personService.getAllPersonsByClassType(SoldMovedOut.class));
         return "persons";
     }
 
@@ -61,13 +59,14 @@ public class ControllerPerson {
 
     // updation
     @GetMapping("/update/{personId}")
-    public ModelAndView updatePerson(@PathVariable(name = "personId") Long personId){
+    public ModelAndView updatePerson(@PathVariable(name = "personId") Long personId, Model model){
         ModelAndView updateView = new ModelAndView("personUpdate");
         Person person = personService.getPersonById(personId);
         AddUpdatePerson addUpdatePerson = AddUpdatePerson.creteAddUpdatePerson(person, person.getClass().getSimpleName());
 
         addUpdatePerson.setApartmentNumber(person.getApartments().stream().map(apartment -> apartment.getId().toString()).toList());
         updateView.addObject("person", addUpdatePerson);
+        model.addAttribute("apartmentList", person.getApartments());
         return updateView;
     }
 

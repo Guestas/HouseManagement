@@ -78,4 +78,5 @@ footer {
     width: 100%;
     background-color: #000;
     margin: -10px;
+    z-index: 9999;
 }

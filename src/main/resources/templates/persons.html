@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Users</title>
+    <title th:text="#{title}">Users</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     <link href="/css/table.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
   <div th:replace="~{fragments/menu :: menu}"></div>
-  <h1 th:text="#{title.tableOfUsers}">Tab of users</h1>
+  <h1 th:text="#{title.tableOfOwners}">Tab of users</h1>
     <div class="table-container">
       <table>
         <thead>
@@ -21,7 +21,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="person:${allPersonList}">
+        <tr th:each="person:${allOwnersList}">
           <td th:text="${person.firstName}"></td>
           <td th:text="${person.lastName}"></td>
           <td th:text="${person.email}"></td>
@@ -40,6 +40,71 @@
         </tbody>
       </table>
     </div>
+  <h1 th:text="#{title.tableOfUsers}">Tab of users</h1>
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th th:text="#{table.header.firstName}">First Name</th>
+        <th th:text="#{table.header.lastName}">Last Name</th>
+        <th th:text="#{table.header.email}">Email</th>
+        <th th:text="#{table.header.phone}">Phone</th>
+        <th th:text="#{table.header.action}">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="person:${allUsersList}">
+        <td th:text="${person.firstName}"></td>
+        <td th:text="${person.lastName}"></td>
+        <td th:text="${person.email}"></td>
+        <td th:text="${person.phone}"></td>
+        <td>
+          <form th:action="@{/api/v2/persons/{id}(id=${person.id})}" method="POST">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="btn btn-danger" th:text="#{button.delete}">Delete</button>
+          </form>
+          <form th:action="@{/api/v2/persons/update/{id}(id=${person.id})}" th:method="GET">
+            <input type="hidden" name="_method" value="GET" />
+            <button type="submit" class="btn btn-danger" th:text="#{button.load}">Load</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h1 th:text="#{title.tableOfSoldMovedOut}">Tab of users</h1>
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th th:text="#{table.header.firstName}">First Name</th>
+        <th th:text="#{table.header.lastName}">Last Name</th>
+        <th th:text="#{table.header.email}">Email</th>
+        <th th:text="#{table.header.phone}">Phone</th>
+        <th th:text="#{table.header.action}">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="person:${allSoldMovedOut}">
+        <td th:text="${person.firstName}"></td>
+        <td th:text="${person.lastName}"></td>
+        <td th:text="${person.email}"></td>
+        <td th:text="${person.phone}"></td>
+        <td>
+          <form th:action="@{/api/v2/persons/{id}(id=${person.id})}" method="POST">
+            <input type="hidden" name="_method" value="DELETE" />
+            <button type="submit" class="btn btn-danger" th:text="#{button.delete}">Delete</button>
+          </form>
+          <form th:action="@{/api/v2/persons/update/{id}(id=${person.id})}" th:method="GET">
+            <input type="hidden" name="_method" value="GET" />
+            <button type="submit" class="btn btn-danger" th:text="#{button.load}">Load</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <div th:replace="~{fragments/menu :: footer}"></div>
   </body>
 
