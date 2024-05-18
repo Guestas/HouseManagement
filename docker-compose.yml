@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  app:
+    image: guestas/housemanagement:latest
+    container_name: house_management_app
+    ports:
+      - "8080:8080"  # Maps port 8080 on the host to port 8080 in the container
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DATABASE:-defaultDatabase}
+      SPRING_DATASOURCE_USERNAME: ${USERNAME:-defaultUsername}
+      SPRING_DATASOURCE_PASSWORD: ${PASSWORD:-defaultPassword}
+
+  db:
+    image: postgres:14.5
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${USERNAME:-defaultUsername}
+      POSTGRES_PASSWORD: ${PASSWORD:-defaultPassword}
+      POSTGRES_DB: ${DATABASE:-defaultDatabase}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

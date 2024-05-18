@@ -126,3 +126,26 @@ Service interact with the DAO layer to retrieve or update data, and may perform 
 
 ## App scheme is:
 ![Diagram bez názvu.drawio-2.png](imagesForReadMe%2FDiagram%20bez%20n%C3%A1zvu.drawio-2.png)
+
+
+
+
+## Run with postgres IDEA
+docker desktop required:
+   
+docker run --name postgresql -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:14.5
+
+in postgres container cmd line:
+   
+psql -h localhost -U postgres
+   
+CREATE DATABASE house_app;
+
+## Docker compose
+Download: docker-compose.yml 
+Run: in folder with docker-compose.yml 
+
+crete and run: docker-compose up
+
+stop and delete: docker-compose down
+   
