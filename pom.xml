@@ -26,6 +26,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<!--validation of inputs to api-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -34,8 +35,9 @@
 
 		<!--Databases-->
 		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.24</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
