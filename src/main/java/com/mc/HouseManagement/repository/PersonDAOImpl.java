@@ -1,14 +1,14 @@
 package com.mc.HouseManagement.repository;
 
-import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
-import com.mc.HouseManagement.entity.Owner;
+import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.SoldMovedOut;
-import com.mc.HouseManagement.entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -18,51 +18,55 @@ import java.util.List;
 public class PersonDAOImpl implements PersonDAO{
 
     private final EntityManager entityManager;
-
+    @Autowired
     public PersonDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
     @Transactional
-    public <T extends Person> Long addUpdatePerson(T person) {
+    public Long addUpdatePerson(Person person) {
         return entityManager.merge(person).getId();
     }
 
     @Override
-    public <T extends Person> T getPersonByIdAndType(Long id, Class<T> personTClass) {
-        return entityManager.find(personTClass, id);
+    public Person getPersonByIdAndType(Long id, String personType) {
+        return entityManager.find(Person.class, id);
     }
 
     @Override
-    public <T extends Person> List<T> getPersonsByApartmentsIdAndType(Long apartmentId, Class<T> personTClass) {
+    public List<Person> getPersonsByApartmentsIdAndType(Long apartmentId, String personType) {
         try {
-            TypedQuery<T> query = entityManager.createQuery("SELECT p FROM " +
-                    personTClass.getCanonicalName() +
-                    " p JOIN FETCH p.apartments a WHERE a.id=:theData", personTClass);
-            return query.setParameter("theData", apartmentId).getResultList();
-        } catch (DataNotFoundException e){
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+            Root<Person> personRoot = criteriaQuery.from(Person.class);
+            Join<Person, Apartment> apartmentJoin = personRoot.join("apartments");
+
+            criteriaQuery.select(personRoot)
+                    .where(criteriaBuilder.equal(apartmentJoin.get("id"), apartmentId));
+
+            TypedQuery<Person> query = entityManager.createQuery(criteriaQuery);
+            return query.getResultList();
+        } catch (NoResultException e) {
+            // Handle the case where no data is found
             return new ArrayList<>();
         }
     }
 
     @Override
-    public <T extends Person> List<T> getAllPersonsByClassType(Class<T> personTClass) {
-        TypedQuery<T> query = entityManager
-                .createQuery("SELECT t FROM " +
-                                personTClass.getCanonicalName() +
-                                " t",
-                        personTClass);
-        return query.getResultList();
+    public List<Person> getAllPersonsByType(String personType) {
+        TypedQuery<Person> query = entityManager.createQuery("SELECT p FROM Person p " +
+                "WHERE type=:theData", Person.class);
+        return query.setParameter("theData", personType).getResultList();
     }
 
     @Override
     @Transactional
-    public <T extends Person> Long deletePersonById(Long personId) {
-        T entityToRemove = getPersonById(personId);
+    public Long deletePersonById(Long personId) {
+        Person entityToRemove = getPersonById(personId);
 
         entityManager.remove(entityToRemove);
-        T checkEntity = getPersonById(personId);
+        Person checkEntity = getPersonById(personId);
 
         return checkEntity == null?entityToRemove.getId():-1;
     }
@@ -76,37 +80,50 @@ public class PersonDAOImpl implements PersonDAO{
     }
 
     @Override
-    public <T extends Person> List<T> getPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> personTClass) {
-        try {
-            TypedQuery<T> query = entityManager.createQuery("SELECT p FROM " +
-                    personTClass.getCanonicalName() +
-                    " p WHERE lastName=:theData or " +
-                    "firstName=:theData", personTClass);
-            return query.setParameter("theData", oneOfNames).getResultList();
-        } catch (DataNotFoundException e){
-            return new ArrayList<>();
-        }
+    public List<Person> getPersonByLastOrFirstNameAndType(String oneOfNames, String personType) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+        Root<Person> personRoot = criteriaQuery.from(Person.class);
+
+        Predicate lastNamePredicate = criteriaBuilder.equal(personRoot.get("lastName"), oneOfNames);
+        Predicate firstNamePredicate = criteriaBuilder.equal(personRoot.get("firstName"), oneOfNames);
+        Predicate personTypePredicate = criteriaBuilder.equal(personRoot.get("type"), personType);
+
+        Predicate nameOrTypePredicate = criteriaBuilder.or(lastNamePredicate, firstNamePredicate);
+        Predicate finalPredicate = criteriaBuilder.and(nameOrTypePredicate, personTypePredicate);
+
+        criteriaQuery.select(personRoot).where(finalPredicate);
+
+        TypedQuery<Person> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
     @Override
-    public <T extends Person> T getPersonById(Long id) {
+    public Person getPersonById(Long id) {
+
         try {
-            String queryString = "SELECT p.person_type FROM person p WHERE id=:theData";
-            Query nativeQuery = entityManager.createNativeQuery(queryString);
-            var li = nativeQuery.setParameter("theData", id).getResultList();
-            if (!li.isEmpty()){
-                var out = switch (li.get(0).toString()){
-                    case "Owner" -> entityManager.find(Owner.class, id);
-                    case "User" -> entityManager.find(User.class, id);
-                    case "Sold_moved_out" -> entityManager.find(SoldMovedOut.class, id);
-                    default -> null;
-                };
-                return (T) out;
-            }
-            return null;
-        } catch (DataNotFoundException e){
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+            Root<Person> personRoot = criteriaQuery.from(Person.class);
+
+            criteriaQuery.select(personRoot)
+                    .where(criteriaBuilder.equal(personRoot.get("id"), id));
+
+            TypedQuery<Person> query = entityManager.createQuery(criteriaQuery);
+            return query.getSingleResult();
+        } catch (NoResultException e){
             return null;
         }
+
+
+
+        /*try {
+            TypedQuery<Person> query = entityManager
+                    .createQuery("SELECT p.person_type FROM Person p WHERE id=:theData", Person.class);
+            return query.setParameter("theData", id).getSingleResult();
+        } catch (DataNotFoundException e){
+            return null;
+        }*/
     }
 
 }

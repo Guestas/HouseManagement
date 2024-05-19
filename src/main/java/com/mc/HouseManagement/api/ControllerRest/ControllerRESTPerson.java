@@ -1,6 +1,6 @@
 package com.mc.HouseManagement.api.ControllerRest;
 
-import com.mc.HouseManagement.api.Controller.ControllerApartment;
+import com.mc.HouseManagement.api.Controller.ControllerPerson;
 import com.mc.HouseManagement.api.dto.person.*;
 import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
 import com.mc.HouseManagement.entity.Person;
@@ -32,7 +32,7 @@ public class ControllerRESTPerson {
     @PostConstruct //caled once after start to download new data or other functionality
     public void loadData(){
         //TODO finish logger
-        Logger logger = LoggerFactory.getLogger(ControllerApartment.class);
+        Logger logger = LoggerFactory.getLogger(ControllerPerson.class);
         logger.debug("Rest controller person started!");
     }
 
@@ -42,15 +42,15 @@ public class ControllerRESTPerson {
     }
 
     @GetMapping("/")
-    public <T extends Person> List<Person> getAllUsers() {
-        List<Person> outputPersons = personService.getAllPersonsByClassType(Person.class);
+    public List<Person> getAllUsers() {
+        List<Person> outputPersons = personService.getAllPersonsByType("Person");
         Collections.sort(outputPersons);
         return outputPersons;
     }
 
     @GetMapping("/{personId}")
-    public <T extends Person> T getUsersByID(@PathVariable Long personId){
-        T loaded = personService.getPersonById(personId);
+    public Person getUsersByID(@PathVariable Long personId){
+        Person loaded = personService.getPersonById(personId);
         if (loaded==null)
             throw new DataNotFoundException("User not found on ID: "+personId);
         return loaded;
@@ -83,7 +83,7 @@ public class ControllerRESTPerson {
     }
 
     @GetMapping("/name/{name}")
-    public <T extends Person> List<Person> getUsersByNameOrLastName(@PathVariable String name){
+    public List<Person> getUsersByNameOrLastName(@PathVariable String name){
         if (personService.getPersonByLastOrFirstName(name).isEmpty())
             throw new DataNotFoundException("User not found with firs name or last name: " + name);
         return personService.getPersonByLastOrFirstName(name);

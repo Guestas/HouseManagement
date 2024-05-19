@@ -1,9 +1,6 @@
 package com.mc.HouseManagement.api.dto.person;
 
-import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.SoldMovedOut;
-import com.mc.HouseManagement.entity.User;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -137,24 +134,11 @@ public class AddUpdatePerson {
      * @return Person object based on the typeOfUser, or null if the type is unknown.
      */
     public Person getPersonWitType() {
-        if ("User".equals(typeOfUser)) {
-            User user = User.createUser(firstName, lastName, email, phone, null);
-            if (id != null)
-                user.setId(id);
-            return user;
-        } else if ("Owner".equals(typeOfUser)) {
-            Owner owner = Owner.createOwner(firstName, lastName, email, phone, null);
-            if (id != null)
-                owner.setId(id);
-            return owner;
-        } else if ("SoldMovedOut".equals(typeOfUser)) {
-            SoldMovedOut soldMovedOut = SoldMovedOut.createSoldMovedOut(firstName, lastName, email, phone, null);
-            if (id != null)
-                soldMovedOut.setId(id);
-            return soldMovedOut;
-        } else {
-            return null;
+        Person person = Person.createPerson(firstName, lastName, email, phone, null, typeOfUser);
+        if (id != null){
+            person.setId(id);
         }
+        return person;
     }
 
     public static AddUpdatePerson creteAddUpdatePerson(String firstName, String lastName, String email, Long phone, String typeOfUser){

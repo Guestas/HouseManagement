@@ -9,44 +9,39 @@ public interface PersonDAO {
     /**
      * Adds or updates a person entity in the database.
      * @param person The person entity to be added or updated.
-     * @param <T>    Type parameter extending Person.
      * @return The ID of the added or updated person.
      */
-    public <T extends Person> Long addUpdatePerson(T person);
+    public Long addUpdatePerson(Person person);
 
     /**
      * Retrieves a person entity by its ID.
      * @param personId     The ID of the person entity to retrieve.
-     * @param personTClass The class type of the person entity.
-     * @param <T>    Type parameter extending Person.
+     * @param personType      The type of the person entities.
      * @return The person entity with the specified ID.
      */
-    public <T extends Person> T getPersonByIdAndType(Long personId, Class<T> personTClass);
+    public Person getPersonByIdAndType(Long personId, String personType);
 
     /**
      * Retrieves a person entity by its ID.
      * @param apartmentId     The ID of the apartment in person entity to retrieve.
-     * @param personTClass The class type of the person entity.
-     * @param <T>    Type parameter extending Person.
+     * @param personType      The type of the person entities.
      * @return List of person entities matching the criteria.
      */
-    public <T extends Person> List<T> getPersonsByApartmentsIdAndType(Long apartmentId, Class<T> personTClass);
+    public List<Person> getPersonsByApartmentsIdAndType(Long apartmentId, String personType);
 
     /**
      * Loads all person entities of a given type.
-     * @param personTClass The class type of the person entities.
-     * @param <T>    Type parameter extending Person.
+     * @param personType The type of the person entities.
      * @return List of all person entities of the specified type.
      */
-    public <T extends Person> List<T> getAllPersonsByClassType(Class<T> personTClass);
+    public List<Person> getAllPersonsByType(String personType);
 
     /**
      * Deletes a person entity by its ID.
      * @param id The ID of the person entity to delete.
-     * @param <T> Type parameter extending Person.
      * @return The ID of the deleted person entity or -1 if the entity was not found.
      */
-    public <T extends Person> Long deletePersonById(Long id);
+    public Long deletePersonById(Long id);
 
     /**
      * Deletes all person entities from the database.
@@ -57,17 +52,15 @@ public interface PersonDAO {
     /**
      * Loads person entities by last or first name and type.
      * @param oneOfNames The last or first name to search for.
-     * @param personTClass The class type of the person entities.
-     * @param <T>        Type parameter extending Person.
+     * @param personType The type of the person entities.
      * @return List of person entities matching the criteria.
      */
-    public <T extends Person> List<T> getPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> personTClass);
+    public List<Person> getPersonByLastOrFirstNameAndType(String oneOfNames, String personType);
 
     /**
      * Loads a person entity by its ID with support for different person types.
      * @param id The ID of the person entity to load.
-     * @param <T> Type parameter extending Person.
      * @return The loaded person entity or null if not found.
      */
-    public <T extends Person> T getPersonById(Long id);
+    public Person getPersonById(Long id);
 }

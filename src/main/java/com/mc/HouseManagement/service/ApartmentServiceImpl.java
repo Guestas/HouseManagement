@@ -19,6 +19,7 @@ public class ApartmentServiceImpl implements ApartmentService{
 
     @Override
     public Long addUpdateApartment(Apartment apartment) {
+
         return apartmentDAO.addUpdateApartment(apartment);
     }
 

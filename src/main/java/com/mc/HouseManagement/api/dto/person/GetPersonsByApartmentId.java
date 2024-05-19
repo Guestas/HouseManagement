@@ -1,9 +1,5 @@
 package com.mc.HouseManagement.api.dto.person;
 
-import com.mc.HouseManagement.entity.Owner;
-import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.SoldMovedOut;
-import com.mc.HouseManagement.entity.User;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -41,15 +37,7 @@ public class GetPersonsByApartmentId {
         this.typeOfUser = typeOfUser;
     }
 
-    public Class<? extends Person> getPersonType() {
-        if ("User".equals(typeOfUser)) {
-            return User.class;
-        } else if ("Owner".equals(typeOfUser)) {
-            return Owner.class;
-        } else if ("SoldMovedOut".equals(typeOfUser)) {
-            return SoldMovedOut.class;
-        } else {
-            return null;
-        }
+    public String getPersonType() {
+        return typeOfUser;
     }
 }
