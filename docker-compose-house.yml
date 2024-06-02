@@ -8,6 +8,7 @@ services:
     depends_on:
       - db
     environment:
+      # DATABASE=house_app USERNAME=postgres PASSWORD=postgres docker-compose-house up
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DATABASE:-defaultDatabase}
       SPRING_DATASOURCE_USERNAME: ${USERNAME:-defaultUsername}
       SPRING_DATASOURCE_PASSWORD: ${PASSWORD:-defaultPassword}
@@ -18,7 +19,7 @@ services:
     environment:
       POSTGRES_USER: ${USERNAME:-defaultUsername}
       POSTGRES_PASSWORD: ${PASSWORD:-defaultPassword}
-      POSTGRES_DB: ${DATABASE:-defaultDatabase}
+      POSTGRES_DB: ${DATABASE:-house_app}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 

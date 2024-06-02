@@ -133,19 +133,20 @@ Service interact with the DAO layer to retrieve or update data, and may perform 
 ## Run with postgres IDEA
 docker desktop required:
    
-docker run --name postgresql -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:14.5
+`docker run --name postgresql -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:14.5`
 
-in postgres container cmd line:
+in postgres container (Docker desktop) cmd line:
    
-psql -h localhost -U postgres
+`psql -h localhost -U postgres`
    
-CREATE DATABASE house_app;
+`CREATE DATABASE house_app;`
 
 ## Docker compose
-Download: docker-compose.yml 
-Run: in folder with docker-compose.yml 
+Download: docker-compose-house.yml 
 
-crete and run: docker-compose up
+In folder with docker-compose-house.yml 
 
-stop and delete: docker-compose down
+crete and run: `DATABASE=house_app USERNAME=postgres PASSWORD=postgres docker-compose-house up`
+
+stop and delete: `docker-compose-house down`
    

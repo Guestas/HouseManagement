@@ -44,6 +44,13 @@
 			<artifactId>hibernate-community-dialects</artifactId>
 		</dependency>
 
+		<!--Database model for entity_.id for example-->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>5.4.0.Final</version>
+		</dependency>
+
 		<!--Thymeleaf-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -82,6 +89,24 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-jpamodelgen</artifactId>
+							<version>5.4.0.Final</version>
+						</path>
+					</annotationProcessorPaths>
+					<showWarnings>true</showWarnings>
+					<compilerArgs>
+						<arg>-Ahibernate.jpamodelgen.log=true</arg>
+					</compilerArgs>
+				</configuration>
 			</plugin>
 		</plugins>
 		<resources>
