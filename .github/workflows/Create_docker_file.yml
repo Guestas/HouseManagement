@@ -16,8 +16,6 @@ jobs:
       - name: Extract version and app file name from pom.xml
         id: extract_version
         run: |
-          ls
-          pwd
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           if [ -z "$VERSION" ]; then
             echo "Version not found!"
@@ -89,6 +87,8 @@ jobs:
 
       - name: Deploy with Docker Compose
         run: |
+          cd /Docker_composes
           docker-compose -f docker-compose-house.yml up -d
+          cd ..
 
 
