@@ -25,6 +25,10 @@ jobs:
           echo "JAR_FILE=HouseManagement-$VERSION.jar" >> $GITHUB_ENV
           echo "Version: $VERSION and file $JAR_FILE"
 
+      - name: Variables
+        run: |
+          echo "Version: ${{ env.version }} and file ${{ env.JAR_FILE }}"
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
