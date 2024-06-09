@@ -33,14 +33,15 @@ jobs:
       - name: Get current version and create Dockerfile dynamically
         id: get_version
         run: |
+          echo "JAR file is ${{ env.JAR_FILE }}"
           version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           if [ -z "$version" ]; then
             echo "Version not found!"
             exit 1
           fi
-          echo "Current version is $version"
+          echo "Current version is $version "
           echo "COPY --from=build /home/app/target/HouseManagement-$version.jar /usr/local/lib/HouseManagement-$version"
-
+          #echo "::set-output name=current_version::$version"
           echo "# Build stage" > Dockerfile
           echo "FROM maven:3.8.3-openjdk-17 AS build" >> Dockerfile
           echo "COPY src /home/app/src" >> Dockerfile
@@ -66,7 +67,7 @@ jobs:
       - name: Debug - Echo version
         run: |
          echo "Version is ${{ steps.get_version.outputs.current_version }}"
-         echo "JAR file is ${{ env.jar_file }}"
+         echo "JAR file is ${{ env.JAR_FILE }}"
         
 
       - name: Build and push Docker image
@@ -74,9 +75,10 @@ jobs:
         with:
           context: .
           push: true
-          build-args: JAR_FILE=${{ env.jar_file }}
+          build-args: |
+            JAR_FILE=${{ env.JAR_FILE }}
           tags: |
-            guestas/housemanagement:${{ steps.get_version.outputs.current_version }}
+            guestas/housemanagement:${{ env.VERSION }}
             guestas/housemanagement:latest
 
       - name: Set up QEMU
