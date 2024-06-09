@@ -23,6 +23,13 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
+      - name: Extract version from pom.xml
+        id: extract_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "JAR_FILE=HouseManagement-$VERSION.jar" >> $GITHUB_ENV
+
       - name: Get current version and create Dockerfile dynamically
         id: get_version
         run: |
