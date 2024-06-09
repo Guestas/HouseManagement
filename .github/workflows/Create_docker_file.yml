@@ -47,9 +47,9 @@ jobs:
           echo "# Run stage" >> Dockerfile
           echo "FROM openjdk:17" >> Dockerfile
           echo "ARG JAR_FILE" >> Dockerfile
-          echo "COPY --from=build /home/app/target/\${JAR_FILE} /usr/local/lib/\${JAR_FILE}" >> Dockerfile
+          echo "COPY --from=build /home/app/target/\${JAR_FILE} /usr/local/lib/app.jar" >> Dockerfile
           echo "EXPOSE 8080" >> Dockerfile
-          echo 'ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/\${JAR_FILE}"]' >> Dockerfile
+          echo 'ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/app.jar"]' >> Dockerfile
       
 
       - name: Log in to Docker Hub
