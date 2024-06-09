@@ -14,11 +14,11 @@ services:
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        JAR_FILE: HouseManagement-1.0.0-SNAPSHOT.jar
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
+    #  args:
+    #    JAR_FILE: HouseManagement-1.0.0-SNAPSHOT.jar
     image: guestas/housemanagement:latest
     container_name: house_management_app
     ports:
