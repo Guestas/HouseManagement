@@ -1,4 +1,5 @@
 #!/bin/bash
+#will be gone
 
 # Extract the version from pom.xml
 VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
