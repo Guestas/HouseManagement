@@ -3,34 +3,34 @@ package com.mc.HouseManagement.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "person_type", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "Person")
 public class Person implements Comparable<Person>{
+    public static final String OWNER = "Owner";
+    public static final String USER = "User";
+    public static final String SOLD_MOVED_OUT = "SoldMovedOut";
+    public static final String PERSON = "Person";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
-    @Column(name="firstName")
-    private String firstName;
+    @Column(name="first_name")
+    private String first_name;
 
-    @Column(name="lastName")
-    private String lastName;
+    @Column(name="last_name")
+    private String last_name;
 
     @Column(name="email")
     private String email;
 
     @Column(name="phone")
     private Long phone;
-
-    @Column(name="lastUpdate")
-    private LocalDate lastUpdate;
 
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER,
@@ -41,16 +41,19 @@ public class Person implements Comparable<Person>{
             inverseJoinColumns = @JoinColumn(name = "apartment_id"))
     private List<Apartment> apartments;
 
+    @Column(name="type")
+    private String type;
+
     public Person() {
     }
 
-    public Person(String firstName, String lastName, String email, Long phone, List<Apartment> apartments) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Person(String first_name, String last_name, String email, Long phone, List<Apartment> apartments, String type) {
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.phone = phone;
         this.apartments = apartments;
-        this.lastUpdate = LocalDate.now();
+        this.type = type;
     }
 
     public Long getId() {
@@ -62,19 +65,19 @@ public class Person implements Comparable<Person>{
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getEmail() {
@@ -101,6 +104,15 @@ public class Person implements Comparable<Person>{
         this.apartments = apartments;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
     public void addApartment(Apartment apartment){
         if (apartments == null){
             apartments = new ArrayList<>();
@@ -123,6 +135,10 @@ public class Person implements Comparable<Person>{
             System.out.println("Not in list");
     }
 
+    public static Person createPerson(String first_name, String last_name, String email, Long phone, List<Apartment> apartments, String type){
+        return new Person(first_name, last_name, email, phone, apartments, type);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (super.equals(obj)) return true;
@@ -133,16 +149,19 @@ public class Person implements Comparable<Person>{
                         Objects.equals(this.getLastName(), person.getLastName());
     }
 
-    /** This function returns string with values in Person. **/
+    /**
+     * This function returns string with values in Person.
+     **/
     @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone=" + phone +
                 ", apartments=" + apartments +
+                ", type='" + type + '\'' +
                 '}';
     }
 

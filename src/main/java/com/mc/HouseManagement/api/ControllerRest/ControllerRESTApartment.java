@@ -4,6 +4,7 @@ import com.mc.HouseManagement.api.Controller.ControllerApartment;
 import com.mc.HouseManagement.api.dto.apartment.AddApartments;
 import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.service.ApartmentService;
+import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class ControllerRESTApartment {
     private final ApartmentService apartmentService;
 
     @Autowired
-    public ControllerRESTApartment(ApartmentService apartmentService) {
+    public ControllerRESTApartment(ApartmentService apartmentService, PersonService personService) {
         this.apartmentService = apartmentService;
     }
 

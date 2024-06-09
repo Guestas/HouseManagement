@@ -1,14 +1,16 @@
 package com.mc.HouseManagement.repository;
 
-import com.mc.HouseManagement.api.modifyedExceptions.DataNotFoundException;
-import com.mc.HouseManagement.entity.Owner;
+import com.mc.HouseManagement.entity.Apartment;
+import com.mc.HouseManagement.entity.Apartment_;
 import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.SoldMovedOut;
-import com.mc.HouseManagement.entity.User;
+import com.mc.HouseManagement.entity.Person_;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -18,51 +20,76 @@ import java.util.List;
 public class PersonDAOImpl implements PersonDAO{
 
     private final EntityManager entityManager;
-
+    @Autowired
     public PersonDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
     @Transactional
-    public <T extends Person> Long addUpdatePerson(T person) {
+    public Long addUpdatePerson(Person person) {
         return entityManager.merge(person).getId();
     }
 
     @Override
-    public <T extends Person> T getPersonByIdAndType(Long id, Class<T> personTClass) {
-        return entityManager.find(personTClass, id);
+    public Person getPersonByIdAndType(Long id, String personType) {
+        return entityManager.find(Person.class, id);
     }
 
     @Override
-    public <T extends Person> List<T> getPersonsByApartmentsIdAndType(Long apartmentId, Class<T> personTClass) {
+    public List<Person> getPersonsByApartmentsIdAndType(Long apartmentId, String personType) {
         try {
-            TypedQuery<T> query = entityManager.createQuery("SELECT p FROM " +
-                    personTClass.getCanonicalName() +
-                    " p JOIN FETCH p.apartments a WHERE a.id=:theData", personTClass);
-            return query.setParameter("theData", apartmentId).getResultList();
-        } catch (DataNotFoundException e){
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+
+            // Define the root
+            Root<Person> personRoot = criteriaQuery.from(Person.class);
+
+            // Define the join
+            Join<Person, Apartment> apartmentJoin = personRoot.join(Person_.APARTMENTS);
+
+            // Specify the criteria
+            criteriaQuery.select(personRoot)
+                    .distinct(true) // To avoid duplicates if needed
+                    .where(
+                            criteriaBuilder.and(
+                                    criteriaBuilder.equal(personRoot.get(Person_.TYPE), personType),
+                                    criteriaBuilder.equal(apartmentJoin.get(Person_.ID), apartmentId)
+                            )
+                    );
+
+            // Create and execute the query
+            return entityManager.createQuery(criteriaQuery).getResultList();
+        } catch (NoResultException e) {
+            // Handle the case where no data is found
             return new ArrayList<>();
         }
     }
 
     @Override
-    public <T extends Person> List<T> getAllPersonsByClassType(Class<T> personTClass) {
-        TypedQuery<T> query = entityManager
-                .createQuery("SELECT t FROM " +
-                                personTClass.getCanonicalName() +
-                                " t",
-                        personTClass);
-        return query.getResultList();
+    public List<Person> getAllPersonsByType(String personType) {
+
+        try {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+            Root<Person> personRoot = criteriaQuery.from(Person.class);
+
+            criteriaQuery.select(personRoot)
+                    .where(criteriaBuilder.equal(personRoot.get(Person_.TYPE), personType));
+
+            return entityManager.createQuery(criteriaQuery).getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 
     @Override
     @Transactional
-    public <T extends Person> Long deletePersonById(Long personId) {
-        T entityToRemove = getPersonById(personId);
+    public Long deletePersonById(Long personId) {
+        Person entityToRemove = getPersonById(personId);
 
         entityManager.remove(entityToRemove);
-        T checkEntity = getPersonById(personId);
+        Person checkEntity = getPersonById(personId);
 
         return checkEntity == null?entityToRemove.getId():-1;
     }
@@ -71,40 +98,47 @@ public class PersonDAOImpl implements PersonDAO{
     @Override
     @Transactional
     public int deleteAllPersons() {
-        Query query = entityManager.createQuery("DELETE FROM Person");
-        return query.executeUpdate();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaDelete<Person> criteriaDelete = criteriaBuilder.createCriteriaDelete(Person.class);
+        Root<Person> personRoot = criteriaDelete.from(Person.class);
+
+        criteriaDelete.where(criteriaBuilder.conjunction());
+
+        return entityManager.createQuery(criteriaDelete).executeUpdate();
     }
 
     @Override
-    public <T extends Person> List<T> getPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> personTClass) {
-        try {
-            TypedQuery<T> query = entityManager.createQuery("SELECT p FROM " +
-                    personTClass.getCanonicalName() +
-                    " p WHERE lastName=:theData or " +
-                    "firstName=:theData", personTClass);
-            return query.setParameter("theData", oneOfNames).getResultList();
-        } catch (DataNotFoundException e){
-            return new ArrayList<>();
-        }
+    public List<Person> getPersonByLastOrFirstNameAndType(String oneOfNames, String personType) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+        Root<Person> personRoot = criteriaQuery.from(Person.class);
+
+        Predicate lastNamePredicate = criteriaBuilder.equal(personRoot.get(Person_.LAST_NAME), oneOfNames);
+        Predicate firstNamePredicate = criteriaBuilder.equal(personRoot.get(Person_.FIRST_NAME), oneOfNames);
+        Predicate personTypePredicate = criteriaBuilder.equal(personRoot.get(Person_.TYPE), personType);
+
+        Predicate nameOrTypePredicate = criteriaBuilder.or(lastNamePredicate, firstNamePredicate);
+        Predicate finalPredicate = criteriaBuilder.and(nameOrTypePredicate, personTypePredicate);
+
+        criteriaQuery.select(personRoot).where(finalPredicate);
+
+        TypedQuery<Person> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
     @Override
-    public <T extends Person> T getPersonById(Long id) {
+    public Person getPersonById(Long id) {
         try {
-            String queryString = "SELECT p.person_type FROM person p WHERE id=:theData";
-            Query nativeQuery = entityManager.createNativeQuery(queryString);
-            var li = nativeQuery.setParameter("theData", id).getResultList();
-            if (!li.isEmpty()){
-                var out = switch (li.get(0).toString()){
-                    case "Owner" -> entityManager.find(Owner.class, id);
-                    case "User" -> entityManager.find(User.class, id);
-                    case "Sold_moved_out" -> entityManager.find(SoldMovedOut.class, id);
-                    default -> null;
-                };
-                return (T) out;
-            }
-            return null;
-        } catch (DataNotFoundException e){
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+            Root<Person> personRoot = criteriaQuery.from(Person.class);
+
+            criteriaQuery.select(personRoot)
+                    .where(criteriaBuilder.equal(personRoot.get(Person_.ID), id));
+
+            TypedQuery<Person> query = entityManager.createQuery(criteriaQuery);
+            return query.getSingleResult();
+        } catch (NoResultException e){
             return null;
         }
     }

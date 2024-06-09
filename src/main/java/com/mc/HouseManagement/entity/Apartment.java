@@ -16,7 +16,7 @@ public class Apartment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
-    @Column(name="vote-value")
+    @Column(name="vote_value")
     @NotNull(message = "Vote value cannot be null.")
     @Min(value = 1, message = "Min vote value is 1.")
     private Integer voteValue;
@@ -27,7 +27,7 @@ public class Apartment {
     @Column(name="flor")
     @NotNull(message = "Flor cannot be null.")
     private Integer flor;
-    @Column(name="addressN")
+    @Column(name="address_number")
     @NotNull(message = "Branch antenna cannot be null.")
     @Min(value = 1, message = "Min address is 1.")
     private Integer address;

@@ -1,9 +1,6 @@
 package com.mc.HouseManagement.api.dto.person;
 
-import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.SoldMovedOut;
-import com.mc.HouseManagement.entity.User;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,11 +16,11 @@ public class AddUpdatePerson {
 
     @NotNull(message = "Fist name cannot be null.")
     @NotBlank(message = "Fist name cannot be empty.")
-    private String firstName;
+    private String first_name;
 
     @NotNull(message = "Last name cannot be null.")
     @NotBlank(message = "Last name cannot be empty.")
-    private String lastName;
+    private String last_name;
 
     private String email;
 
@@ -40,25 +37,25 @@ public class AddUpdatePerson {
     public AddUpdatePerson() {
     }
 
-    public AddUpdatePerson(String firstName, String lastName, String email, Long phone, String typeOfUser) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public AddUpdatePerson(String first_name, String last_name, String email, Long phone, String typeOfUser) {
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.phone = phone;
         this.typeOfUser = typeOfUser;
     }
-    public AddUpdatePerson(Long id, String firstName, String lastName, String email, Long phone, String typeOfUser) {
+    public AddUpdatePerson(Long id, String first_name, String last_name, String email, Long phone, String typeOfUser) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.phone = phone;
         this.typeOfUser = typeOfUser;
     }
-    public AddUpdatePerson(Long id, String firstName, String lastName, String email, Long phone, String typeOfUser, List<String> apartmentNumber) {
+    public AddUpdatePerson(Long id, String first_name, String last_name, String email, Long phone, String typeOfUser, List<String> apartmentNumber) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.phone = phone;
         this.typeOfUser = typeOfUser;
@@ -66,8 +63,8 @@ public class AddUpdatePerson {
     }
     public AddUpdatePerson(Person person, String typeOfUser){
         this.id = person.getId();
-        this.firstName = person.getFirstName();
-        this.lastName = person.getLastName();
+        this.first_name = person.getFirstName();
+        this.last_name = person.getLastName();
         this.email = person.getEmail();
         this.phone = person.getPhone();
         this.typeOfUser = typeOfUser;
@@ -86,19 +83,19 @@ public class AddUpdatePerson {
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getEmail() {
@@ -137,32 +134,19 @@ public class AddUpdatePerson {
      * @return Person object based on the typeOfUser, or null if the type is unknown.
      */
     public Person getPersonWitType() {
-        if ("User".equals(typeOfUser)) {
-            User user = User.createUser(firstName, lastName, email, phone, null);
-            if (id != null)
-                user.setId(id);
-            return user;
-        } else if ("Owner".equals(typeOfUser)) {
-            Owner owner = Owner.createOwner(firstName, lastName, email, phone, null);
-            if (id != null)
-                owner.setId(id);
-            return owner;
-        } else if ("SoldMovedOut".equals(typeOfUser)) {
-            SoldMovedOut soldMovedOut = SoldMovedOut.createSoldMovedOut(firstName, lastName, email, phone, null);
-            if (id != null)
-                soldMovedOut.setId(id);
-            return soldMovedOut;
-        } else {
-            return null;
+        Person person = Person.createPerson(first_name, last_name, email, phone, null, typeOfUser);
+        if (id != null){
+            person.setId(id);
         }
+        return person;
     }
 
-    public static AddUpdatePerson creteAddUpdatePerson(String firstName, String lastName, String email, Long phone, String typeOfUser){
-        return new AddUpdatePerson(firstName, lastName, email, phone, typeOfUser);
+    public static AddUpdatePerson creteAddUpdatePerson(String first_name, String last_name, String email, Long phone, String typeOfUser){
+        return new AddUpdatePerson(first_name, last_name, email, phone, typeOfUser);
     }
 
-    public static AddUpdatePerson creteAddUpdatePerson(Long id, String firstName, String lastName, String email, Long phone, String typeOfUser){
-        return new AddUpdatePerson(id, firstName, lastName, email, phone, typeOfUser);
+    public static AddUpdatePerson creteAddUpdatePerson(Long id, String first_name, String last_name, String email, Long phone, String typeOfUser){
+        return new AddUpdatePerson(id, first_name, last_name, email, phone, typeOfUser);
     }
 
     public static AddUpdatePerson creteAddUpdatePerson(Person person, String typeOfUser){
@@ -173,8 +157,8 @@ public class AddUpdatePerson {
     public String toString() {
         return "AddUpdatePerson{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone=" + phone +
                 ", apartmentNumber=" + apartmentNumber +

@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  app:
+    image: guestas/housemanagement:latest
+    container_name: house_management_app
+    ports:
+      - "8080:8080"  # Maps port 8080 on the host to port 8080 in the container
+    depends_on:
+      - db
+    environment:
+      # DATABASE=house_app USERNAME=postgres PASSWORD=postgres docker-compose-house up
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DATABASE:-house}
+      SPRING_DATASOURCE_USERNAME: ${USERNAME:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${PASSWORD:-postgres}
+
+  db:
+    image: postgres:14.5
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${PASSWORD:-postgres}
+      POSTGRES_DB: ${DATABASE:-house}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

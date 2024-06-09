@@ -6,7 +6,6 @@ import com.mc.HouseManagement.api.dto.person.AddApartmentToPerson;
 import com.mc.HouseManagement.api.dto.person.GetPersonsByApartmentId;
 import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
 import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.service.PersonService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,7 +68,7 @@ class ControllerRESTPersonTest {
         // TestVariables.PERSON_LIST
 
         // When: Action or behavior that we are going to test
-        when(personService.getAllPersonsByClassType(any())).thenReturn(TestVariables.PERSON_LIST);
+        when(personService.getAllPersonsByType(any())).thenReturn(TestVariables.PERSON_LIST);
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTPerson).build();
 
         // Then: Verify the output or expected result
@@ -79,7 +78,7 @@ class ControllerRESTPersonTest {
                 .andExpect(content()
                         .json(asJsonString(TestVariables.PERSON_LIST)));
 
-        verify(personService, times(1)).getAllPersonsByClassType(any());
+        verify(personService, times(1)).getAllPersonsByType(any());
 
     }
 
@@ -273,15 +272,15 @@ class ControllerRESTPersonTest {
     @DisplayName("Can get person by apartment id.")
     void testGetPersonsByApartments() throws Exception {
         // Given: Setup object or precondition
-        User user = new User("Joe", "Black",
-                "joe@black.com", 123456789L, null);
+        Person user = new Person("Joe", "Black",
+                "joe@black.com", 123456789L, null, "User");
         ReturnMultiplePersonsForApartment returnMultiplePersonsForApartment =
                 new ReturnMultiplePersonsForApartment(user);
         GetPersonsByApartmentId getPersonsByApartmentId =
                 new GetPersonsByApartmentId(1L, "User");
 
         // When: Action or behavior that we are going to test
-        when(personService.getPersonsByApartmentsIdAndType(1L, User.class))
+        when(personService.getPersonsByApartmentsIdAndType(1L, "User"))
                 .thenReturn(Arrays.asList(returnMultiplePersonsForApartment));
 
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerRESTPerson).build();

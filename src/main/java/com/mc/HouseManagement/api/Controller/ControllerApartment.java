@@ -1,8 +1,6 @@
 package com.mc.HouseManagement.api.Controller;
 
-import com.mc.HouseManagement.entity.Owner;
-import com.mc.HouseManagement.entity.SoldMovedOut;
-import com.mc.HouseManagement.entity.User;
+import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.service.ApartmentService;
 import com.mc.HouseManagement.service.PersonService;
 import jakarta.annotation.PostConstruct;
@@ -43,9 +41,9 @@ public class ControllerApartment {
     @GetMapping("/{apartmentId}")
     public String getApartmentByID(@PathVariable(name = "apartmentId") Long apartmentId, Model model){
         model.addAttribute("apartment", apartmentService.getApartmentById(apartmentId));
-        model.addAttribute("ownersList", personService.getPersonsByApartmentsIdAndType(apartmentId, Owner.class));
-        model.addAttribute("usersList", personService.getPersonsByApartmentsIdAndType(apartmentId, User.class));
-        model.addAttribute("soldMovedOutsList", personService.getPersonsByApartmentsIdAndType(apartmentId, SoldMovedOut.class));
+        model.addAttribute("ownersList", personService.getPersonsByApartmentsIdAndType(apartmentId, Person.OWNER));
+        model.addAttribute("usersList", personService.getPersonsByApartmentsIdAndType(apartmentId, Person.USER));
+        model.addAttribute("soldMovedOutsList", personService.getPersonsByApartmentsIdAndType(apartmentId, Person.SOLD_MOVED_OUT));
 
         return "apartment";
     }

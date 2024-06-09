@@ -3,13 +3,14 @@ package com.mc.HouseManagement.service;
 import com.mc.HouseManagement.api.dto.person.AddUpdatePerson;
 import com.mc.HouseManagement.api.dto.person.ReturnMultiplePersonsForApartment;
 import com.mc.HouseManagement.entity.Apartment;
-import com.mc.HouseManagement.entity.Owner;
 import com.mc.HouseManagement.entity.Person;
-import com.mc.HouseManagement.entity.User;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class PersonServiceImpl implements PersonService{
     private final PersonDAO personDAO;
     private final ApartmentDAO apartmentDAO;
 
+    @Autowired
     public PersonServiceImpl(PersonDAO personDAO, ApartmentDAO apartmentDAO) {
         this.personDAO = personDAO;
         this.apartmentDAO = apartmentDAO;
@@ -25,36 +27,32 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public Long addUpdatePerson(AddUpdatePerson addUpdatePerson) {
-        Person person = addUpdatePerson.getId()== null ? null: personDAO.getPersonById(addUpdatePerson.getId());
-        if (person != null && addUpdatePerson.getPersonWitType().getClass() != person.getClass()){
-            personDAO.deletePersonById(addUpdatePerson.getId());
-        }
         Long personId = personDAO.addUpdatePerson(addUpdatePerson.getPersonWitType());
         addUpdatePerson.getApartmentNumber().forEach(a->addApartmentToPerson(personId, Long.parseLong(a)));
         return personId;
     }
 
     @Override
-    public <T extends Person> T getPersonByIdAndType(Long personId, Class<T> personTClass) {
-        return personDAO.getPersonByIdAndType(personId, personTClass);
+    public Person getPersonByIdAndType(Long personId, String personType) {
+        return personDAO.getPersonByIdAndType(personId, personType);
     }
 
     @Override
-    public <T extends Person> List<ReturnMultiplePersonsForApartment> getPersonsByApartmentsIdAndType(Long apartmentId, Class<T> personTClass) {
-        return personDAO.getPersonsByApartmentsIdAndType(apartmentId, personTClass).stream()
+    public List<ReturnMultiplePersonsForApartment> getPersonsByApartmentsIdAndType(Long apartmentId, String personType) {
+        return personDAO.getPersonsByApartmentsIdAndType(apartmentId, personType).stream()
                 .map(ReturnMultiplePersonsForApartment::new)
                 .toList();
     }
 
 
     @Override
-    public <T extends Person> List<T> getAllPersonsByClassType(Class<T> personTClass) {
-        if (personTClass.equals(Person.class)){
-            List<T> connectedPersons = (List<T>) personDAO.getAllPersonsByClassType(User.class);
-            connectedPersons.addAll((List<T>) personDAO.getAllPersonsByClassType(Owner.class));
+    public List<Person> getAllPersonsByType(String personType) {
+        if (personType.equals(Person.PERSON)){
+            List<Person> connectedPersons = personDAO.getAllPersonsByType(Person.USER);
+            connectedPersons.addAll(personDAO.getAllPersonsByType(Person.OWNER));
             return connectedPersons;
         }else {
-            return personDAO.getAllPersonsByClassType(personTClass);
+            return personDAO.getAllPersonsByType(personType);
         }
     }
 
@@ -64,25 +62,25 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public <T extends Person> List<T> getPersonByLastOrFirstNameAndType(String oneOfNames, Class<T> personTClass) {
-        return personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, personTClass);
+    public List<Person> getPersonByLastOrFirstNameAndType(String oneOfNames, String personType) {
+        return personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, personType);
     }
 
     @Override
-    public <T extends Person> List<T> getPersonByLastOrFirstName(String oneOfNames) {
-        List<T> connectedPersons = (List<T>) personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, User.class);
-        connectedPersons.addAll((List<T>) personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, Owner.class));
+    public List<Person> getPersonByLastOrFirstName(String oneOfNames) {
+        List<Person> connectedPersons = new ArrayList<>(personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, Person.USER));
+        connectedPersons.addAll(personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, Person.OWNER));
         return connectedPersons;
     }
 
     @Override
-    public <T extends Person> T getPersonById(Long id) {
+    public Person getPersonById(Long id) {
         return personDAO.getPersonById(id);
     }
 
     @Override
-    public <T extends Person> Long addApartmentToPerson(Long personID, Long apartmentId) {
-        T person = personDAO.getPersonById(personID);
+    public Long addApartmentToPerson(Long personID, Long apartmentId) {
+        Person person = personDAO.getPersonById(personID);
         Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
         if (person==null)
             return -1L;
@@ -94,8 +92,8 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public <T extends Person> Long delApartmentFromPerson(Long personID, Long apartmentId) {
-        T person = personDAO.getPersonById(personID);
+    public Long delApartmentFromPerson(Long personID, Long apartmentId) {
+        Person person = personDAO.getPersonById(personID);
         Apartment apartment = apartmentDAO.getApartmentById(apartmentId);
         if (person==null)
             return -1L;
