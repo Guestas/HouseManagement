@@ -33,7 +33,7 @@ jobs:
           fi
           echo "Current version is $version"
           echo "COPY --from=build /home/app/target/HouseManagement-$version.jar /usr/local/lib/HouseManagement-$version"
-          echo "::set-output name=current_version::$version"
+
           echo "# Build stage" > Dockerfile
           echo "FROM maven:3.8.3-openjdk-17 AS build" >> Dockerfile
           echo "COPY src /home/app/src" >> Dockerfile
