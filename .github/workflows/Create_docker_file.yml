@@ -42,7 +42,7 @@ jobs:
       - name: Create Dockerfile dynamically
         id: create_dockerfile
         run: |
-          echo "COPY --from=build /home/app/target/\${JAR_FILE} /usr/local/lib/app.jar"
+          echo "COPY --from=build /home/app/target/${{ env.JAR_FILE }} /usr/local/lib/app.jar"
           echo 'ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/${{ env.JAR_FILE }}"]'
           
           echo "# Build stage" > Dockerfile
