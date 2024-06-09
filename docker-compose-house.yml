@@ -1,35 +1,29 @@
 version: '3.8'
 services:
-  app:
-    image: guestas/housemanagement:latest
-    container_name: house_management_app
-    ports:
-      - "8080:8080"  # Maps port 8080 on the host to port 8080 in the container
-    depends_on:
-      - db
-    environment:
-      # DATABASE=house_app USERNAME=postgres PASSWORD=postgres docker-compose-house up
-      #SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DATABASE:-house}
-      #SPRING_DATASOURCE_USERNAME: ${USERNAME:-postgres}
-      #SPRING_DATASOURCE_PASSWORD: ${PASSWORD:-postgres}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/house_app
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-
   db:
     image: postgres:14.5
     container_name: postgres_db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: house_app
-      #POSTGRES_USER: ${USERNAME:-postgres}
-      #POSTGRES_PASSWORD: ${PASSWORD:-postgres}
-      #POSTGRES_DB: ${DATABASE:-house}
+      POSTGRES_USER: ${USERNAME:-postgresa}
+      POSTGRES_PASSWORD: ${PASSWORD:-postgresa}
+      POSTGRES_DB: ${DATABASE:-house_appaa}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+
+  app:
+    image: guestas/housemanagement:latest
+    container_name: house_management_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DATABASE:-house_appa}
+      SPRING_DATASOURCE_USERNAME: ${USERNAME:-postgresa}
+      SPRING_DATASOURCE_PASSWORD: ${PASSWORD:-postgresa}
 
 volumes:
   postgres_data:

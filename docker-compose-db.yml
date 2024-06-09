@@ -1,17 +1,17 @@
 version: '3.8'
 services:
-  db:
+  test_database:
     image: postgres:14.5
     container_name: postgres_db
     environment:
       POSTGRES_USER: ${USERNAME:-postgres}
       POSTGRES_PASSWORD: ${PASSWORD:-postgres}
-      POSTGRES_DB: ${DATABASE:-house}
+      POSTGRES_DB: ${DATABASE:-house_app}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
 
 volumes:
   postgres_data:
