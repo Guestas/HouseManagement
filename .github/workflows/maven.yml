@@ -62,6 +62,9 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
+      - name: Run application
+        run: docker-compose -f docker-compose-house.yml up -d
+
       - name: Run tests
         run: mvn test
         env:
