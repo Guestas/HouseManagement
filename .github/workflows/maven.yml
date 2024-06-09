@@ -34,7 +34,7 @@ jobs:
           echo "Current version is $version"
           echo "::set-output name=current_version::$version"
           
-      - name: Create old_Dockerfile.txt dynamically
+      - name: Create Dockerfile dynamically
         run: |
           echo "# Build stage" > Dockerfile
           echo "FROM maven:3.8.3-openjdk-17 AS build" >> Dockerfile
@@ -45,9 +45,9 @@ jobs:
           echo "# Run stage" >> Dockerfile
           echo "FROM openjdk:17" >> Dockerfile
           echo "ARG JAR_FILE" >> Dockerfile
-          echo "COPY --from=build /home/app/target/\${JAR_FILE} /usr/local/lib/\${JAR_FILE}" >> Dockerfile
+          echo "COPY --from=build /home/app/target/\${JAR_FILE} /usr/local/lib/app.jar" >> Dockerfile
           echo "EXPOSE 8080" >> Dockerfile
-          echo "ENTRYPOINT [\"sh\", \"-c\", \"java -jar /usr/local/lib/\${JAR_FILE}\"]" >> Dockerfile
+          echo "ENTRYPOINT [\"sh\", \"-c\", \"java -jar /usr/local/lib/app.jar\"]" >> Dockerfile
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
