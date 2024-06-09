@@ -15,7 +15,6 @@
 	<description>Application for people management in the house</description>
 	<properties>
 		<java.version>17</java.version>
-		<hibernate.version>6.2.1.Final</hibernate.version> <!-- Define the Hibernate version here -->
 	</properties>
 	<dependencies>
 		<!--for entity manager-->
@@ -43,14 +42,14 @@
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-community-dialects</artifactId>
-			<version>${hibernate.version}</version>
+			<version>6.2.1.Final</version>
 		</dependency>
 
 		<!--Database model for entity_.id for example-->
 		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>${hibernate.version}</version>
+			<version>6.2.1.Final</version>
 		</dependency>
 
 		<!--Thymeleaf-->
@@ -106,7 +105,7 @@
 						<path>
 							<groupId>org.hibernate.orm</groupId>
 							<artifactId>hibernate-jpamodelgen</artifactId>
-							<version>${hibernate.version}</version>
+							<version>6.2.1.Final</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
