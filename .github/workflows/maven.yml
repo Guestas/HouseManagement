@@ -51,13 +51,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Debug - Echo version
+        run: echo "Version is ${{ env.current_version }}"
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: |
-            guestas/housemanagement:${{ steps.increment_version.outputs.new_version }}
+            guestas/housemanagement:${{ env.current_version }}
             guestas/housemanagement:latest
 
       - name: Set up QEMU
