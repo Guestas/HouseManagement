@@ -50,6 +50,10 @@ jobs:
         id: get_version
         run: |
           version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          if [ -z "$version" ]; then
+            echo "Version not found!"
+            exit 1
+          fi
           echo "Current version is $version"
           echo "::set-output name=current_version::$version"
 
