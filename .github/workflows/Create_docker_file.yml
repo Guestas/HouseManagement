@@ -17,7 +17,7 @@ jobs:
       - name: Extract Java version from pom.xml
         id: extract_java_version
         run: |
-          JAVA_VERSION=$(mvn help:evaluate -Dexpression=project.properties.java.version -q -DforceStdout)
+          JAVA_VERSION=$(mvn help:evaluate -Dexpression=java.version -q -DforceStdout)
           if [ -z "$JAVA_VERSION" ]; then
             echo "Version not found!"
             exit 1
