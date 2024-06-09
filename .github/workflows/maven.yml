@@ -44,13 +44,17 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Debug - Echo version
-        run: echo "Version is ${{ steps.get_version.outputs.current_version }}"
+        run: |
+         echo "Version is ${{ steps.get_version.outputs.current_version }}"
+         echo "JAR file is ${{ env.jar_file }}"
+        
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
+          build-args: JAR_FILE=${{ env.jar_file }}
           tags: |
             guestas/housemanagement:${{ steps.get_version.outputs.current_version }}
             guestas/housemanagement:latest

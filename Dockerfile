@@ -10,6 +10,7 @@ RUN mvn -f /home/app/pom.xml clean package
 # Run stage
 #
 FROM openjdk:17
-COPY --from=build /home/app/target/HouseManagement-0.0.2-SNAPSHOT.jar /usr/local/lib/HouseManagement-0.0.2-SNAPSHOT.jar
+ARG JAR_FILE
+COPY --from=build /home/app/target/${JAR_FILE} /usr/local/lib/${JAR_FILE}
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/usr/local/lib/HouseManagement-0.0.2-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/usr/local/lib/${JAR_FILE}"]
