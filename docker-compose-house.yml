@@ -9,17 +9,20 @@ services:
       - db
     environment:
       # DATABASE=house_app USERNAME=postgres PASSWORD=postgres docker-compose-house up
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DATABASE:-house}
-      SPRING_DATASOURCE_USERNAME: ${USERNAME:-postgres}
-      SPRING_DATASOURCE_PASSWORD: ${PASSWORD:-postgres}
+      #SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DATABASE:-house}
+      #SPRING_DATASOURCE_USERNAME: ${USERNAME:-postgres}
+      #SPRING_DATASOURCE_PASSWORD: ${PASSWORD:-postgres}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/house_app
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
 
   db:
     image: postgres:14.5
     container_name: postgres_db
     environment:
-      POSTGRES_USER: ${USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${PASSWORD:-postgres}
-      POSTGRES_DB: ${DATABASE:-house}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: house_app
     ports:
       - "5432:5432"
     volumes:

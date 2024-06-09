@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  docker:
+  Build_with_docker_file_and_push_Docker_image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -61,3 +61,13 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
+      - name: Run tests
+        run: mvn test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/house_app
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: house_app
