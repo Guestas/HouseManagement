@@ -87,8 +87,7 @@ jobs:
 
       - name: Deploy with Docker Compose
         run: |
-          ls
-          cd /Docker_composes
+          cd Docker_composes
           docker-compose -f docker-compose-house.yml up -d
           cd ..
 
