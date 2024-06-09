@@ -23,7 +23,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - name: Get current version
+      - name: Get current version and create Dockerfile dynamically
         id: get_version
         run: |
           version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
@@ -32,11 +32,8 @@ jobs:
             exit 1
           fi
           echo "Current version is $version"
+          echo "COPY --from=build /home/app/target/HouseManagement-$version /usr/local/lib/HouseManagement-$version"
           echo "::set-output name=current_version::$version"
-          
-      - name: Create Dockerfile dynamically
-        run: |
-          echo $version
           echo "# Build stage" > Dockerfile
           echo "FROM maven:3.8.3-openjdk-17 AS build" >> Dockerfile
           echo "COPY src /home/app/src" >> Dockerfile
@@ -46,7 +43,7 @@ jobs:
           echo "# Run stage" >> Dockerfile
           echo "FROM openjdk:17" >> Dockerfile
           echo "ARG JAR_FILE" >> Dockerfile
-          echo "COPY --from=build /home/app/target/\${JAR_FILE} /usr/local/lib/HouseManagement-$version" >> Dockerfile
+          echo "COPY --from=build /home/app/target/HouseManagement-$version /usr/local/lib/HouseManagement-$version" >> Dockerfile
           echo "EXPOSE 8080" >> Dockerfile
           echo "ENTRYPOINT [\"sh\", \"-c\", \"java -jar /usr/local/lib/HouseManagement-$version\"]" >> Dockerfile
 
