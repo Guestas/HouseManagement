@@ -42,7 +42,7 @@ jobs:
       - name: Create Dockerfile dynamically
         id: create_dockerfile
         run: |
-          echo "COPY --from=build /home/app/target/${JAR_FILE} /usr/local/lib/app.jar"
+          echo "COPY --from=build /home/app/target/\${JAR_FILE} /usr/local/lib/app.jar"
           echo "# Build stage" > Dockerfile
           echo "FROM maven:3.8.3-openjdk-17 AS build" >> Dockerfile
           echo "COPY src /home/app/src" >> Dockerfile
@@ -52,9 +52,9 @@ jobs:
           echo "# Run stage" >> Dockerfile
           echo "FROM openjdk:17" >> Dockerfile
           echo "ARG JAR_FILE" >> Dockerfile
-          echo 'COPY --from=build /home/app/target/${env.JAR_FILE} /usr/local/lib/${env.JAR_FILE}' >> Dockerfile
+          echo 'COPY --from=build /home/app/target/\${env.JAR_FILE} /usr/local/lib/\${env.JAR_FILE}' >> Dockerfile
           echo "EXPOSE 8080" >> Dockerfile
-          echo 'ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/${{ env.JAR_FILE }}"]' >> Dockerfile
+          echo 'ENTRYPOINT ["sh", "-c", "java -jar /usr/local/lib/\${{ env.JAR_FILE }}"]' >> Dockerfile
       
 
       - name: Log in to Docker Hub
