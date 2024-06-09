@@ -1,3 +1,4 @@
+# docker-compose -f docker-compose-house.yml up
 version: '3.8'
 services:
   db:
@@ -16,9 +17,10 @@ services:
   app:
     #build:
     #  context: .
-    #  dockerfile: Dockerfile
+    #  dockerfile: old_Dockerfile.txt
     #  args:
     #    JAR_FILE: HouseManagement-1.0.0-SNAPSHOT.jar
+
     image: guestas/housemanagement:latest
     container_name: house_management_app
     ports:
