@@ -41,7 +41,7 @@ class HouseMeetingDAOImplTest {
 
 
     @Test
-    @DisplayName("Test Adding HouseMeeting and load it by ID")
+    @DisplayName("Test Adding House_Meeting and load it by ID")
     void canAddAndLoadByIDHouseMeeting() {
         // Given: Setup object or precondition
         List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");
@@ -57,7 +57,7 @@ class HouseMeetingDAOImplTest {
     }
 
     @Test
-    @DisplayName("Test Adding HouseMeeting and delete it by ID")
+    @DisplayName("Test Adding House_Meeting and delete it by ID")
     void canAddAnddeletePersonByIdHouseMeeting() {
         // Given: Setup object or precondition
         List<String> topics = Arrays.asList("Topic 1", "Topic 2", "Topic 3");

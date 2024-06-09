@@ -10,16 +10,21 @@ import java.util.Objects;
 @Entity
 @Table(name = "Person")
 public class Person implements Comparable<Person>{
+    public static final String OWNER = "Owner";
+    public static final String USER = "User";
+    public static final String SOLD_MOVED_OUT = "SoldMovedOut";
+    public static final String PERSON = "Person";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
 
-    @Column(name="firstName")
-    private String firstName;
+    @Column(name="first_name")
+    private String first_name;
 
-    @Column(name="lastName")
-    private String lastName;
+    @Column(name="last_name")
+    private String last_name;
 
     @Column(name="email")
     private String email;
@@ -42,9 +47,9 @@ public class Person implements Comparable<Person>{
     public Person() {
     }
 
-    public Person(String firstName, String lastName, String email, Long phone, List<Apartment> apartments, String type) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Person(String first_name, String last_name, String email, Long phone, List<Apartment> apartments, String type) {
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.phone = phone;
         this.apartments = apartments;
@@ -60,19 +65,19 @@ public class Person implements Comparable<Person>{
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getEmail() {
@@ -130,8 +135,8 @@ public class Person implements Comparable<Person>{
             System.out.println("Not in list");
     }
 
-    public static Person createPerson(String firstName, String lastName, String email, Long phone, List<Apartment> apartments, String type){
-        return new Person(firstName, lastName, email, phone, apartments, type);
+    public static Person createPerson(String first_name, String last_name, String email, Long phone, List<Apartment> apartments, String type){
+        return new Person(first_name, last_name, email, phone, apartments, type);
     }
 
     @Override
@@ -151,8 +156,8 @@ public class Person implements Comparable<Person>{
     public String toString() {
         return "Person{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone=" + phone +
                 ", apartments=" + apartments +

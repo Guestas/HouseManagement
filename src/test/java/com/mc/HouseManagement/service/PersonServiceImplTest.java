@@ -6,7 +6,10 @@ import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -142,6 +145,30 @@ class PersonServiceImplTest {
     void testGetPersonByLastOrFirstName(){
         // Given: Setup object or precondition
         String oneOfNames = "John";
+        AddUpdatePerson testPerson1 = AddUpdatePerson.creteAddUpdatePerson("John", "Doe", "e", 123456L, "User");
+        AddUpdatePerson testPerson2 = AddUpdatePerson.creteAddUpdatePerson("Jane", "Doe", "e", 123456L, "User");
+        AddUpdatePerson testPerson3 = AddUpdatePerson.creteAddUpdatePerson("John", "Smith", "e", 123456L, "Owner");
+        AddUpdatePerson testPerson4 = AddUpdatePerson.creteAddUpdatePerson("Jane", "Smith", "e", 123456L, "Owner");
+
+        List<Person> userPersonResults = Arrays.asList(testPerson1.getPersonWitType(), testPerson2.getPersonWitType());
+        List<Person> ownerPersonResults = Arrays.asList(testPerson3.getPersonWitType(), testPerson4.getPersonWitType());
+
+        // Set up the mock behavior with the correct arguments
+        when(personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, Person.USER)).thenReturn(userPersonResults);
+        when(personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, Person.OWNER)).thenReturn(ownerPersonResults);
+
+        // When: Action or behavior that we are going to test
+        List<Person> result = personService.getPersonByLastOrFirstName(oneOfNames);
+
+        // Then: Verify the output or expected result
+        assertEquals(4, result.size()); // Assuming that all instances are returned
+        assertEquals(testPerson1.getPersonWitType(), result.get(0));
+        assertEquals(testPerson2.getPersonWitType(), result.get(1));
+        assertEquals(testPerson3.getPersonWitType(), result.get(2));
+        assertEquals(testPerson4.getPersonWitType(), result.get(3));
+
+        // Given: Setup object or precondition
+        /*String oneOfNames = "John";
         AddUpdatePerson testPerson1 = AddUpdatePerson.creteAddUpdatePerson("John", "Doe","e",
                 123456L,"User");
         AddUpdatePerson testPerson2 = AddUpdatePerson.creteAddUpdatePerson("John", "Smith","e",
@@ -150,15 +177,13 @@ class PersonServiceImplTest {
         List<Person> personResults = Arrays.asList(testPerson1.getPersonWitType(), testPerson2.getPersonWitType());
 
         // When: Action or behavior that we are going to test
-        when(personDAO.getPersonByLastOrFirstNameAndType(eq(oneOfNames), eq("Person")))
-                .thenReturn(personResults);
+        when(personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, "Person")).thenReturn(personResults);
         // Then: Verify the output or expected result
         List<Person> result = personService.getPersonByLastOrFirstName(oneOfNames);
-        verify(personDAO).getPersonByLastOrFirstNameAndType(eq(oneOfNames), eq("Person"));
 
-        assertEquals(2, result.size()); // Assuming that all three instances are returned
+        assertEquals(2, result.size()); // Assuming that all instances are returned
         assertEquals(testPerson1.getPersonWitType(), result.get(0));
-        assertEquals(testPerson2.getPersonWitType(), result.get(1));
+        assertEquals(testPerson2.getPersonWitType(), result.get(1));*/
 
     }
 

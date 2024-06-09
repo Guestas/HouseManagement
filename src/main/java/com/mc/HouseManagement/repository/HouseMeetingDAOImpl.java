@@ -1,10 +1,12 @@
 package com.mc.HouseManagement.repository;
 
 import com.mc.HouseManagement.entity.HouseMeeting;
+import com.mc.HouseManagement.entity.HouseMeeting_;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,12 +32,15 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
     @Override
     public HouseMeeting getHouseMeetingById(Long houseMeetingId) {
         try {
-            TypedQuery<HouseMeeting> query = entityManager.createQuery(
-                    "select hm from HouseMeeting hm "
-                            + "JOIN FETCH hm.apartments "
-                            + "where hm.id = :data", HouseMeeting.class);
+            // these three are important for filtering abd queries
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<HouseMeeting> criteriaQuery = criteriaBuilder.createQuery(HouseMeeting.class);
+            Root<HouseMeeting> houseMeetingRoot = criteriaQuery.from(HouseMeeting.class);
 
-            query.setParameter("data", houseMeetingId);
+            Predicate idPredicate = criteriaBuilder.equal(houseMeetingRoot.get(HouseMeeting_.ID), houseMeetingId);
+            criteriaQuery.select(houseMeetingRoot).where(idPredicate);
+            TypedQuery<HouseMeeting> query = entityManager.createQuery(criteriaQuery);
+
             return query.getSingleResult();
         } catch (NoResultException e) {
             return entityManager.find(HouseMeeting.class, houseMeetingId);
@@ -44,8 +49,14 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
 
     @Override
     public List<HouseMeeting> getAllHouseMeetings() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<HouseMeeting> criteriaQuery = criteriaBuilder.createQuery(HouseMeeting.class);
+        Root<HouseMeeting> houseMeetingRoot = criteriaQuery.from(HouseMeeting.class);
+
+        criteriaQuery.where(criteriaBuilder.conjunction());
+
         TypedQuery<HouseMeeting> query = entityManager
-                .createQuery("SELECT h FROM HouseMeeting h", HouseMeeting.class);
+                .createQuery(criteriaQuery);
         return query.getResultList();
     }
 
@@ -53,6 +64,7 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
     @Transactional
     public Long deleteHouseMeetingByIdById(Long id) {
         HouseMeeting entityToRemove = getHouseMeetingById(id);
+
         entityManager.remove(entityToRemove);
         HouseMeeting checkEntity = getHouseMeetingById(id);
         return checkEntity == null?entityToRemove.getId():-1;
@@ -61,7 +73,12 @@ public class HouseMeetingDAOImpl implements HouseMeetingDAO{
     @Override
     @Transactional
     public int deleteAllHouseMeetings() {
-        Query query = entityManager.createQuery("DELETE FROM HouseMeeting");
-        return query.executeUpdate();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaDelete<HouseMeeting> criteriaDelete = criteriaBuilder.createCriteriaDelete(HouseMeeting.class);
+        Root<HouseMeeting> houseMeetingRoot = criteriaDelete.from(HouseMeeting.class);
+
+        criteriaDelete.where(criteriaBuilder.conjunction());
+
+        return entityManager.createQuery(criteriaDelete).executeUpdate();
     }
 }

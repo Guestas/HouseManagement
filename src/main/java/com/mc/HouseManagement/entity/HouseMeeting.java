@@ -9,7 +9,7 @@ import java.util.Objects;
 
 /** HouseMeeting is blueprint for table of HouseMeetings. **/
 @Entity
-@Table(name="HouseMeeting")
+@Table(name="House_Meeting")
 public class HouseMeeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,9 @@ public class HouseMeeting {
     private String date;
     @Column(name="name")
     private String name;
-    @Column(name="topics")
+    @ElementCollection
+    @CollectionTable(name = "house_meeting_topics", joinColumns = @JoinColumn(name = "house_meeting_id"))
+    @Column(name = "topic")
     private List<String> topics;
 
     @JsonManagedReference

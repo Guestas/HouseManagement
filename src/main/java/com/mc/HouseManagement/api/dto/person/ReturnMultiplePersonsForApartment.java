@@ -7,9 +7,9 @@ import java.util.Objects;
 public class ReturnMultiplePersonsForApartment {
     private Long id;
 
-    private String firstName;
+    private String first_name;
 
-    private String lastName;
+    private String last_name;
 
     private String email;
 
@@ -20,15 +20,15 @@ public class ReturnMultiplePersonsForApartment {
 
     public ReturnMultiplePersonsForApartment(Person person){
         this.id = person.getId();
-        this.firstName = person.getFirstName();
-        this.lastName = person.getLastName();
+        this.first_name = person.getFirstName();
+        this.last_name = person.getLastName();
         this.email = person.getEmail();
         this.phone = person.getPhone();
     }
 
-    public ReturnMultiplePersonsForApartment(String firstName, String lastName, String email, Long phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public ReturnMultiplePersonsForApartment(String first_name, String last_name, String email, Long phone) {
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.email = email;
         this.phone = phone;
     }
@@ -43,19 +43,19 @@ public class ReturnMultiplePersonsForApartment {
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getEmail() {
@@ -77,8 +77,8 @@ public class ReturnMultiplePersonsForApartment {
     @Override
     public String toString() {
         return "ReturnMultiplePersonsForApartment{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                "first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone=" + phone +
                 '}';

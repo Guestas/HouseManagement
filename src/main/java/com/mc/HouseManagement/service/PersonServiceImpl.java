@@ -6,9 +6,11 @@ import com.mc.HouseManagement.entity.Apartment;
 import com.mc.HouseManagement.entity.Person;
 import com.mc.HouseManagement.repository.ApartmentDAO;
 import com.mc.HouseManagement.repository.PersonDAO;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,9 +47,9 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public List<Person> getAllPersonsByType(String personType) {
-        if (personType.equals("Person")){
-            List<Person> connectedPersons = personDAO.getAllPersonsByType("User");
-            connectedPersons.addAll(personDAO.getAllPersonsByType("Owner"));
+        if (personType.equals(Person.PERSON)){
+            List<Person> connectedPersons = personDAO.getAllPersonsByType(Person.USER);
+            connectedPersons.addAll(personDAO.getAllPersonsByType(Person.OWNER));
             return connectedPersons;
         }else {
             return personDAO.getAllPersonsByType(personType);
@@ -66,8 +68,8 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public List<Person> getPersonByLastOrFirstName(String oneOfNames) {
-        List<Person> connectedPersons = personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, "User");
-        connectedPersons.addAll(personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, "Owner"));
+        List<Person> connectedPersons = new ArrayList<>(personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, Person.USER));
+        connectedPersons.addAll(personDAO.getPersonByLastOrFirstNameAndType(oneOfNames, Person.OWNER));
         return connectedPersons;
     }
 

@@ -1,7 +1,9 @@
 package com.mc.HouseManagement.repository;
 
 import com.mc.HouseManagement.entity.Apartment;
+import com.mc.HouseManagement.entity.Apartment_;
 import com.mc.HouseManagement.entity.Person;
+import com.mc.HouseManagement.entity.Person_;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
@@ -39,14 +41,25 @@ public class PersonDAOImpl implements PersonDAO{
         try {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+
+            // Define the root
             Root<Person> personRoot = criteriaQuery.from(Person.class);
-            Join<Person, Apartment> apartmentJoin = personRoot.join("apartments");
 
+            // Define the join
+            Join<Person, Apartment> apartmentJoin = personRoot.join(Person_.APARTMENTS);
+
+            // Specify the criteria
             criteriaQuery.select(personRoot)
-                    .where(criteriaBuilder.equal(apartmentJoin.get("id"), apartmentId));
+                    .distinct(true) // To avoid duplicates if needed
+                    .where(
+                            criteriaBuilder.and(
+                                    criteriaBuilder.equal(personRoot.get(Person_.TYPE), personType),
+                                    criteriaBuilder.equal(apartmentJoin.get(Person_.ID), apartmentId)
+                            )
+                    );
 
-            TypedQuery<Person> query = entityManager.createQuery(criteriaQuery);
-            return query.getResultList();
+            // Create and execute the query
+            return entityManager.createQuery(criteriaQuery).getResultList();
         } catch (NoResultException e) {
             // Handle the case where no data is found
             return new ArrayList<>();
@@ -55,9 +68,19 @@ public class PersonDAOImpl implements PersonDAO{
 
     @Override
     public List<Person> getAllPersonsByType(String personType) {
-        TypedQuery<Person> query = entityManager.createQuery("SELECT p FROM Person p " +
-                "WHERE type=:theData", Person.class);
-        return query.setParameter("theData", personType).getResultList();
+
+        try {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
+            Root<Person> personRoot = criteriaQuery.from(Person.class);
+
+            criteriaQuery.select(personRoot)
+                    .where(criteriaBuilder.equal(personRoot.get(Person_.TYPE), personType));
+
+            return entityManager.createQuery(criteriaQuery).getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 
     @Override
@@ -75,8 +98,13 @@ public class PersonDAOImpl implements PersonDAO{
     @Override
     @Transactional
     public int deleteAllPersons() {
-        Query query = entityManager.createQuery("DELETE FROM Person");
-        return query.executeUpdate();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaDelete<Person> criteriaDelete = criteriaBuilder.createCriteriaDelete(Person.class);
+        Root<Person> personRoot = criteriaDelete.from(Person.class);
+
+        criteriaDelete.where(criteriaBuilder.conjunction());
+
+        return entityManager.createQuery(criteriaDelete).executeUpdate();
     }
 
     @Override
@@ -85,9 +113,9 @@ public class PersonDAOImpl implements PersonDAO{
         CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
         Root<Person> personRoot = criteriaQuery.from(Person.class);
 
-        Predicate lastNamePredicate = criteriaBuilder.equal(personRoot.get("lastName"), oneOfNames);
-        Predicate firstNamePredicate = criteriaBuilder.equal(personRoot.get("firstName"), oneOfNames);
-        Predicate personTypePredicate = criteriaBuilder.equal(personRoot.get("type"), personType);
+        Predicate lastNamePredicate = criteriaBuilder.equal(personRoot.get(Person_.LAST_NAME), oneOfNames);
+        Predicate firstNamePredicate = criteriaBuilder.equal(personRoot.get(Person_.FIRST_NAME), oneOfNames);
+        Predicate personTypePredicate = criteriaBuilder.equal(personRoot.get(Person_.TYPE), personType);
 
         Predicate nameOrTypePredicate = criteriaBuilder.or(lastNamePredicate, firstNamePredicate);
         Predicate finalPredicate = criteriaBuilder.and(nameOrTypePredicate, personTypePredicate);
@@ -100,30 +128,19 @@ public class PersonDAOImpl implements PersonDAO{
 
     @Override
     public Person getPersonById(Long id) {
-
         try {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Person> criteriaQuery = criteriaBuilder.createQuery(Person.class);
             Root<Person> personRoot = criteriaQuery.from(Person.class);
 
             criteriaQuery.select(personRoot)
-                    .where(criteriaBuilder.equal(personRoot.get("id"), id));
+                    .where(criteriaBuilder.equal(personRoot.get(Person_.ID), id));
 
             TypedQuery<Person> query = entityManager.createQuery(criteriaQuery);
             return query.getSingleResult();
         } catch (NoResultException e){
             return null;
         }
-
-
-
-        /*try {
-            TypedQuery<Person> query = entityManager
-                    .createQuery("SELECT p.person_type FROM Person p WHERE id=:theData", Person.class);
-            return query.setParameter("theData", id).getSingleResult();
-        } catch (DataNotFoundException e){
-            return null;
-        }*/
     }
 
 }

@@ -65,8 +65,8 @@ I recommend using the Postman app for testing requests. You can download it from
 3. Create new person: (POST) http://localhost:8080/api/v1/persons/ and json body where type of user could be -> User, Owner or SoldMovedOut
 
 `{
-"firstName": "Bobis",
-"lastName": "Jarus",
+"first_name": "Bobis",
+"last_name": "Jarus",
 "email": "bob@jar.com",
 "phone": 123456789,
 "typeOfUser": "User"
@@ -76,8 +76,8 @@ I recommend using the Postman app for testing requests. You can download it from
 
 `{
 "id": 24,
-"firstName": "Bobo",
-"lastName": "Jarusa",
+"first_name": "Bobo",
+"last_name": "Jarusa",
 "email": "bob@jara.com",
 "phone": 123456789,
 "typeOfUser": "SoldMovedOut"
@@ -140,13 +140,15 @@ in postgres container (Docker desktop) cmd line:
 `psql -h localhost -U postgres`
    
 `CREATE DATABASE house_app;`
+`exit`
+`psql -U postgres -d house_app;`
 
 ## Docker compose
 Download: docker-compose-house.yml 
 
 In folder with docker-compose-house.yml 
 
-crete and run: `DATABASE=house_app USERNAME=postgres PASSWORD=postgres docker-compose-house up`
+crete and run: `DATABASE=house_app USERNAME=postgres PASSWORD=postgres docker-compose -f docker-compose-house.yml up`
 
 stop and delete: `docker-compose-house down`
    
