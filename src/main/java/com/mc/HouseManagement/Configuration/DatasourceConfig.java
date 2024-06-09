@@ -18,11 +18,13 @@ public class DatasourceConfig {
 
     @Bean
     public DataSourceInitializer dataSourceInitializer() {
-        /*DataSourceInitializer initializer = new DataSourceInitializer();
+        /*
+        DataSourceInitializer initializer = new DataSourceInitializer();
         initializer.setDataSource(dataSource);
         Resource resource = new ClassPathResource("Apartments.sql");
         initializer.setDatabasePopulator(new ResourceDatabasePopulator(resource));
-        return initializer;*/
+        return initializer;
+        */
         return null;
     }
 }
