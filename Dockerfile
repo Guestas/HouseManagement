@@ -11,6 +11,6 @@ RUN mvn -f /home/app/pom.xml clean package
 #
 FROM openjdk:17
 ARG JAR_FILE
-COPY --from=build /home/app/target/${JAR_FILE} /usr/local/lib/${JAR_FILE}
+COPY --from=build /home/app/target/${JAR_FILE} /usr/local/lib/app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/usr/local/lib/${JAR_FILE}"]
+ENTRYPOINT ["java","-jar","/usr/local/lib/app.jar"]
