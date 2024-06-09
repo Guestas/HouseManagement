@@ -14,6 +14,7 @@ public class HouseManagementApplication {
 
 		final Logger logger = LoggerFactory.getLogger(HouseManagementApplication.class);
 		//TODO finish rest of controllers with thymeleaf
+		// TODO finish version change docker compose atd
 
 		//logger.info("asdfasdf");
 		//logger.error("dfsa");
