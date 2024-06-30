@@ -41,7 +41,7 @@ public class Person implements Comparable<Person>{
             inverseJoinColumns = @JoinColumn(name = "apartment_id"))
     private List<Apartment> apartments;
 
-    @Column(name="type")
+    @Column(name="person_type")
     private String type;
 
     public Person() {

@@ -152,3 +152,4 @@ crete and run: `DATABASE=house_app USERNAME=postgres PASSWORD=postgres docker-co
 
 stop and delete: `docker-compose-house down`
    
+Now profile addede 'spring.profiles.active=dev'

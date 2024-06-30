@@ -28,7 +28,7 @@ public class Apartment {
     @NotNull(message = "Flor cannot be null.")
     private Integer flor;
     @Column(name="address_number")
-    @NotNull(message = "Branch antenna cannot be null.")
+    @NotNull(message = "Address cannot be null.")
     @Min(value = 1, message = "Min address is 1.")
     private Integer address;
     @NotNull(message = "Street name cannot be null.")
